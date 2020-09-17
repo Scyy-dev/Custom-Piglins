@@ -35,12 +35,6 @@ public class ConfigFileHandler {
 
     }
 
-    public ArrayList<PiglinItem> loadWeightings() {
-
-        return itemWeightingsConfig.loadWeightings();
-
-    }
-
     public ItemWeightingsConfig getItemWeightingsConfig() {
         return itemWeightingsConfig;
     }
