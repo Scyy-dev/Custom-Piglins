@@ -24,8 +24,8 @@ public class Plugin extends JavaPlugin {
 
         // Register the command
         CustomPiglinCommand customPiglinCommand = new CustomPiglinCommand(generator, this);
-        this.getCommand("custompiglin").setExecutor(customPiglinCommand);
-        this.getCommand("custompiglin").setTabCompleter(customPiglinCommand);
+        this.getCommand("custompiglins").setExecutor(customPiglinCommand);
+        this.getCommand("custompiglins").setTabCompleter(customPiglinCommand);
 
         // Register the item drop listener
         Bukkit.getPluginManager().registerEvents(new PiglinItemDropEvent(generator, this), this);
