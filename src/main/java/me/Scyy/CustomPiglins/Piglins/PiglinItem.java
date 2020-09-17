@@ -1,4 +1,4 @@
-package me.Scyy.CustomPiglins;
+package me.Scyy.CustomPiglins.Piglins;
 
 import org.bukkit.inventory.ItemStack;
 

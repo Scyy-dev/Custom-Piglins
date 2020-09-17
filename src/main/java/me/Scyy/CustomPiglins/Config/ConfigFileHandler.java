@@ -1,6 +1,6 @@
 package me.Scyy.CustomPiglins.Config;
 
-import me.Scyy.CustomPiglins.PiglinItem;
+import me.Scyy.CustomPiglins.Piglins.PiglinItem;
 import me.Scyy.CustomPiglins.Plugin;
 
 import java.util.ArrayList;

@@ -1,6 +1,8 @@
 package me.Scyy.CustomPiglins;
 
 import me.Scyy.CustomPiglins.Config.ConfigFileHandler;
+import me.Scyy.CustomPiglins.Piglins.CustomPiglinLootGenerator;
+import me.Scyy.CustomPiglins.Piglins.PiglinItemDropEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

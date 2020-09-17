@@ -1,6 +1,8 @@
 package me.Scyy.CustomPiglins;
 
 import me.Scyy.CustomPiglins.Config.PlayerMessenger;
+import me.Scyy.CustomPiglins.GUI.CustomPiglinGUI;
+import me.Scyy.CustomPiglins.Piglins.CustomPiglinLootGenerator;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

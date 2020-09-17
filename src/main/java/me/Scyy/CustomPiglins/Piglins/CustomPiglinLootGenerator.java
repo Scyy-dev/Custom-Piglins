@@ -1,5 +1,6 @@
-package me.Scyy.CustomPiglins;
+package me.Scyy.CustomPiglins.Piglins;
 
+import me.Scyy.CustomPiglins.Plugin;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
