@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
@@ -32,8 +33,19 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
             if (sender instanceof Player) {
 
-                Player player = (Player) sender;
-                new CustomPiglinGUI(0, player);
+                switch (args[0].toLowerCase()) {
+
+                    case "add":
+
+                        Player player = (Player) sender;
+
+                        ItemStack mainHand = player.getInventory().getItemInMainHand();
+
+                        plugin.getGenerator().addPiglinItem(mainHand, 1, 1, 1);
+
+                        player.sendMessage("Added " + mainHand.getItemMeta().getDisplayName());
+
+                }
 
             } else {
 
