@@ -45,8 +45,10 @@ public class CustomPiglinLootGenerator {
         // Get the ItemStack from the array
         ItemStack item = piglinItems.get(randomIndex).getItem();
 
-        // Calculate the random quantity
-        int randomAmount = random.nextInt(piglinItem.getMaxAmount() - piglinItem.getMinAmount()) + piglinItem.getMinAmount();
+        // Check if the max amount is the same as min amount
+        int randomAmount = 1;
+        if (piglinItem.getMaxAmount() == piglinItem.getMinAmount()) randomAmount = piglinItem.getMinAmount();
+        else randomAmount = random.nextInt(piglinItem.getMaxAmount() - piglinItem.getMinAmount()) + piglinItem.getMinAmount();
 
         // Assign the random amount
         item.setAmount(randomAmount);
