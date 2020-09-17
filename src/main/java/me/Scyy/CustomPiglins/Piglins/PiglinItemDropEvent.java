@@ -1,8 +1,8 @@
 package me.Scyy.CustomPiglins.Piglins;
 
-import me.Scyy.CustomPiglins.Piglins.CustomPiglinLootGenerator;
 import me.Scyy.CustomPiglins.Plugin;
 import org.bukkit.entity.EntityType;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDropItemEvent;
 import org.bukkit.inventory.ItemStack;
@@ -20,6 +20,7 @@ public class PiglinItemDropEvent implements Listener {
 
     }
 
+    @EventHandler
     public void onItemDropEvent(EntityDropItemEvent event) {
 
         // Ignore the event if it isn't from a Piglin
