@@ -1,0 +1,30 @@
+# -================================-
+#    Customisable Player Messages
+# -================================-
+# All messages use the '&' symbol for colouring/styling
+
+# Some messages will support having item names
+
+# Use %item% when applicable
+
+# Leave a message blank ("") to send no message
+
+# Prefix for all messages
+prefix: "&7[&6Custom&2Piglins&7]&f "
+
+# Global error messages that apply to all commands
+errorMessages:
+  noPermission: "&cYou do not have permission to use that command!"
+  invalidCommandLength: "&cInvalid Command Length"
+  mustBePlayer: "&cYou must be a player to use that command"
+  invalidCommand: "&cError: command not found"
+  internalError: "Something went wrong trying to execute that command!"
+
+reloadMessages:
+  reload: "&aReloading needs work!"
+
+helpMessages:
+  introMessage: "&aCommands for &2FruitVentures"
+  invalidUsage: "&7/fad help"
+  reloadMessage: "&7/fad reload"
+
