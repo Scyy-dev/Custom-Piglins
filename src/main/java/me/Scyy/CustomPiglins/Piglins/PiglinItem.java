@@ -6,12 +6,18 @@ public class PiglinItem {
 
     private ItemStack item;
 
+    private int itemID;
+
+    private int weight;
+
     private int minAmount;
 
     private int maxAmount;
 
-    public PiglinItem(ItemStack item, int minAmount, int maxAmount) {
+    public PiglinItem(ItemStack item, int itemID, int weight, int minAmount, int maxAmount) {
         this.item = item;
+        this.itemID = itemID;
+        this.weight = weight;
         this.minAmount = minAmount;
         this.maxAmount = maxAmount;
     }
@@ -22,6 +28,22 @@ public class PiglinItem {
 
     public void setItem(ItemStack item) {
         this.item = item;
+    }
+
+    public int getItemID() {
+        return itemID;
+    }
+
+    public void setItemID(int itemID) {
+        this.itemID = itemID;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
     public int getMinAmount() {
