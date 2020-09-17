@@ -81,4 +81,27 @@ public class CustomPiglinLootGenerator {
         }
 
     }
+
+    public void addPiglinItem(ItemStack item, int weight, int minAmount, int maxAmount) {
+
+        int highestID = 0;
+        for (PiglinItem piglinItem : piglinItems.values()) {
+
+            if (highestID <= piglinItem.getItemID()) {
+
+                highestID = piglinItem.getItemID();
+
+            }
+
+        }
+
+        for (int weightCounter = 0; weightCounter < weight; weightCounter++) {
+
+            rawWeightings.add(highestID);
+
+        }
+
+        piglinItems.put(highestID, new PiglinItem(item, highestID, weight, minAmount, maxAmount));
+
+    }
 }
