@@ -4,7 +4,8 @@ import me.Scyy.CustomPiglins.Piglins.PiglinItem;
 import me.Scyy.CustomPiglins.Plugin;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ItemWeightingsConfig extends ConfigFile {
 
@@ -15,21 +16,18 @@ public class ItemWeightingsConfig extends ConfigFile {
     @Override
     public void reloadConfig() {
         super.reloadConfig();
-
-        // empty the piglin array
-        plugin.getGenerator().getItemWeighting().clear();
-
-        // Fill with the config items
-        plugin.getGenerator().getItemWeighting().addAll(this.loadWeightings());
+        plugin.getGenerator().updatePiglinItems(loadWeightings());
     }
 
-    public ArrayList<PiglinItem> loadWeightings() {
+    public Map<Integer, PiglinItem> loadWeightings() {
 
         boolean sendWarning = false;
 
         int itemCount = config.getList("items").size();
 
-        ArrayList<PiglinItem> weightings = new ArrayList<>(itemCount);
+        Map<Integer, PiglinItem> weightings = new HashMap<>();
+
+        int itemID = 0;
 
         for (int itemIndex = 0; itemIndex < itemCount; itemIndex++) {
 
@@ -43,20 +41,19 @@ public class ItemWeightingsConfig extends ConfigFile {
                 break;
             }
 
-            for (int weightCounter = 0; weightCounter < weight; weightCounter++) {
+            weightings.put(itemID, new PiglinItem(item, itemID, weight, minAmount, maxAmount));
 
-                weightings.add(new PiglinItem(item, minAmount, maxAmount));
-
-            }
+            itemID++;
 
         }
 
         if (sendWarning) {
-            plugin.getLogger().warning("Could not retrieve saved items! Default drops loaded");
-            return new ArrayList<>();
+            plugin.getLogger().warning("Unable to load items for the piglins! Piglins will not drop anything!");
+            return new HashMap<>();
         }
 
         return weightings;
 
     }
+
 }
