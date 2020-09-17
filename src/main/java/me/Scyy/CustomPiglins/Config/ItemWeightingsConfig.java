@@ -23,6 +23,13 @@ public class ItemWeightingsConfig extends ConfigFile {
 
         boolean sendWarning = false;
 
+        if (config.getList("items") == null) {
+
+            plugin.getLogger().warning("Unable to load any items! Piglins will not drop anything!");
+            return new HashMap<>();
+
+        }
+
         int itemCount = config.getList("items").size();
 
         Map<Integer, PiglinItem> weightings = new HashMap<>();
