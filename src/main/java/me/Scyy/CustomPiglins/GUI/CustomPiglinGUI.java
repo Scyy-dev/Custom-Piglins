@@ -30,7 +30,7 @@ public class CustomPiglinGUI {
         this.page = page;
         this.player = player;
 
-        Inventory inventory = Bukkit.createInventory(null, InventoryType.CHEST, INVENTORY_NAME);
+        Inventory inventory = Bukkit.createInventory(null, 54, INVENTORY_NAME);
         inventory.setContents(DEFAULT_CUSTOM_TRADE_PAGE);
         player.openInventory(inventory);
 
