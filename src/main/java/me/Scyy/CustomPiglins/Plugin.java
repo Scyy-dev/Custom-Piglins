@@ -1,0 +1,47 @@
+package me.Scyy.CustomPiglins;
+
+import me.Scyy.CustomPiglins.Config.ConfigFileHandler;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class Plugin extends JavaPlugin {
+
+    private ConfigFileHandler configFileHandler;
+
+    private CustomPiglinLootGenerator generator;
+
+    @Override
+    public void onEnable() {
+
+        // Load configs
+        this.configFileHandler = new ConfigFileHandler(this);
+
+        // Create the loot generator
+        generator = new CustomPiglinLootGenerator(this);
+
+        // Register the command
+        CustomPiglinCommand customPiglinCommand = new CustomPiglinCommand(generator, this);
+        this.getCommand("custompiglin").setExecutor(customPiglinCommand);
+        this.getCommand("custompiglin").setTabCompleter(customPiglinCommand);
+
+        // Register the item drop listener
+        Bukkit.getPluginManager().registerEvents(new PiglinItemDropEvent(generator, this), this);
+
+    }
+
+    public void reloadConfigs() {
+
+        configFileHandler.reloadConfigs();
+
+    }
+
+    public CustomPiglinLootGenerator getGenerator() {
+        return generator;
+    }
+
+    public ConfigFileHandler getConfigFileHandler() {
+        return configFileHandler;
+    }
+}
+
+
