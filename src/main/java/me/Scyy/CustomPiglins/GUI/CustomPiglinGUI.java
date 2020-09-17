@@ -1,11 +1,18 @@
-package me.Scyy.CustomPiglins;
+package me.Scyy.CustomPiglins.GUI;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class CustomPiglinGUI {
+
+
+    public static final String INVENTORY_NAME = ChatColor.translateAlternateColorCodes('&', "&6Custom&2Piglins");
 
     /**
      * Stores a reference to the page number of custom trades. Page 0 is settings
@@ -22,6 +29,10 @@ public class CustomPiglinGUI {
 
         this.page = page;
         this.player = player;
+
+        Inventory inventory = Bukkit.createInventory(null, InventoryType.CHEST, INVENTORY_NAME);
+        inventory.setContents(DEFAULT_CUSTOM_TRADE_PAGE);
+        player.openInventory(inventory);
 
     }
 
