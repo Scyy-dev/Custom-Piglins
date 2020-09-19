@@ -2,6 +2,8 @@ package me.Scyy.CustomPiglins.Piglins;
 
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Objects;
+
 public class PiglinItem {
 
     private ItemStack item;
@@ -71,5 +73,22 @@ public class PiglinItem {
                 ", minAmount=" + minAmount +
                 ", maxAmount=" + maxAmount +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PiglinItem that = (PiglinItem) o;
+        return itemID == that.itemID &&
+                weight == that.weight &&
+                minAmount == that.minAmount &&
+                maxAmount == that.maxAmount &&
+                item.equals(that.item);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(item, itemID, weight, minAmount, maxAmount);
     }
 }
