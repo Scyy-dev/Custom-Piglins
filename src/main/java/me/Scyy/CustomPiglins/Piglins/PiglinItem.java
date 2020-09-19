@@ -61,4 +61,15 @@ public class PiglinItem {
     public void setMaxAmount(int maxAmount) {
         this.maxAmount = maxAmount;
     }
+
+    @Override
+    public String toString() {
+        return "PiglinItem{" +
+                "item=" + item +
+                ", itemID=" + itemID +
+                ", weight=" + weight +
+                ", minAmount=" + minAmount +
+                ", maxAmount=" + maxAmount +
+                '}';
+    }
 }
