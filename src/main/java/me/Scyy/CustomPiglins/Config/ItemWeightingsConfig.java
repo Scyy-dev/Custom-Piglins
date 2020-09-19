@@ -63,4 +63,32 @@ public class ItemWeightingsConfig extends ConfigFile {
 
     }
 
+    public void saveGeneratorData() {
+
+        for (PiglinItem piglinItem : plugin.getGenerator().getPiglinItems()) {
+
+            // Get the data
+            int piglinItemID = piglinItem.getItemID();
+            Map<String, Object> item = piglinItem.getItem().serialize();
+            int weight = piglinItem.getWeight();
+            int minAmount = piglinItem.getMinAmount();
+            int maxAmount = piglinItem.getMaxAmount();
+
+            // Save the data
+            config.set("items." + piglinItemID + ".item", item);
+            config.set("items." + piglinItemID + ".weight", weight);
+            config.set("items." + piglinItemID + ".min", minAmount);
+            config.set("items." + piglinItemID + ".max", maxAmount);
+
+        }
+
+        try {
+            config.save(configFile);
+        } catch (IOException e) {
+            plugin.getLogger().warning("Could not save Custom Piglin Items!");
+            e.printStackTrace();
+        }
+
+    }
+
 }
