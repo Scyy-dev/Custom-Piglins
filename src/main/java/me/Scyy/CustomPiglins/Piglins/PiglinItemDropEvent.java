@@ -1,6 +1,7 @@
 package me.Scyy.CustomPiglins.Piglins;
 
 import me.Scyy.CustomPiglins.Plugin;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,6 +32,9 @@ public class PiglinItemDropEvent implements Listener {
 
         // Generate a replacement item
         ItemStack replacement = generator.generateItem();
+
+        // Check if the item generated was air
+        if (replacement.getType() == Material.AIR) return;
 
         // Drop the item in the world
         event.getEntity().getWorld().dropItemNaturally(event.getItemDrop().getLocation(), replacement);
