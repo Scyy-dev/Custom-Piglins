@@ -2,6 +2,7 @@ package me.Scyy.CustomPiglins.Piglins;
 
 import me.Scyy.CustomPiglins.Config.ItemWeightingsConfig;
 import me.Scyy.CustomPiglins.Plugin;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -34,6 +35,9 @@ public class CustomPiglinLootGenerator {
     }
 
     public ItemStack generateItem() {
+
+        // Check if there are any items available to drop
+        if (rawWeightings.size() == 0) return new ItemStack(Material.AIR, 1);
 
         // Get a random value from the array
         int randomIndex = random.nextInt(piglinItems.size());
