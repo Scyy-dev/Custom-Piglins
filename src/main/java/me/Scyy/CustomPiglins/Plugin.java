@@ -35,6 +35,16 @@ public class Plugin extends JavaPlugin {
 
     }
 
+    @Override
+    public void onDisable() {
+
+        // Save the generator data
+        this.getLogger().info("Saving Custom Piglin item data...");
+        configFileHandler.getItemWeightingsConfig().saveGeneratorData();
+        this.getLogger().info("Custom Piglin Item Data saved!");
+
+    }
+
     public void reloadConfigs() {
 
         configFileHandler.reloadConfigs();
