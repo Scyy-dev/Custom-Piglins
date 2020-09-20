@@ -40,17 +40,17 @@ public class CustomPiglinLootGenerator {
         if (rawWeightings.size() == 0) return new ItemStack(Material.AIR, 1);
 
         // Get a random value from the array
-        int randomIndex = random.nextInt(piglinItems.size());
+        int randomIndex = random.nextInt(rawWeightings.size());
 
         // Get the random value in the array
         int piglinItemID = rawWeightings.get(randomIndex);
         PiglinItem piglinItem = piglinItems.get(piglinItemID);
 
         // Get the ItemStack from the array
-        ItemStack item = piglinItems.get(randomIndex).getItem();
+        ItemStack item = piglinItems.get(piglinItemID).getItem();
 
         // Check if the max amount is the same as min amount
-        int randomAmount = 1;
+        int randomAmount;
         if (piglinItem.getMaxAmount() == piglinItem.getMinAmount()) randomAmount = piglinItem.getMinAmount();
         else randomAmount = random.nextInt(piglinItem.getMaxAmount() - piglinItem.getMinAmount()) + piglinItem.getMinAmount();
 
