@@ -37,7 +37,7 @@ public class PiglinItemDropEvent implements Listener {
         if (replacement.getType() == Material.AIR) return;
 
         // Drop the item in the world
-        event.getEntity().getWorld().dropItemNaturally(event.getItemDrop().getLocation(), replacement);
+        event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), replacement);
 
     }
 }
