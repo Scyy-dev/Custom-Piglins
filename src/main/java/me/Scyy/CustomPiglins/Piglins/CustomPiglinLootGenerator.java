@@ -89,11 +89,11 @@ public class CustomPiglinLootGenerator {
     public void addPiglinItem(ItemStack item, int weight, int minAmount, int maxAmount) {
 
         int highestID = 0;
-        for (PiglinItem piglinItem : piglinItems.values()) {
+        for (Integer piglinItemID : piglinItems.keySet()) {
 
-            if (highestID <= piglinItem.getItemID()) {
+            if (highestID <= piglinItemID) {
 
-                highestID = piglinItem.getItemID();
+                highestID = piglinItemID + 1;
 
             }
 
