@@ -87,6 +87,13 @@ public class CustomPiglinLootGenerator {
 
     }
 
+    public void updatePiglinItem(PiglinItem piglinItem) {
+
+        piglinItems.put(piglinItem.getItemID(), piglinItem);
+        this.updatePiglinItems(piglinItems);
+
+    }
+
     public void addPiglinItem(ItemStack item, int weight, int minAmount, int maxAmount) {
 
         int highestID = 0;
