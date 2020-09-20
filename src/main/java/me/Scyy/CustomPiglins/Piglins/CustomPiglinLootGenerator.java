@@ -72,6 +72,7 @@ public class CustomPiglinLootGenerator {
         piglinItems = newItems;
 
         // Empty the rawWeightings array
+        rawWeightings.clear();
 
         // Iterate over the new items and update the weighting
         for (PiglinItem piglinItem : piglinItems.values()) {
