@@ -47,13 +47,14 @@ public class ItemWeightingsConfig extends ConfigFile {
             ItemStack item = ItemStack.deserialize(config.getConfigurationSection("items." + key + ".item").getValues(true));
             int minAmount = config.getInt("items." + key + ".min", -1);
             int maxAmount = config.getInt("items." + key + ".max", -1);
+            boolean hasRandomDamage = config.getBoolean("items." + key + ".hasRD", false);
 
             if (weight == -1 || minAmount == -1 || maxAmount == -1) {
                 sendWarning = true;
                 break;
             }
 
-            weightings.put(itemID, new PiglinItem(item, itemID, weight, minAmount, maxAmount));
+            weightings.put(itemID, new PiglinItem(item, itemID, weight, minAmount, maxAmount, hasRandomDamage));
 
         }
 
@@ -76,12 +77,14 @@ public class ItemWeightingsConfig extends ConfigFile {
             int weight = piglinItem.getWeight();
             int minAmount = piglinItem.getMinAmount();
             int maxAmount = piglinItem.getMaxAmount();
+            boolean hasRD = piglinItem.hasRandomDamage();
 
             // Save the data
             config.set("items." + piglinItemID + ".item", item);
             config.set("items." + piglinItemID + ".weight", weight);
             config.set("items." + piglinItemID + ".min", minAmount);
             config.set("items." + piglinItemID + ".max", maxAmount);
+            config.set("items." + piglinItemID + ".hasRD", hasRD);
 
         }
 
