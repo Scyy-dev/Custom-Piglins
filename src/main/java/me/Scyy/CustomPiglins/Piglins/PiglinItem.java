@@ -16,12 +16,15 @@ public class PiglinItem {
 
     private int maxAmount;
 
-    public PiglinItem(ItemStack item, int itemID, int weight, int minAmount, int maxAmount) {
+    private boolean hasRandomDurability;
+
+    public PiglinItem(ItemStack item, int itemID, int weight, int minAmount, int maxAmount, boolean hasRandomDurability) {
         this.item = item;
         this.itemID = itemID;
         this.weight = weight;
         this.minAmount = minAmount;
         this.maxAmount = maxAmount;
+        this.hasRandomDurability = hasRandomDurability;
     }
 
     public ItemStack getItem() {
@@ -64,6 +67,14 @@ public class PiglinItem {
         this.maxAmount = maxAmount;
     }
 
+    public boolean isHasRandomDurability() {
+        return hasRandomDurability;
+    }
+
+    public void setHasRandomDurability(boolean hasRandomDurability) {
+        this.hasRandomDurability = hasRandomDurability;
+    }
+
     @Override
     public String toString() {
         return "PiglinItem{" +
@@ -84,11 +95,12 @@ public class PiglinItem {
                 weight == that.weight &&
                 minAmount == that.minAmount &&
                 maxAmount == that.maxAmount &&
+                hasRandomDurability == that.hasRandomDurability &&
                 item.equals(that.item);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(item, itemID, weight, minAmount, maxAmount);
+        return Objects.hash(item, itemID, weight, minAmount, maxAmount, hasRandomDurability);
     }
 }
