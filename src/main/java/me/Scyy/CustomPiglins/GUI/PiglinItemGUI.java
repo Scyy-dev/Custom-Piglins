@@ -29,7 +29,7 @@ public class PiglinItemGUI extends InventoryGUI {
         int piglinItemStartIndex = 21 * page;
 
         // Calculate the ending index
-        int piglinItemEndIndex = 27*(page + 1) + 1;
+        int piglinItemEndIndex = 21 * (page + 1);
 
         // Check if the end of the piglin items has been reached
         if (piglinItemEndIndex > piglinItems.size()) piglinItemEndIndex = piglinItems.size();
