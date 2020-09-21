@@ -40,7 +40,7 @@ public class Plugin extends JavaPlugin {
 
         // Save the generator data
         this.getLogger().info("Saving Custom Piglin item data...");
-        configFileHandler.getItemWeightingsConfig().saveGeneratorData();
+        configFileHandler.getPiglinItemDataConfig().saveGeneratorData();
         this.getLogger().info("Custom Piglin Item Data saved!");
 
     }

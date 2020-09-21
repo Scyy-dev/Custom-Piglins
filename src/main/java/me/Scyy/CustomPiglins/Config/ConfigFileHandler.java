@@ -32,7 +32,7 @@ public class ConfigFileHandler {
 
     }
 
-    public PiglinItemData getItemWeightingsConfig() {
+    public PiglinItemData getPiglinItemDataConfig() {
         return piglinItemData;
     }
 

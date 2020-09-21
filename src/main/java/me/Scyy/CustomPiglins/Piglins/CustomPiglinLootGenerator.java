@@ -1,6 +1,6 @@
 package me.Scyy.CustomPiglins.Piglins;
 
-import me.Scyy.CustomPiglins.Config.ItemWeightingsConfig;
+import me.Scyy.CustomPiglins.Config.PiglinItemData;
 import me.Scyy.CustomPiglins.Plugin;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -17,7 +17,7 @@ public class CustomPiglinLootGenerator {
 
     public CustomPiglinLootGenerator(Plugin plugin) {
 
-        ItemWeightingsConfig weightingsConfig = plugin.getConfigFileHandler().getItemWeightingsConfig();
+        PiglinItemData weightingsConfig = plugin.getConfigFileHandler().getPiglinItemDataConfig();
         this.piglinItems = weightingsConfig.loadWeightings();
         this.random = new Random();
         this.rawWeightings = new ArrayList<>();
