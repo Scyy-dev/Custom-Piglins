@@ -1,7 +1,8 @@
 package me.Scyy.CustomPiglins;
 
 import me.Scyy.CustomPiglins.Config.PlayerMessenger;
-import me.Scyy.CustomPiglins.GUI.CustomPiglinGUI;
+import me.Scyy.CustomPiglins.GUI.InventoryGUI;
+import me.Scyy.CustomPiglins.GUI.PiglinItemGUI;
 import me.Scyy.CustomPiglins.Piglins.CustomPiglinLootGenerator;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -33,6 +34,15 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
             if (sender instanceof Player) {
 
+                if (args.length == 0) {
+
+                    InventoryGUI inventoryGUI = new PiglinItemGUI(0, (Player) sender, plugin);
+                    Player player = (Player) sender;
+                    player.openInventory(inventoryGUI.getInventory());
+                    return true;
+
+                }
+
                 switch (args[0].toLowerCase()) {
 
                     case "add":
@@ -43,7 +53,7 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
                         plugin.getGenerator().addPiglinItem(mainHand, 1, 1, 1);
 
-                        player.sendMessage("Added " + mainHand.getItemMeta().getDisplayName());
+                        player.sendMessage("Added " + mainHand.getType().name().toLowerCase());
 
                 }
 
