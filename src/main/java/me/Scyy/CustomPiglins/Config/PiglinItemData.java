@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ItemWeightingsConfig extends ConfigFile {
+public class PiglinItemData extends ConfigFile {
 
-    public ItemWeightingsConfig(Plugin plugin) {
+    public PiglinItemData(Plugin plugin) {
         super(plugin, "items.yml");
     }
 
