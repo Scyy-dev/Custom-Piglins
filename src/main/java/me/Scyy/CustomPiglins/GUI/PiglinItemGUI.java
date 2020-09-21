@@ -53,7 +53,7 @@ public class PiglinItemGUI extends InventoryGUI {
             inventoryIndex++;
 
             // Check if the inventory slot is at the edge, and move it over
-            if ((inventoryIndex - 7) % 9 == 0) inventoryIndex += 2;
+            if ((inventoryIndex - 8) % 9 == 0) inventoryIndex += 2;
 
         }
 
