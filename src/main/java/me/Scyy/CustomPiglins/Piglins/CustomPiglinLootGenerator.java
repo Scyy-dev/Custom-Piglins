@@ -116,4 +116,18 @@ public class CustomPiglinLootGenerator {
         piglinItems.put(highestID, new PiglinItem(item, highestID, weight, minAmount, maxAmount));
 
     }
+
+    /**
+     * Returns the chance of a particular piglin item from dropping. Throws an IllegalArgumentException if the
+     * Piglin item has an weight equal or below 0
+     * @param item the item to be tested
+     * @return the chance of the item dropping, a value between 0 and 1
+     */
+    public double getChance(PiglinItem item) {
+
+        if (item.getWeight() <= 0) throw new IllegalArgumentException("Piglin item must have positive weight");
+
+        return (double) item.getWeight() / (double) rawWeightings.size();
+
+    }
 }
