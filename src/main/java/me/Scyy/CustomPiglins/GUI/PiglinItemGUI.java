@@ -26,7 +26,7 @@ public class PiglinItemGUI extends InventoryGUI {
         ArrayList<PiglinItem> piglinItems = new ArrayList<>(generator.getPiglinItems());
 
         // Calculate the starting index for the items from the piglinItems array
-        int piglinItemStartIndex = 27 * page;
+        int piglinItemStartIndex = 21 * page;
 
         // Calculate the ending index
         int piglinItemEndIndex = 27*(page + 1) + 1;
