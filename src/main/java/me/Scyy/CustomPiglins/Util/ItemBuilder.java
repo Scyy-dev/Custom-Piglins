@@ -39,6 +39,18 @@ public class ItemBuilder {
 
     }
 
+    /**
+     * Creates the initial ItemStack from an existing ItemStack
+     * @param itemStack the ItemStack to initialise the builder from
+     */
+    public ItemBuilder(ItemStack itemStack) {
+
+        this.item = itemStack;
+        this.itemMeta = itemStack.getItemMeta();
+        if (itemMeta != null && itemMeta.getLore() != null) this.itemLore = itemMeta.getLore();
+        else this.itemLore = new ArrayList<>();
+
+    }
 
     /*  Material and Amount  */
     /**
