@@ -1,15 +1,12 @@
 package me.Scyy.CustomPiglins.Config;
 
-import me.Scyy.CustomPiglins.Piglins.PiglinItem;
 import me.Scyy.CustomPiglins.Plugin;
-
-import java.util.ArrayList;
 
 public class ConfigFileHandler {
 
     private final Plugin plugin;
 
-    private final ItemWeightingsConfig itemWeightingsConfig;
+    private final PiglinItemData piglinItemData;
 
     private final PlayerMessenger playerMessenger;
 
@@ -19,7 +16,7 @@ public class ConfigFileHandler {
 
         this.plugin = plugin;
 
-        this.itemWeightingsConfig = new ItemWeightingsConfig(plugin);
+        this.piglinItemData = new PiglinItemData(plugin);
 
         this.playerMessenger = new PlayerMessenger(plugin);
 
@@ -29,14 +26,14 @@ public class ConfigFileHandler {
 
     public void reloadConfigs() {
 
-        itemWeightingsConfig.reloadConfig();
+        piglinItemData.reloadConfig();
         playerMessenger.reloadConfig();
         defaultConfig.reloadConfig();
 
     }
 
-    public ItemWeightingsConfig getItemWeightingsConfig() {
-        return itemWeightingsConfig;
+    public PiglinItemData getItemWeightingsConfig() {
+        return piglinItemData;
     }
 
     public PlayerMessenger getPlayerMessenger() {
