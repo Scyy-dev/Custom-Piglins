@@ -16,15 +16,15 @@ public class PiglinItem {
 
     private int maxAmount;
 
-    private boolean hasRandomDurability;
+    private boolean randomDamage;
 
-    public PiglinItem(ItemStack item, int itemID, int weight, int minAmount, int maxAmount, boolean hasRandomDurability) {
+    public PiglinItem(ItemStack item, int itemID, int weight, int minAmount, int maxAmount, boolean randomDamage) {
         this.item = item;
         this.itemID = itemID;
         this.weight = weight;
         this.minAmount = minAmount;
         this.maxAmount = maxAmount;
-        this.hasRandomDurability = hasRandomDurability;
+        this.randomDamage = randomDamage;
     }
 
     public ItemStack getItem() {
@@ -67,12 +67,12 @@ public class PiglinItem {
         this.maxAmount = maxAmount;
     }
 
-    public boolean isHasRandomDurability() {
-        return hasRandomDurability;
+    public boolean hasRandomDamage() {
+        return randomDamage;
     }
 
-    public void setHasRandomDurability(boolean hasRandomDurability) {
-        this.hasRandomDurability = hasRandomDurability;
+    public void setRandomDamage(boolean randomDamage) {
+        this.randomDamage = randomDamage;
     }
 
     @Override
@@ -95,12 +95,12 @@ public class PiglinItem {
                 weight == that.weight &&
                 minAmount == that.minAmount &&
                 maxAmount == that.maxAmount &&
-                hasRandomDurability == that.hasRandomDurability &&
+                randomDamage == that.randomDamage &&
                 item.equals(that.item);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(item, itemID, weight, minAmount, maxAmount, hasRandomDurability);
+        return Objects.hash(item, itemID, weight, minAmount, maxAmount, randomDamage);
     }
 }
