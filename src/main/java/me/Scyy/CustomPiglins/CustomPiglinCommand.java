@@ -51,6 +51,13 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
                         ItemStack mainHand = player.getInventory().getItemInMainHand();
 
+                        if (mainHand.getType() == Material.AIR) {
+
+                            player.sendMessage("Cannot add air!");
+                            return true;
+
+                        }
+
                         plugin.getGenerator().addPiglinItem(mainHand, 1, 1, 1);
 
                         player.sendMessage("Added " + mainHand.getType().name().toLowerCase());
