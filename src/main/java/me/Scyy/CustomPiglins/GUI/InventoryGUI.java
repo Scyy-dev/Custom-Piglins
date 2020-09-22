@@ -4,8 +4,9 @@ import me.Scyy.CustomPiglins.Plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -14,17 +15,17 @@ public class InventoryGUI {
     public static final String INVENTORY_NAME = ChatColor.translateAlternateColorCodes('&', "&6&lCustom&8&lPiglins");
 
     /**
-     * The page number of custom trades. Pages start at 0
+     * Context for the inventory being constructed
      */
-    protected int page;
+    protected GUIContext guiContext;
 
     /**
-     * The player that can be messaged to open this inventory with
+     * Main plugin reference
      */
-    protected Player player;
+    protected final Plugin plugin;
 
     /**
-     * The inventory to display to the player
+     * The array of items in the inventory
      */
     protected final ItemStack[] inventoryItems;
 
@@ -33,10 +34,10 @@ public class InventoryGUI {
      */
     protected final Inventory inventory;
 
-    public InventoryGUI(int page, Player player, Plugin plugin) {
+    public InventoryGUI(GUIContext guiContext, Plugin plugin) {
 
-        this.page = page;
-        this.player = player;
+        this.guiContext = guiContext;
+        this.plugin = plugin;
         this.inventoryItems = initaliseDefaultPage();
         this.inventory = Bukkit.createInventory(null, 54, INVENTORY_NAME);
 
@@ -63,24 +64,24 @@ public class InventoryGUI {
 
     }
 
-
+    public abstract InventoryGUI handleClick(int clickedSlot, ClickType clickType);
 
     // Getters and Setters
 
-    public int getPage() {
-        return page;
+    public GUIContext getGuiContext() {
+        return guiContext;
     }
 
-    public void setPage(int page) {
-        this.page = page;
+    public void setGuiContext(GUIContext guiContext) {
+        this.guiContext = guiContext;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Plugin getPlugin() {
+        return plugin;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public ItemStack[] getInventoryItems() {
+        return inventoryItems;
     }
 
     public Inventory getInventory() {
