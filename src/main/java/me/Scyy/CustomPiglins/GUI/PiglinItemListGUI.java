@@ -5,7 +5,7 @@ import me.Scyy.CustomPiglins.Piglins.PiglinItem;
 import me.Scyy.CustomPiglins.Plugin;
 import me.Scyy.CustomPiglins.Util.ItemBuilder;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 
 import java.util.ArrayList;
 
@@ -21,8 +21,8 @@ import java.util.ArrayList;
 
 public class PiglinItemListGUI extends InventoryGUI {
 
-    public PiglinItemListGUI(int page, Player player, Plugin plugin) {
-        super(page, player, plugin);
+    public PiglinItemListGUI(GUIContext context, Plugin plugin) {
+        super(context, plugin);
 
         // Get the generator from the UI
         CustomPiglinLootGenerator generator = plugin.getGenerator();
@@ -31,10 +31,10 @@ public class PiglinItemListGUI extends InventoryGUI {
         ArrayList<PiglinItem> piglinItems = new ArrayList<>(generator.getPiglinItems());
 
         // Calculate the starting index for the items from the piglinItems array
-        int piglinItemStartIndex = 21 * page;
+        int piglinItemStartIndex = 21 * context.getPage();
 
         // Calculate the ending index
-        int piglinItemEndIndex = 21 * (page + 1);
+        int piglinItemEndIndex = 21 * (context.getPage() + 1);
 
         // inventory index tracks the inventory slot of each item, is irrelevant to the index for in piglinItems
         int inventoryIndex = 10;
@@ -67,15 +67,21 @@ public class PiglinItemListGUI extends InventoryGUI {
         }
 
         // Check if the page is not 0 and if so add the previous pagination arrow
-        if (page != 0) {
+        if (context.getPage() != 0) {
 
-            inventoryItems[37] = new ItemBuilder(Material.ARROW).name("&6Previous").build();
+            inventoryItems[37] = new ItemBuilder(Material.ARROW).name("&6Page " + context.getPage()).build();
             new ItemBuilder(inventoryItems[5]);
 
         }
 
+        // determine the page number
+        int nextPageNum = context.getPage() + 2;
+
         // Add the next pagination arrow
-        inventoryItems[43] = new ItemBuilder(Material.ARROW).name("&6Next").build();
+        inventoryItems[43] = new ItemBuilder(Material.ARROW).name("&6Page " + nextPageNum).build();
+
+    }
+
 
         // Assign the inventory items to the inventory
         inventory.setContents(inventoryItems);
