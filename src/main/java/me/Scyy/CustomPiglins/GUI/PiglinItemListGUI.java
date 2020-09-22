@@ -106,6 +106,7 @@ public class PiglinItemListGUI extends InventoryGUI {
             GUIContext context = new GUIContext(piglinItem, guiContext.getPlayer(), guiContext.getPage());
 
             // Return a new PiglinItem page
+            return new PiglinItemGUI(context, plugin);
 
         }
 
@@ -115,6 +116,7 @@ public class PiglinItemListGUI extends InventoryGUI {
             // decrement the page
             guiContext.setPage(guiContext.getPage() - 1);
 
+            return new PiglinItemListGUI(guiContext, plugin);
 
         }
 
@@ -124,6 +126,7 @@ public class PiglinItemListGUI extends InventoryGUI {
             // increment the page
             guiContext.setPage(guiContext.getPage() + 1);
 
+            return new PiglinItemListGUI(guiContext, plugin);
 
         }
 
