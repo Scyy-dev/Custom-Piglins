@@ -1,7 +1,6 @@
 package me.Scyy.CustomPiglins.GUI;
 
 import me.Scyy.CustomPiglins.Piglins.CustomPiglinLootGenerator;
-import me.Scyy.CustomPiglins.Piglins.PiglinItem;
 import me.Scyy.CustomPiglins.Plugin;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -9,8 +8,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.ArrayList;
 
 public class CustomPiglinGUIListener implements Listener {
 
@@ -46,8 +43,6 @@ public class CustomPiglinGUIListener implements Listener {
             // Get the page reference from the GUI
             int nextPage = Integer.parseInt(contents[43].getItemMeta().getDisplayName().split(" ")[1]);
 
-            System.out.println(nextPage);
-
             // Get the GUIContext for the current inventory
             GUIContext context = new GUIContext(null, (Player) event.getWhoClicked(), nextPage - 2);
 
@@ -63,7 +58,7 @@ public class CustomPiglinGUIListener implements Listener {
         // Handle clicks in the Piglin Item Inventory
         } else if (contents[53] != null && contents[53].getType() == Material.NETHER_STAR) {
 
-            
+
 
         }
     }
