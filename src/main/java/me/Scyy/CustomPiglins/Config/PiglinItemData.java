@@ -5,7 +5,7 @@ import me.Scyy.CustomPiglins.Plugin;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class PiglinItemData extends ConfigFile {
@@ -24,21 +24,21 @@ public class PiglinItemData extends ConfigFile {
 
         boolean sendWarning = false;
 
+        Map<Integer, PiglinItem> piglinItemMap = new LinkedHashMap<>();
+
         if (config.getConfigurationSection("items") == null) {
 
             plugin.getLogger().warning("Unable to load any items! Piglins will not drop anything!");
-            return new HashMap<>();
+            return piglinItemMap;
 
         }
 
         if (config.getConfigurationSection("items").getKeys(false).size() == 0) {
 
             plugin.getLogger().warning("No items found in items.yml! Piglins will not drop anything!");
-            return new HashMap<>();
+            return piglinItemMap;
 
         }
-
-        Map<Integer, PiglinItem> weightings = new HashMap<>();
 
         for (String key : config.getConfigurationSection("items").getKeys(false)) {
 
@@ -60,10 +60,10 @@ public class PiglinItemData extends ConfigFile {
 
         if (sendWarning) {
             plugin.getLogger().warning("Unable to load items for the piglins! Piglins will not drop anything!");
-            return new HashMap<>();
+            return new LinkedHashMap<>();
         }
 
-        return weightings;
+        return piglinItemMap;
 
     }
 
