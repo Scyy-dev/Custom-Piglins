@@ -84,7 +84,7 @@ public class PiglinItemGUI extends InventoryGUI {
         double roundedChance = (double) Math.round(itemChance * 10000) / 10000;
 
         // Add the item
-        inventoryItems[53] = new ItemBuilder(Material.NETHER_STAR).name("&6Item Chance - " + roundedChance).build();
+        inventoryItems[53] = new ItemBuilder(Material.NETHER_STAR).name("&6Drop Chance: " + roundedChance).build();
 
     }
 
