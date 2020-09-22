@@ -37,9 +37,34 @@ public class CustomPiglinGUIListener implements Listener {
         // Cancel the event
         event.setCancelled(true);
 
+        // Get the contents of the inventory
+        ItemStack[] contents = event.getInventory().getContents();
 
+        // Handle clicks in the Piglin Item List inventory
+        if (contents[43] != null && contents[43].getType() == Material.ARROW) {
 
+            // Get the page reference from the GUI
+            int nextPage = Integer.parseInt(contents[43].getItemMeta().getDisplayName().split(" ")[1]);
 
+            System.out.println(nextPage);
 
+            // Get the GUIContext for the current inventory
+            GUIContext context = new GUIContext(null, (Player) event.getWhoClicked(), nextPage - 2);
+
+            // Create the inventory
+            PiglinItemListGUI gui = new PiglinItemListGUI(context, plugin);
+
+            // Update the inventory
+            InventoryGUI newGUI = gui.handleClick(event.getRawSlot(), event.getClick());
+
+            // Open the nwe inventory
+            event.getWhoClicked().openInventory(newGUI.getInventory());
+
+        // Handle clicks in the Piglin Item Inventory
+        } else if (contents[53] != null && contents[53].getType() == Material.NETHER_STAR) {
+
+            
+
+        }
     }
 }
