@@ -35,7 +35,7 @@ public class PiglinItemGUI extends InventoryGUI {
         inventoryItems[13] = piglinItem.getItem();
 
         // Set the Weighting item
-        inventoryItems[29] = new ItemBuilder(Material.ANVIL).name("&6Weight - " + piglinItem.getWeight())
+        inventoryItems[29] = new ItemBuilder(Material.ANVIL).name("&6Weight: " + piglinItem.getWeight())
                 .lore("&r&7Left click to increase!")
                 .lore("&r&7Right click to decrease!")
                 .build();
@@ -60,13 +60,13 @@ public class PiglinItemGUI extends InventoryGUI {
         inventoryItems[30] = damageItemBuilder.build();
 
         // Set the min amount item
-        inventoryItems[32] = new ItemBuilder(Material.GOLD_NUGGET).name("&6Minimum Amount - " + piglinItem.getMinAmount())
+        inventoryItems[32] = new ItemBuilder(Material.GOLD_NUGGET).name("&6Minimum Amount: " + piglinItem.getMinAmount())
                 .lore("&r&7Left click to increase!")
                 .lore("&r&7Right click to decrease!")
                 .build();
 
         // Set the max amount item
-        inventoryItems[33] = new ItemBuilder(Material.GOLD_BLOCK).name("&6Maximum Amount - " + piglinItem.getMaxAmount())
+        inventoryItems[33] = new ItemBuilder(Material.GOLD_BLOCK).name("&6Maximum Amount: " + piglinItem.getMaxAmount())
                 .lore("&r&7Left click to increase!")
                 .lore("&r&7Right click to decrease!")
                 .build();
