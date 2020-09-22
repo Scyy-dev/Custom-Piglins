@@ -82,9 +82,19 @@ public class PiglinItemListGUI extends InventoryGUI {
 
     }
 
+    @Override
+    public InventoryGUI handleClick(int clickedSlot, ClickType clickType) {
 
-        // Assign the inventory items to the inventory
-        inventory.setContents(inventoryItems);
+        PiglinItem item = new ArrayList<>(plugin.getGenerator().getPiglinItems()).get(0);
 
+        return new PiglinItemGUI(new GUIContext(item, guiContext.getPlayer(), guiContext.getPage()), plugin);
+
+        /*
+        // Check if the item clicked was a piglin item
+        if (clickedSlot - 10 )
+
+        // Return the updated GUI
+        return this;
+         */
     }
 }
