@@ -10,7 +10,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class InventoryGUI {
+public abstract class InventoryGUI implements InventoryHolder {
 
     public static final String INVENTORY_NAME = ChatColor.translateAlternateColorCodes('&', "&6&lCustom&8&lPiglins");
 
@@ -39,7 +39,7 @@ public class InventoryGUI {
         this.guiContext = guiContext;
         this.plugin = plugin;
         this.inventoryItems = initaliseDefaultPage();
-        this.inventory = Bukkit.createInventory(null, 54, INVENTORY_NAME);
+        this.inventory = Bukkit.createInventory(this, 54, INVENTORY_NAME);
 
     }
 
@@ -85,6 +85,11 @@ public class InventoryGUI {
     }
 
     public Inventory getInventory() {
+
+        // Assign the inventory items to the inventory
+        inventory.setContents(inventoryItems);
+
+        // Return the inventory
         return inventory;
     }
 }
