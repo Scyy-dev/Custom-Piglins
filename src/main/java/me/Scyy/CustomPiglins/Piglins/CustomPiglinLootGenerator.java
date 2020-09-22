@@ -17,8 +17,8 @@ public class CustomPiglinLootGenerator {
 
     public CustomPiglinLootGenerator(Plugin plugin) {
 
-        PiglinItemData weightingsConfig = plugin.getConfigFileHandler().getPiglinItemDataConfig();
-        this.piglinItems = weightingsConfig.loadWeightings();
+        PiglinItemData piglinItemData = plugin.getConfigFileHandler().getPiglinItemDataConfig();
+        this.piglinItems = piglinItemData.loadPiglinItems();
         this.random = new Random();
         this.rawWeightings = new ArrayList<>();
 

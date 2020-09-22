@@ -17,10 +17,10 @@ public class PiglinItemData extends ConfigFile {
     @Override
     public void reloadConfig() {
         super.reloadConfig();
-        plugin.getGenerator().updatePiglinItems(loadWeightings());
+        plugin.getGenerator().updatePiglinItems(loadPiglinItems());
     }
 
-    public Map<Integer, PiglinItem> loadWeightings() {
+    public Map<Integer, PiglinItem> loadPiglinItems() {
 
         boolean sendWarning = false;
 
@@ -54,7 +54,7 @@ public class PiglinItemData extends ConfigFile {
                 break;
             }
 
-            weightings.put(itemID, new PiglinItem(item, itemID, weight, minAmount, maxAmount, hasRandomDamage));
+            piglinItemMap.put(itemID, new PiglinItem(item, itemID, weight, minAmount, maxAmount, hasRandomDamage));
 
         }
 
