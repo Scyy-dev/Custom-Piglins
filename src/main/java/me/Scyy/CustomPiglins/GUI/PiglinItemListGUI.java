@@ -85,16 +85,49 @@ public class PiglinItemListGUI extends InventoryGUI {
     @Override
     public InventoryGUI handleClick(int clickedSlot, ClickType clickType) {
 
-        PiglinItem item = new ArrayList<>(plugin.getGenerator().getPiglinItems()).get(0);
+        // slot of the item in the piglin item list
+        int piglinItemSlot = -1;
 
-        return new PiglinItemGUI(new GUIContext(item, guiContext.getPlayer(), guiContext.getPage()), plugin);
+        // Check if the item clicked was a piglin item in the inventory
+        if (9 < clickedSlot && clickedSlot < 17) piglinItemSlot = clickedSlot - 10;
+        else if (18 < clickedSlot && clickedSlot < 26) piglinItemSlot = clickedSlot - 19;
+        else if (27 < clickedSlot && clickedSlot < 35) piglinItemSlot = clickedSlot - 28;
 
-        /*
-        // Check if the item clicked was a piglin item
-        if (clickedSlot - 10 )
+        // Check if the item clicked was a piglinItem
+        if (piglinItemSlot != -1 && inventoryItems[clickedSlot] != null) {
 
-        // Return the updated GUI
+            // Calculate the index in the array from the generator
+            int piglinArraySlot = piglinItemSlot + 21 * guiContext.getPage();
+
+            // Get the item from the generator
+            PiglinItem piglinItem = new ArrayList<>(plugin.getGenerator().getPiglinItems()).get(piglinArraySlot);
+
+            // Create the GUI context
+            GUIContext context = new GUIContext(piglinItem, guiContext.getPlayer(), guiContext.getPage());
+
+            // Return a new PiglinItem page
+
+        }
+
+        // Check if the item clicked was a back page arrow
+        if (clickedSlot == 37 && inventoryItems[clickedSlot].getType() == Material.ARROW) {
+
+            // decrement the page
+            guiContext.setPage(guiContext.getPage() - 1);
+
+
+        }
+
+        // Check the item clicked was a forward page arrow
+        if (clickedSlot == 43 && inventoryItems[clickedSlot].getType() == Material.ARROW) {
+
+            // increment the page
+            guiContext.setPage(guiContext.getPage() + 1);
+
+
+        }
+
+        // If no item had an affect, change nothing
         return this;
-         */
     }
 }
