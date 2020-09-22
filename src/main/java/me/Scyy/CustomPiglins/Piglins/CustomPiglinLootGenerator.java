@@ -54,6 +54,18 @@ public class CustomPiglinLootGenerator {
         if (piglinItem.getMaxAmount() == piglinItem.getMinAmount()) randomAmount = piglinItem.getMinAmount();
         else randomAmount = random.nextInt(piglinItem.getMaxAmount() - piglinItem.getMinAmount()) + piglinItem.getMinAmount();
 
+        // For durability
+        // Damageable itemDamage = (Damageable) item.getItemMeta();
+        //itemDamage.getDamage(), item.setDamage(randomDamage)
+
+        // When adding items, check if ItemStack.getItemMeta() instanceof Damagable, same for GUI
+
+        // For durability
+        // Damageable itemDamage = (Damageable) item.getItemMeta();
+        //itemDamage.getDamage(), item.setDamage(randomDamage)
+
+        // When adding items, check if ItemStack.getItemMeta() instanceof Damagable, same for GUI
+
         // Assign the random amount
         item.setAmount(randomAmount);
 
