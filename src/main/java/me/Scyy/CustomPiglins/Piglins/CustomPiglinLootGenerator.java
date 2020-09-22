@@ -60,12 +60,6 @@ public class CustomPiglinLootGenerator {
 
         // When adding items, check if ItemStack.getItemMeta() instanceof Damagable, same for GUI
 
-        // For durability
-        // Damageable itemDamage = (Damageable) item.getItemMeta();
-        //itemDamage.getDamage(), item.setDamage(randomDamage)
-
-        // When adding items, check if ItemStack.getItemMeta() instanceof Damagable, same for GUI
-
         // Assign the random amount
         item.setAmount(randomAmount);
 
@@ -106,6 +100,13 @@ public class CustomPiglinLootGenerator {
 
     }
 
+    /**
+     * Creates a new piglin item based off of the required data
+     * @param item the ItemStack to be added
+     * @param weight the chance of the item being dropped, must be > 0
+     * @param minAmount minimum amount of the item to be dropped
+     * @param maxAmount max amount of the item to be dropped
+     */
     public void addPiglinItem(ItemStack item, int weight, int minAmount, int maxAmount, boolean hasRandomDamage) {
 
         int highestID = 0;
