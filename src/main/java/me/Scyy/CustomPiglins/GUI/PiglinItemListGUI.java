@@ -97,13 +97,13 @@ public class PiglinItemListGUI extends InventoryGUI {
         if (piglinItemSlot != -1 && inventoryItems[clickedSlot] != null) {
 
             // Calculate the index in the array from the generator
-            int piglinArraySlot = piglinItemSlot + 21 * guiContext.getPage();
+            int piglinArraySlot = piglinItemSlot + 21 * context.getPage();
 
             // Get the item from the generator
             PiglinItem piglinItem = new ArrayList<>(plugin.getGenerator().getPiglinItems()).get(piglinArraySlot);
 
             // Create the GUI context
-            GUIContext context = new GUIContext(piglinItem, guiContext.getPlayer(), guiContext.getPage());
+            GUIContext context = new GUIContext(piglinItem, this.context.getPlayer(), this.context.getPage());
 
             // Return a new PiglinItem page
             return new PiglinItemGUI(context, plugin);
@@ -114,9 +114,9 @@ public class PiglinItemListGUI extends InventoryGUI {
         if (clickedSlot == 37 && inventoryItems[clickedSlot].getType() == Material.ARROW) {
 
             // decrement the page
-            guiContext.setPage(guiContext.getPage() - 1);
+            context.setPage(context.getPage() - 1);
 
-            return new PiglinItemListGUI(guiContext, plugin);
+            return new PiglinItemListGUI(context, plugin);
 
         }
 
@@ -124,9 +124,9 @@ public class PiglinItemListGUI extends InventoryGUI {
         if (clickedSlot == 43 && inventoryItems[clickedSlot].getType() == Material.ARROW) {
 
             // increment the page
-            guiContext.setPage(guiContext.getPage() + 1);
+            context.setPage(context.getPage() + 1);
 
-            return new PiglinItemListGUI(guiContext, plugin);
+            return new PiglinItemListGUI(context, plugin);
 
         }
 
