@@ -7,8 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.meta.Damageable;
 
-import java.util.ArrayList;
-
 // # # # # # # # # #
 // # # # # P # # # #
 // # # # # # # # # #
@@ -36,15 +34,15 @@ public class PiglinItemGUI extends InventoryGUI {
 
         // Set the Weighting item
         inventoryItems[29] = new ItemBuilder(Material.ANVIL).name("&6Weight: " + piglinItem.getWeight())
-                .lore("&r&7Left click to increase!")
-                .lore("&r&7Right click to decrease!")
+                .lore("&r&7Right click to increase!")
+                .lore("&r&7Left click to decrease!")
                 .build();
 
         // Initialise the damage item builder
         ItemBuilder damageItemBuilder = new ItemBuilder(Material.NETHERITE_SHOVEL).name("&6Random Durability");
 
         // Check if the item can be damaged
-        if (piglinItem instanceof Damageable) {
+        if (piglinItem.getItem() instanceof Damageable) {
 
             // Toggle the random damage
             if (piglinItem.hasRandomDamage()) damageItemBuilder.enchant().lore("&r&7This item will have a random durability!");
@@ -61,14 +59,14 @@ public class PiglinItemGUI extends InventoryGUI {
 
         // Set the min amount item
         inventoryItems[32] = new ItemBuilder(Material.GOLD_NUGGET).name("&6Minimum Amount: " + piglinItem.getMinAmount())
-                .lore("&r&7Left click to increase!")
-                .lore("&r&7Right click to decrease!")
+                .lore("&r&7Right click to increase!")
+                .lore("&r&7Left click to decrease!")
                 .build();
 
         // Set the max amount item
         inventoryItems[33] = new ItemBuilder(Material.GOLD_BLOCK).name("&6Maximum Amount: " + piglinItem.getMaxAmount())
-                .lore("&r&7Left click to increase!")
-                .lore("&r&7Right click to decrease!")
+                .lore("&r&7Right click to increase!")
+                .lore("&r&7Left click to decrease!")
                 .build();
 
         // Set the back arrow item
