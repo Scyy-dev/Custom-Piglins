@@ -17,7 +17,7 @@ public abstract class InventoryGUI implements InventoryHolder {
     /**
      * Context for the inventory being constructed
      */
-    protected GUIContext guiContext;
+    protected GUIContext context;
 
     /**
      * Main plugin reference
@@ -34,9 +34,9 @@ public abstract class InventoryGUI implements InventoryHolder {
      */
     protected final Inventory inventory;
 
-    public InventoryGUI(GUIContext guiContext, Plugin plugin) {
+    public InventoryGUI(GUIContext context, Plugin plugin) {
 
-        this.guiContext = guiContext;
+        this.context = context;
         this.plugin = plugin;
         this.inventoryItems = initaliseDefaultPage();
         this.inventory = Bukkit.createInventory(this, 54, INVENTORY_NAME);
@@ -68,12 +68,12 @@ public abstract class InventoryGUI implements InventoryHolder {
 
     // Getters and Setters
 
-    public GUIContext getGuiContext() {
-        return guiContext;
+    public GUIContext getContext() {
+        return context;
     }
 
-    public void setGuiContext(GUIContext guiContext) {
-        this.guiContext = guiContext;
+    public void setContext(GUIContext context) {
+        this.context = context;
     }
 
     public Plugin getPlugin() {
