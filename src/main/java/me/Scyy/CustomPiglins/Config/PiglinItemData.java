@@ -17,7 +17,7 @@ public class PiglinItemData extends ConfigFile {
     @Override
     public void reloadConfig() {
         super.reloadConfig();
-        plugin.getGenerator().updatePiglinItems(loadPiglinItems());
+        plugin.getGenerator().setPiglinItems(loadPiglinItems());
     }
 
     public Map<Integer, PiglinItem> loadPiglinItems() {
