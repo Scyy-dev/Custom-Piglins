@@ -55,7 +55,10 @@ public class PiglinItemGUI extends InventoryGUI {
             damageItemBuilder.lore("&r&7Click to toggle!");
 
         // Let the user know the item does not support having random damage
-        } else damageItemBuilder.lore("&r&cThis item does not have durability!");
+        } else {
+
+            damageItemBuilder.lore("&r&cThis item does not have durability!");
+        }
 
         // Set the damage item
         inventoryItems[30] = damageItemBuilder.build();
@@ -163,11 +166,12 @@ public class PiglinItemGUI extends InventoryGUI {
 
             GUIContext listContext = new GUIContext(context.getPiglinItem(), context.getPlayer(), 0);
 
-            return new PiglinItemGUI(listContext, plugin);
+            return new PiglinItemListGUI(listContext, plugin);
 
         }
 
         return this;
 
     }
+
 }
