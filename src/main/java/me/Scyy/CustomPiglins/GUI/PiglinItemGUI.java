@@ -45,7 +45,7 @@ public class PiglinItemGUI extends InventoryGUI {
         ItemBuilder damageItemBuilder = new ItemBuilder(Material.NETHERITE_SHOVEL).name("&6Random Durability");
 
         // Check if the item can be damaged
-        if (piglinItem.getItem() instanceof Damageable) {
+        if (piglinItem.getItem().getItemMeta() instanceof Damageable) {
 
             // Toggle the random damage
             if (piglinItem.hasRandomDamage()) damageItemBuilder.enchant().lore("&r&7This item will have a random durability!");
