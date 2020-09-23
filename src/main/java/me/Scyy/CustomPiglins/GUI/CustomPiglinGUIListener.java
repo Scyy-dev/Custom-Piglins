@@ -1,6 +1,7 @@
 package me.Scyy.CustomPiglins.GUI;
 
 import me.Scyy.CustomPiglins.Piglins.CustomPiglinLootGenerator;
+import me.Scyy.CustomPiglins.Piglins.PiglinItem;
 import me.Scyy.CustomPiglins.Plugin;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -68,7 +69,33 @@ public class CustomPiglinGUIListener implements Listener {
         // Handle clicks in the Piglin Item Inventory
         } else if (contents[53] != null && contents[53].getType() == Material.NETHER_STAR) {
 
+            // Check if the item has meta
+            if (contents[0].getItemMeta() == null) {
 
+                // Log an error
+                plugin.getLogger().warning("Error getting the piglin Item!");
+
+                return;
+
+            }
+
+            // Get the ID of the piglin item from the UI
+            int piglinItemID = Integer.parseInt(contents[0].getItemMeta().getDisplayName());
+
+            // Get the piglin item from the generator
+            PiglinItem item = generator.getPiglinItem(piglinItemID);
+
+            // Create the context of the old GUI
+            GUIContext context = new GUIContext(item, (Player) event.getWhoClicked(), 0);
+
+            // Create an instance of the old GUI
+            PiglinItemGUI gui = new PiglinItemGUI(context, plugin);
+
+            // Handle the click in the old GUI and hence create the new GUI
+            InventoryGUI newGUI = gui.handleClick(event.getRawSlot(), event.getClick());
+
+            // Open the new GUI
+            event.getWhoClicked().openInventory(newGUI.getInventory());
 
         }
     }
