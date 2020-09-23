@@ -29,6 +29,9 @@ public class PiglinItemGUI extends InventoryGUI {
         // Check if there is a usable context
         if (context.getPiglinItem() == null) throw new IllegalArgumentException("Cannot use null PiglinItem");
 
+        // Set the ID so the the listener can get the PiglinItem
+        inventoryItems[0] = new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).name("" + piglinItem.getItemID()).build();
+
         // Set the item to be displayed
         inventoryItems[13] = piglinItem.getItem();
 
