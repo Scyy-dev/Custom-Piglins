@@ -89,6 +89,81 @@ public class PiglinItemGUI extends InventoryGUI {
     @Override
     public InventoryGUI handleClick(int clickedSlot, ClickType clickType) {
 
+        // Check if the item clicked was the weight counter
+        if (clickedSlot == 29 && inventoryItems[29] != null) {
+
+            int weight = context.getPiglinItem().getWeight();
+
+            if (clickType.isRightClick()) context.getPiglinItem().setWeight(weight + 1);
+            else if (clickType.isLeftClick() && weight > 1) context.getPiglinItem().setWeight(weight - 1);
+
+            // TODO - update the generator with the piglin item
+
+            return new PiglinItemGUI(context, plugin);
+
+        }
+
+        // Check if the item clicked was the random damage toggle
+        if (clickedSlot == 30 && inventoryItems[30] != null) {
+
+            boolean hasRandomDamage = context.getPiglinItem().hasRandomDamage();
+
+            context.getPiglinItem().setRandomDamage(!hasRandomDamage);
+
+            // TODO - update the generator with the piglin item
+
+            return new PiglinItemGUI(context, plugin);
+
+        }
+
+        // Check if the item clicked was the minimum amount counter
+        if (clickedSlot == 32 && inventoryItems[32] != null) {
+
+            int minAmount = context.getPiglinItem().getMinAmount();
+
+            if (clickType.isLeftClick()) context.getPiglinItem().setMinAmount(minAmount + 1);
+            else if (clickType.isRightClick() && minAmount > 1) context.getPiglinItem().setMinAmount(minAmount - 1);
+
+            // TODO - update the generator with the piglin item
+
+            return new PiglinItemGUI(context, plugin);
+
+        }
+
+        // Check if the item clicked was the minimum amount counter
+        if (clickedSlot == 33 && inventoryItems[33] != null) {
+
+            int maxAmount = context.getPiglinItem().getMaxAmount();
+
+            if (clickType.isLeftClick()) context.getPiglinItem().setMaxAmount(maxAmount + 1);
+            else if (clickType.isRightClick() && maxAmount > 1) context.getPiglinItem().setMaxAmount(maxAmount - 1);
+
+            // TODO - update the generator with the piglin item
+
+            return new PiglinItemGUI(context, plugin);
+
+        }
+
+        // Check if the item clicked was the back arrow
+        if (clickedSlot == 45 && inventoryItems[45] != null) {
+
+            GUIContext listContext = new GUIContext(context.getPiglinItem(), context.getPlayer(), 0);
+
+            return new PiglinItemListGUI(listContext, plugin);
+
+        }
+
+        // Check if the item clicked was the remove button
+        if (clickedSlot == 49 && inventoryItems[49] != null) {
+
+            // TODO - remove piglinItem from generator
+
+            GUIContext listContext = new GUIContext(context.getPiglinItem(), context.getPlayer(), 0);
+
+            return new PiglinItemGUI(listContext, plugin);
+
+        }
+
         return this;
 
     }
