@@ -34,6 +34,12 @@ public class CustomPiglinLootGenerator {
 
     }
 
+    // Item Generators
+
+    /**
+     * Randomly chooses a piglin item and returns its associated ItemStack
+     * @return the ItemStack the piglin item refers to
+     */
     public ItemStack generateItem() {
 
         // Check if there are any items available to drop
@@ -68,37 +74,60 @@ public class CustomPiglinLootGenerator {
 
     }
 
+    // Getters
+
+    /**
+     * Gets a piglin item from the map from an ID
+     * @param piglinItemID the ID of the piglin item
+     * @return the piglin item
+     */
+    public PiglinItem getPiglinItem(int piglinItemID) {
+
+        return piglinItems.get(piglinItemID);
+
+    }
+
+    /**
+     * Provides a collection of all unique piglin items. Collection is sorted by piglinItemID, with the lowest ID being first
+     * @return the collection of piglin items
+     */
     public Collection<PiglinItem> getPiglinItems() {
-        return piglinItems.values();
+
+        ArrayList<PiglinItem> piglinItemArray = new ArrayList<>(piglinItems.values());
+
+        piglinItemArray.sort(((piglinItem, piglinItem1) -> Math.min(piglinItem.getItemID(), piglinItem1.getItemID())));
+
+        return piglinItemArray;
     }
 
-    public void updatePiglinItems(Map<Integer, PiglinItem> newItems) {
+    /**
+     * Returns the chance of a particular piglin item from dropping. Throws an IllegalArgumentException if the
+     * Piglin item has an weight equal or below 0
+     * @param item the item to be tested
+     * @return the chance of the item dropping, a value between 0 and 1
+     */
+    public double getChance(PiglinItem item) {
 
-        // Replace the map
-        piglinItems = newItems;
+        if (item.getWeight() <= 0) throw new IllegalArgumentException("Piglin item must have positive weight");
 
-        // Empty the rawWeightings array
-        rawWeightings.clear();
-
-        // Iterate over the new items and update the weighting
-        for (PiglinItem piglinItem : piglinItems.values()) {
-
-            for (int weight = 0; weight < piglinItem.getWeight(); weight++) {
-
-                rawWeightings.add(piglinItem.getItemID());
-
-            }
-
-        }
+        return (double) item.getWeight() / (double) rawWeightings.size();
 
     }
 
-    public void updatePiglinItem(PiglinItem piglinItem) {
+    // Updaters
+
+    /**
+     * Updates an individual piglin item
+     * @param piglinItem the pigln item to be updated
+     */
+    public void updatePiglinItem(PiglinItem piglinItem,boolean changedWeightings) {
 
         piglinItems.put(piglinItem.getItemID(), piglinItem);
-        this.updatePiglinItems(piglinItems);
+        if (changedWeightings) this.generateWeightings();
 
     }
+
+    // Setters
 
     /**
      * Creates a new piglin item based off of the required data
@@ -131,16 +160,40 @@ public class CustomPiglinLootGenerator {
     }
 
     /**
-     * Returns the chance of a particular piglin item from dropping. Throws an IllegalArgumentException if the
-     * Piglin item has an weight equal or below 0
-     * @param item the item to be tested
-     * @return the chance of the item dropping, a value between 0 and 1
+     * Updates all piglin items
+     * @param newItems the new piglin items to be added
      */
-    public double getChance(PiglinItem item) {
+    public void setPiglinItems(Map<Integer, PiglinItem> newItems) {
 
-        if (item.getWeight() <= 0) throw new IllegalArgumentException("Piglin item must have positive weight");
+        // Replace the map
+        piglinItems = newItems;
 
-        return (double) item.getWeight() / (double) rawWeightings.size();
+        // Reload the weightings array
+        generateWeightings();
 
     }
+
+    // Method helpers
+
+    /**
+     * Empties the rawWeighting array and refills it based on the piglin item weightings in the piglin items map
+     */
+    private void generateWeightings() {
+
+        // Empty the rawWeightings array
+        rawWeightings.clear();
+
+        // Iterate over the new items and update the weighting
+        for (PiglinItem piglinItem : piglinItems.values()) {
+
+            for (int weight = 0; weight < piglinItem.getWeight(); weight++) {
+
+                rawWeightings.add(piglinItem.getItemID());
+
+            }
+
+        }
+
+    }
+
 }
