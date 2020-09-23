@@ -40,19 +40,29 @@ public class CustomPiglinGUIListener implements Listener {
         // Handle clicks in the Piglin Item List inventory
         if (contents[43] != null && contents[43].getType() == Material.ARROW) {
 
+            // Check if the item has meta
+            if (contents[43].getItemMeta() == null) {
+
+                // Log an error
+                plugin.getLogger().warning("Error getting the piglin Item!");
+
+                return;
+
+            }
+
             // Get the page reference from the GUI
             int nextPage = Integer.parseInt(contents[43].getItemMeta().getDisplayName().split(" ")[1]);
 
-            // Get the GUIContext for the current inventory
+            // Create the context of the old GUI
             GUIContext context = new GUIContext(null, (Player) event.getWhoClicked(), nextPage - 2);
 
-            // Create the inventory
+            // Create an instance of the old GUI
             PiglinItemListGUI gui = new PiglinItemListGUI(context, plugin);
 
-            // Update the inventory
+            // Handle the click in the old GUI and hence create the new GUI
             InventoryGUI newGUI = gui.handleClick(event.getRawSlot(), event.getClick());
 
-            // Open the nwe inventory
+            // Open the new GUI
             event.getWhoClicked().openInventory(newGUI.getInventory());
 
         // Handle clicks in the Piglin Item Inventory
