@@ -9,7 +9,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
-public class CustomPiglinLootGenerator {
+public class PiglinLootGenerator {
 
     private Map<Integer, PiglinItem> piglinItems;
 
@@ -17,7 +17,7 @@ public class CustomPiglinLootGenerator {
 
     private final Random random;
 
-    public CustomPiglinLootGenerator(Plugin plugin) {
+    public PiglinLootGenerator(Plugin plugin) {
 
         PiglinItemData piglinItemData = plugin.getConfigFileHandler().getPiglinItemDataConfig();
         this.piglinItems = piglinItemData.loadPiglinItems();
