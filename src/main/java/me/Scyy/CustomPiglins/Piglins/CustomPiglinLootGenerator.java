@@ -4,6 +4,8 @@ import me.Scyy.CustomPiglins.Config.PiglinItemData;
 import me.Scyy.CustomPiglins.Plugin;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
@@ -60,11 +62,15 @@ public class CustomPiglinLootGenerator {
         if (piglinItem.getMaxAmount() == piglinItem.getMinAmount()) randomAmount = piglinItem.getMinAmount();
         else randomAmount = random.nextInt(piglinItem.getMaxAmount() - piglinItem.getMinAmount() + 1) + piglinItem.getMinAmount();
 
-        // For durability
-        // Damageable itemDamage = (Damageable) item.getItemMeta();
-        //itemDamage.getDamage(), item.setDamage(randomDamage)
+        // Check if the item has random durability
+        if (piglinItem.hasRandomDamage() && item.getItemMeta() != null) {
 
-        // When adding items, check if ItemStack.getItemMeta() instanceof Damagable, same for GUI
+            ItemMeta itemMeta = item.getItemMeta();
+            Damageable damageableItem = (Damageable) itemMeta;
+            damageableItem.setDamage(random.nextInt(item.getType().getMaxDurability() + 1) + 1);
+            item.setItemMeta(itemMeta);
+
+        }
 
         // Assign the random amount
         item.setAmount(randomAmount);
