@@ -145,7 +145,7 @@ public class PiglinItemGUI extends InventoryGUI {
 
             int minAmount = context.getPiglinItem().getMinAmount();
 
-            if (clickType.isRightClick() && minAmount < context.getPiglinItem().getMaxAmount()) {
+            if (clickType.isRightClick() && minAmount < context.getPiglinItem().getMaxAmount() && minAmount < 64) {
                 context.getPiglinItem().setMinAmount(minAmount + 1);
             }
             else if (clickType.isLeftClick() && minAmount > 1) context.getPiglinItem().setMinAmount(minAmount - 1);
@@ -161,7 +161,7 @@ public class PiglinItemGUI extends InventoryGUI {
 
             int maxAmount = context.getPiglinItem().getMaxAmount();
 
-            if (clickType.isRightClick()) context.getPiglinItem().setMaxAmount(maxAmount + 1);
+            if (clickType.isRightClick() && maxAmount < 64) context.getPiglinItem().setMaxAmount(maxAmount + 1);
             else if (clickType.isLeftClick() && maxAmount > context.getPiglinItem().getMinAmount()) {
                 context.getPiglinItem().setMaxAmount(maxAmount - 1);
             }
