@@ -10,11 +10,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class PiglinItemDropEvent implements Listener {
 
-    private final CustomPiglinLootGenerator generator;
+    private final PiglinLootGenerator generator;
 
     private final Plugin plugin;
 
-    public PiglinItemDropEvent(CustomPiglinLootGenerator generator, Plugin plugin) {
+    public PiglinItemDropEvent(PiglinLootGenerator generator, Plugin plugin) {
 
         this.generator = generator;
         this.plugin = plugin;

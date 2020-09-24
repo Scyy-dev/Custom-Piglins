@@ -1,6 +1,6 @@
 package me.Scyy.CustomPiglins.GUI;
 
-import me.Scyy.CustomPiglins.Piglins.CustomPiglinLootGenerator;
+import me.Scyy.CustomPiglins.Piglins.PiglinLootGenerator;
 import me.Scyy.CustomPiglins.Piglins.PiglinItem;
 import me.Scyy.CustomPiglins.Plugin;
 import me.Scyy.CustomPiglins.Util.ItemBuilder;
@@ -26,7 +26,7 @@ public class PiglinItemListGUI extends InventoryGUI {
         super(context, plugin);
 
         // Get the generator from the UI
-        CustomPiglinLootGenerator generator = plugin.getGenerator();
+        PiglinLootGenerator generator = plugin.getGenerator();
 
         // Get the simplified version of the PiglinItemIDs
         ArrayList<PiglinItem> piglinItems = new ArrayList<>(generator.getPiglinItems());

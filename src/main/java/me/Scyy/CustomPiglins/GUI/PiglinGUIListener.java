@@ -1,6 +1,6 @@
 package me.Scyy.CustomPiglins.GUI;
 
-import me.Scyy.CustomPiglins.Piglins.CustomPiglinLootGenerator;
+import me.Scyy.CustomPiglins.Piglins.PiglinLootGenerator;
 import me.Scyy.CustomPiglins.Piglins.PiglinItem;
 import me.Scyy.CustomPiglins.Plugin;
 import org.bukkit.Material;
@@ -14,7 +14,7 @@ public class PiglinGUIListener implements Listener {
 
     private final Plugin plugin;
 
-    private final CustomPiglinLootGenerator generator;
+    private final PiglinLootGenerator generator;
 
     public PiglinGUIListener(Plugin plugin) {
 

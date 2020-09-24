@@ -4,7 +4,7 @@ import me.Scyy.CustomPiglins.Config.PlayerMessenger;
 import me.Scyy.CustomPiglins.GUI.GUIContext;
 import me.Scyy.CustomPiglins.GUI.InventoryGUI;
 import me.Scyy.CustomPiglins.GUI.PiglinItemListGUI;
-import me.Scyy.CustomPiglins.Piglins.CustomPiglinLootGenerator;
+import me.Scyy.CustomPiglins.Piglins.PiglinLootGenerator;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,11 +17,11 @@ import java.util.List;
 
 public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
-    private final CustomPiglinLootGenerator lootGenerator;
+    private final PiglinLootGenerator lootGenerator;
     private final Plugin plugin;
     private final PlayerMessenger pm;
 
-    public CustomPiglinCommand(CustomPiglinLootGenerator lootGenerator, Plugin plugin) {
+    public CustomPiglinCommand(PiglinLootGenerator lootGenerator, Plugin plugin) {
 
         this.lootGenerator = lootGenerator;
         this.plugin = plugin;

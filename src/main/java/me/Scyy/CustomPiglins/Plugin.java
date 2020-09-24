@@ -2,7 +2,7 @@ package me.Scyy.CustomPiglins;
 
 import me.Scyy.CustomPiglins.Config.ConfigFileHandler;
 import me.Scyy.CustomPiglins.GUI.PiglinGUIListener;
-import me.Scyy.CustomPiglins.Piglins.CustomPiglinLootGenerator;
+import me.Scyy.CustomPiglins.Piglins.PiglinLootGenerator;
 import me.Scyy.CustomPiglins.Piglins.PiglinItemDropEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,7 +11,7 @@ public class Plugin extends JavaPlugin {
 
     private ConfigFileHandler configFileHandler;
 
-    private CustomPiglinLootGenerator generator;
+    private PiglinLootGenerator generator;
 
     @Override
     public void onEnable() {
@@ -20,7 +20,7 @@ public class Plugin extends JavaPlugin {
         this.configFileHandler = new ConfigFileHandler(this);
 
         // Create the loot generator
-        generator = new CustomPiglinLootGenerator(this);
+        generator = new PiglinLootGenerator(this);
 
         // Register the command
         CustomPiglinCommand customPiglinCommand = new CustomPiglinCommand(generator, this);
@@ -51,7 +51,7 @@ public class Plugin extends JavaPlugin {
 
     }
 
-    public CustomPiglinLootGenerator getGenerator() {
+    public PiglinLootGenerator getGenerator() {
         return generator;
     }
 
