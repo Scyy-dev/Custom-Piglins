@@ -60,6 +60,8 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
                         }
 
+                        mainHand.setAmount(1);
+
                         plugin.getGenerator().addPiglinItem(mainHand, 1, 1, 1, false);
 
                         player.sendMessage("Added " + mainHand.getType().name().toLowerCase());

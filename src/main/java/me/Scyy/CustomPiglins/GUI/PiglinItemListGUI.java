@@ -6,6 +6,7 @@ import me.Scyy.CustomPiglins.Plugin;
 import me.Scyy.CustomPiglins.Util.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
@@ -83,7 +84,9 @@ public class PiglinItemListGUI extends InventoryGUI {
     }
 
     @Override
-    public InventoryGUI handleClick(int clickedSlot, ClickType clickType) {
+    public InventoryGUI handleClick(int clickedSlot, ClickType clickType, ItemStack cursorItem) {
+
+        System.out.println(cursorItem);
 
         // slot of the item in the piglin item list
         int piglinItemSlot = -1;

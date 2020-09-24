@@ -101,7 +101,7 @@ public class PiglinItemGUI extends InventoryGUI {
     }
 
     @Override
-    public InventoryGUI handleClick(int clickedSlot, ClickType clickType) {
+    public InventoryGUI handleClick(int clickedSlot, ClickType clickType, ItemStack cursorItem) {
 
         // Check if the item clicked was the weight counter
         if (clickedSlot == 29 && inventoryItems[29] != null) {

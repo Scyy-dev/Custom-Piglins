@@ -64,7 +64,7 @@ public abstract class InventoryGUI implements InventoryHolder {
 
     }
 
-    public abstract InventoryGUI handleClick(int clickedSlot, ClickType clickType);
+    public abstract InventoryGUI handleClick(int clickedSlot, ClickType clickType, ItemStack cursorItem);
 
     // Getters and Setters
 
