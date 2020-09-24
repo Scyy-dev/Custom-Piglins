@@ -55,7 +55,7 @@ public class CustomPiglinLootGenerator {
         PiglinItem piglinItem = piglinItems.get(piglinItemID);
 
         // Get the ItemStack from the array
-        ItemStack item = piglinItems.get(piglinItemID).getItem();
+        ItemStack item = piglinItems.get(piglinItemID).getItem().clone();
 
         // Check if the max amount is the same as min amount
         int randomAmount;
