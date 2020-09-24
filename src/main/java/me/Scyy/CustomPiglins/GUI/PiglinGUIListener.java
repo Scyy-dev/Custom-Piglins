@@ -3,6 +3,7 @@ package me.Scyy.CustomPiglins.GUI;
 import me.Scyy.CustomPiglins.Piglins.PiglinLootGenerator;
 import me.Scyy.CustomPiglins.Piglins.PiglinItem;
 import me.Scyy.CustomPiglins.Plugin;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -63,8 +64,13 @@ public class PiglinGUIListener implements Listener {
             // Handle the click in the old GUI and hence create the new GUI
             InventoryGUI newGUI = gui.handleClick(event.getRawSlot(), event.getClick(), event.getCursor());
 
-            // Open the new GUI
-            event.getWhoClicked().openInventory(newGUI.getInventory());
+            // Schedule a runnable to update the contents
+            Bukkit.getScheduler().runTask(plugin, () -> {
+
+                event.getClickedInventory().setContents(newGUI.getInventoryItems());
+                ((Player) event.getWhoClicked()).updateInventory();
+
+            });
 
         // Handle clicks in the Piglin Item Inventory
         } else if (contents[53] != null && contents[53].getType() == Material.NETHER_STAR) {
@@ -94,8 +100,13 @@ public class PiglinGUIListener implements Listener {
             // Handle the click in the old GUI and hence create the new GUI
             InventoryGUI newGUI = gui.handleClick(event.getRawSlot(), event.getClick(), event.getCursor());
 
-            // Open the new GUI
-            event.getWhoClicked().openInventory(newGUI.getInventory());
+            // Schedule a runnable to update the contents
+            Bukkit.getScheduler().runTask(plugin, () -> {
+
+                event.getClickedInventory().setContents(newGUI.getInventoryItems());
+                ((Player) event.getWhoClicked()).updateInventory();
+
+            });
 
         }
 
