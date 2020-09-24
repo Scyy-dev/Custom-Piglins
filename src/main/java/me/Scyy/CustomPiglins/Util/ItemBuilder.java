@@ -60,7 +60,7 @@ public class ItemBuilder {
      */
     public ItemBuilder amount(int amount) {
 
-        item.setAmount(amount);
+        this.item.setAmount(amount);
         return this;
 
     }
@@ -72,7 +72,7 @@ public class ItemBuilder {
      */
     public ItemBuilder type(Material material) {
 
-        item.setType(material);
+        this.item.setType(material);
         return this;
 
     }
@@ -85,7 +85,7 @@ public class ItemBuilder {
      */
     public ItemBuilder name(String name) {
 
-        itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+        this.itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
         return this;
 
     }
@@ -97,7 +97,7 @@ public class ItemBuilder {
      */
     public ItemBuilder lore(String lore) {
 
-        itemLore.add(ChatColor.translateAlternateColorCodes('&', lore));
+        this.itemLore.add(ChatColor.translateAlternateColorCodes('&', lore));
         return this;
 
     }
@@ -111,7 +111,7 @@ public class ItemBuilder {
 
         for (String loreLine : lore) {
 
-            itemLore.add(ChatColor.translateAlternateColorCodes('&', loreLine));
+            this.itemLore.add(ChatColor.translateAlternateColorCodes('&', loreLine));
 
         }
 
@@ -126,8 +126,8 @@ public class ItemBuilder {
      */
     public ItemBuilder enchant() {
 
-        item.addEnchantment(Enchantment.MENDING, 1);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        this.itemMeta.addEnchant(Enchantment.MENDING, 1, false);
+        this.itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         return this;
 
     }
@@ -140,7 +140,7 @@ public class ItemBuilder {
      */
     public ItemBuilder enchant(Enchantment enchantment, int level) {
 
-        item.addUnsafeEnchantment(enchantment, level);
+        this.itemMeta.addEnchant(enchantment, level, true);
         return this;
 
     }
@@ -152,8 +152,8 @@ public class ItemBuilder {
      */
     public ItemBuilder unbreakable(boolean showFlag) {
 
-        itemMeta.setUnbreakable(true);
-        if (showFlag) itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+        this.itemMeta.setUnbreakable(true);
+        if (showFlag) this.itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         return this;
 
     }
