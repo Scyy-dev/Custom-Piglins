@@ -111,7 +111,7 @@ public class PiglinItemGUI extends InventoryGUI {
             if (clickType.isRightClick()) context.getPiglinItem().setWeight(weight + 1);
             else if (clickType.isLeftClick() && weight > 1) context.getPiglinItem().setWeight(weight - 1);
 
-            // TODO - update the generator with the piglin item
+            plugin.getGenerator().updatePiglinItem(context.getPiglinItem(), true);
 
             return new PiglinItemGUI(context, plugin);
 
@@ -134,7 +134,7 @@ public class PiglinItemGUI extends InventoryGUI {
 
             inventoryItems[30] = rdBuilder.build();
 
-            // TODO - update the generator with the piglin item
+            plugin.getGenerator().updatePiglinItem(context.getPiglinItem(), false);
 
             return new PiglinItemGUI(context, plugin);
 
@@ -150,7 +150,7 @@ public class PiglinItemGUI extends InventoryGUI {
             }
             else if (clickType.isLeftClick() && minAmount > 1) context.getPiglinItem().setMinAmount(minAmount - 1);
 
-            // TODO - update the generator with the piglin item
+            plugin.getGenerator().updatePiglinItem(context.getPiglinItem(), false);
 
             return new PiglinItemGUI(context, plugin);
 
@@ -166,7 +166,7 @@ public class PiglinItemGUI extends InventoryGUI {
                 context.getPiglinItem().setMaxAmount(maxAmount - 1);
             }
 
-            // TODO - update the generator with the piglin item
+            plugin.getGenerator().updatePiglinItem(context.getPiglinItem(), false);
 
             return new PiglinItemGUI(context, plugin);
 
@@ -184,7 +184,7 @@ public class PiglinItemGUI extends InventoryGUI {
         // Check if the item clicked was the remove button
         if (clickedSlot == 49 && inventoryItems[49] != null) {
 
-            // TODO - remove piglinItem from generator
+            plugin.getGenerator().removePiglinItem(context.getPiglinItem().getItemID());
 
             GUIContext listContext = new GUIContext(context.getPiglinItem(), context.getPlayer(), 0);
 
