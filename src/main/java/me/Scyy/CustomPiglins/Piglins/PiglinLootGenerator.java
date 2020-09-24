@@ -155,13 +155,9 @@ public class PiglinLootGenerator {
 
         }
 
-        for (int weightCounter = 0; weightCounter < weight; weightCounter++) {
-
-            rawWeightings.add(highestID);
-
-        }
-
         piglinItems.put(highestID, new PiglinItem(item, highestID, weight, minAmount, maxAmount, hasRandomDamage));
+
+        generateWeightings();
 
     }
 

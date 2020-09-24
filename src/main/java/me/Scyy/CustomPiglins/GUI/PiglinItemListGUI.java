@@ -86,8 +86,6 @@ public class PiglinItemListGUI extends InventoryGUI {
     @Override
     public InventoryGUI handleClick(int clickedSlot, ClickType clickType, ItemStack cursorItem) {
 
-        System.out.println(cursorItem);
-
         // slot of the item in the piglin item list
         int piglinItemSlot = -1;
 
