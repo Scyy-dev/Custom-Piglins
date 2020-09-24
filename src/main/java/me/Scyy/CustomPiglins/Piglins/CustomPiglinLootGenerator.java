@@ -58,7 +58,7 @@ public class CustomPiglinLootGenerator {
         // Check if the max amount is the same as min amount
         int randomAmount;
         if (piglinItem.getMaxAmount() == piglinItem.getMinAmount()) randomAmount = piglinItem.getMinAmount();
-        else randomAmount = random.nextInt(piglinItem.getMaxAmount() - piglinItem.getMinAmount()) + piglinItem.getMinAmount();
+        else randomAmount = random.nextInt(piglinItem.getMaxAmount() - piglinItem.getMinAmount() + 1) + piglinItem.getMinAmount();
 
         // For durability
         // Damageable itemDamage = (Damageable) item.getItemMeta();
