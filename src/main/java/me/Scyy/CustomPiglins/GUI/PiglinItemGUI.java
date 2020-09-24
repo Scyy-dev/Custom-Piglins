@@ -4,8 +4,9 @@ import me.Scyy.CustomPiglins.Piglins.PiglinItem;
 import me.Scyy.CustomPiglins.Plugin;
 import me.Scyy.CustomPiglins.Util.ItemBuilder;
 import org.bukkit.Material;
+import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.ItemStack;
 
 // # # # # # # # # #
 // # # # # P # # # #
@@ -16,7 +17,11 @@ import org.bukkit.inventory.meta.Damageable;
 // P = Piglin Item
 // W = Weighting
 // D = Has Random Durability
-//
+// m = Min Amount
+// M = Max Amount
+// B = Back to PiglinItemList
+// R = Remove Item
+// C = Drop Chance
 
 public class PiglinItemGUI extends InventoryGUI {
 
@@ -45,20 +50,23 @@ public class PiglinItemGUI extends InventoryGUI {
         ItemBuilder damageItemBuilder = new ItemBuilder(Material.NETHERITE_SHOVEL).name("&6Random Durability");
 
         // Check if the item can be damaged
-        if (piglinItem.getItem().getItemMeta() instanceof Damageable) {
+        if (itemCanBeDamaged(piglinItem.getItem())) {
 
             // Toggle the random damage
-            if (piglinItem.hasRandomDamage()) damageItemBuilder.enchant().lore("&r&7This item will have a random durability!");
+            if (piglinItem.hasRandomDamage()) {
+
+                damageItemBuilder.lore("&r&7This item will have a random durability!")
+                        .enchant();
+
+            }
             else damageItemBuilder.lore("&r&7This item will not have a random durability!");
 
             // Add toggle text
             damageItemBuilder.lore("&r&7Click to toggle!");
 
         // Let the user know the item does not support having random damage
-        } else {
+        } else damageItemBuilder.lore("&r&cThis item does not have durability!");
 
-            damageItemBuilder.lore("&r&cThis item does not have durability!");
-        }
 
         // Set the damage item
         inventoryItems[30] = damageItemBuilder.build();
@@ -110,11 +118,21 @@ public class PiglinItemGUI extends InventoryGUI {
         }
 
         // Check if the item clicked was the random damage toggle
-        if (clickedSlot == 30 && inventoryItems[30] != null) {
+        if (clickedSlot == 30 && inventoryItems[30] != null
+                && itemCanBeDamaged(context.getPiglinItem().getItem())) {
 
             boolean hasRandomDamage = context.getPiglinItem().hasRandomDamage();
 
             context.getPiglinItem().setRandomDamage(!hasRandomDamage);
+
+            ItemBuilder rdBuilder = new ItemBuilder(Material.NETHERITE_SHOVEL).name("&6Random Durability");
+
+            if (hasRandomDamage) rdBuilder.lore("&r&7This item will have a random durability!").enchant();
+            else rdBuilder.lore("&r&7This item will not have a random durability!");
+
+            rdBuilder.lore("&r&7Click to toggle!");
+
+            inventoryItems[30] = rdBuilder.build();
 
             // TODO - update the generator with the piglin item
 
@@ -175,6 +193,12 @@ public class PiglinItemGUI extends InventoryGUI {
         }
 
         return this;
+
+    }
+
+    private boolean itemCanBeDamaged(ItemStack itemStack) {
+
+        return EnchantmentTarget.BREAKABLE.includes(itemStack);
 
     }
 
