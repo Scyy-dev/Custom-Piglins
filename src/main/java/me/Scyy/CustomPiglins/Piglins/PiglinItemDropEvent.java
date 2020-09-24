@@ -1,6 +1,5 @@
 package me.Scyy.CustomPiglins.Piglins;
 
-import me.Scyy.CustomPiglins.Plugin;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -12,12 +11,9 @@ public class PiglinItemDropEvent implements Listener {
 
     private final PiglinLootGenerator generator;
 
-    private final Plugin plugin;
-
-    public PiglinItemDropEvent(PiglinLootGenerator generator, Plugin plugin) {
+    public PiglinItemDropEvent(PiglinLootGenerator generator) {
 
         this.generator = generator;
-        this.plugin = plugin;
 
     }
 
@@ -38,6 +34,8 @@ public class PiglinItemDropEvent implements Listener {
 
         // Drop the item in the world
         event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), replacement);
+
+
 
     }
 }

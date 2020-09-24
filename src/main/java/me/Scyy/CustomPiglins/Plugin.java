@@ -28,7 +28,7 @@ public class Plugin extends JavaPlugin {
         this.getCommand("custompiglins").setTabCompleter(customPiglinCommand);
 
         // Register the item drop listener
-        Bukkit.getPluginManager().registerEvents(new PiglinItemDropEvent(generator, this), this);
+        Bukkit.getPluginManager().registerEvents(new PiglinItemDropEvent(generator), this);
 
         // Register the inventory listener
         Bukkit.getPluginManager().registerEvents(new PiglinGUIListener(this), this);
