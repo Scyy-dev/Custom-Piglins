@@ -10,13 +10,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class CustomPiglinGUIListener implements Listener {
+public class PiglinGUIListener implements Listener {
 
     private final Plugin plugin;
 
     private final CustomPiglinLootGenerator generator;
 
-    public CustomPiglinGUIListener(Plugin plugin) {
+    public PiglinGUIListener(Plugin plugin) {
 
         this.plugin = plugin;
         this.generator = plugin.getGenerator();
@@ -61,7 +61,7 @@ public class CustomPiglinGUIListener implements Listener {
             PiglinItemListGUI gui = new PiglinItemListGUI(context, plugin);
 
             // Handle the click in the old GUI and hence create the new GUI
-            InventoryGUI newGUI = gui.handleClick(event.getRawSlot(), event.getClick());
+            InventoryGUI newGUI = gui.handleClick(event.getRawSlot(), event.getClick(), event.getCursor());
 
             // Open the new GUI
             event.getWhoClicked().openInventory(newGUI.getInventory());
@@ -92,11 +92,13 @@ public class CustomPiglinGUIListener implements Listener {
             PiglinItemGUI gui = new PiglinItemGUI(context, plugin);
 
             // Handle the click in the old GUI and hence create the new GUI
-            InventoryGUI newGUI = gui.handleClick(event.getRawSlot(), event.getClick());
+            InventoryGUI newGUI = gui.handleClick(event.getRawSlot(), event.getClick(), event.getCursor());
 
             // Open the new GUI
             event.getWhoClicked().openInventory(newGUI.getInventory());
 
         }
+
     }
+
 }
