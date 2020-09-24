@@ -173,6 +173,20 @@ public class CustomPiglinLootGenerator {
 
     }
 
+    /**
+     * Removes an item from the generator and remakes the weighting array
+     * @param piglinItemID the ID of the item to be removed
+     */
+    public void removePiglinItem(int piglinItemID) {
+
+        // Remove the item
+        piglinItems.remove(piglinItemID);
+
+        // Regenerate the item chances
+        generateWeightings();
+
+    }
+
     // Method helpers
 
     /**
