@@ -6,6 +6,7 @@ import me.Scyy.CustomPiglins.Util.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 // # # # # # # # # #
@@ -101,7 +102,10 @@ public class PiglinItemGUI extends InventoryGUI {
     }
 
     @Override
-    public InventoryGUI handleClick(int clickedSlot, ClickType clickType, ItemStack cursorItem) {
+    public InventoryGUI handleClick(InventoryClickEvent event) {
+
+        int clickedSlot = event.getRawSlot();
+        ClickType clickType = event.getClick();
 
         // Check if the item clicked was the weight counter
         if (clickedSlot == 29 && inventoryItems[29] != null) {
