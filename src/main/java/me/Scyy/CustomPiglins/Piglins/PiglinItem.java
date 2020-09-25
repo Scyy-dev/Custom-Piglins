@@ -83,6 +83,7 @@ public class PiglinItem {
                 ", weight=" + weight +
                 ", minAmount=" + minAmount +
                 ", maxAmount=" + maxAmount +
+                ", hasRD=" + randomDamage +
                 '}';
     }
 
