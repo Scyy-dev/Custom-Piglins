@@ -92,19 +92,8 @@ public class PiglinItemListGUI extends InventoryGUI {
 
         // Check if the item clicked was a piglin item in the inventory
         if (9 < clickedSlot && clickedSlot < 17) piglinItemSlot = clickedSlot - 10;
-        else if (18 < clickedSlot && clickedSlot < 26) piglinItemSlot = clickedSlot - 19;
-        else if (27 < clickedSlot && clickedSlot < 35) piglinItemSlot = clickedSlot - 28;
-
-        // Check if the user is trying to add an item to the generator
-        if (cursorItem.getType() != Material.AIR) {
-
-            // Add the item to the generator
-            plugin.getGenerator().addPiglinItem(cursorItem, 1, 1, 1, false);
-
-            // Create a new GUI with the same context
-            return new PiglinItemListGUI(context, plugin);
-
-        }
+        else if (18 < clickedSlot && clickedSlot < 26) piglinItemSlot = clickedSlot - 12;
+        else if (27 < clickedSlot && clickedSlot < 35) piglinItemSlot = clickedSlot - 14;
 
         // Check if the item clicked was a piglinItem
         if (piglinItemSlot != -1 && inventoryItems[clickedSlot] != null) {
