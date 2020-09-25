@@ -70,6 +70,9 @@ public class PiglinItemData extends ConfigFile {
 
     public void saveGeneratorData() {
 
+        // Empty the config file
+        config.set("items", null);
+
         for (PiglinItem piglinItem : plugin.getGenerator().getPiglinItems()) {
 
             // Get the data
