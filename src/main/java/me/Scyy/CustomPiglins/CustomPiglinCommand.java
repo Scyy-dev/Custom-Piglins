@@ -13,6 +13,8 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
@@ -32,7 +34,7 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
-        if (sender.hasPermission("customPiglins.command")) {
+        if (sender.hasPermission("customPiglins.use")) {
 
             if (sender instanceof Player) {
 
@@ -60,11 +62,25 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
                         }
 
-                        mainHand.setAmount(1);
+                        ItemStack item = mainHand.clone();
+                        item.setAmount(1);
 
-                        plugin.getGenerator().addPiglinItem(mainHand, 1, 1, 1, false);
+                        plugin.getGenerator().addPiglinItem(item, 1, 1, 1, false);
 
-                        player.sendMessage("Added " + mainHand.getType().name().toLowerCase());
+                        player.sendMessage("Added " + item.getType().name().toLowerCase());
+
+                    case "reload":
+
+                        try {
+
+                            plugin.reloadConfigs();
+
+                        } catch (Exception e) {
+
+                            sender.sendMessage("Could not reload configs! Check Console for error!");
+                            e.printStackTrace();
+
+                        }
 
                 }
 
@@ -86,6 +102,14 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] args) {
-        return null;
+        if (commandSender.hasPermission("customPiglins.use")) {
+
+            return Arrays.asList("add", "reload");
+
+        } else {
+
+            return Collections.singletonList("");
+
+        }
     }
 }
