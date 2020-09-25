@@ -84,10 +84,10 @@ public class PiglinItemGUI extends InventoryGUI {
                 .build();
 
         // Set the back arrow item
-        inventoryItems[45] = new ItemBuilder(Material.ARROW).name("&6Back").build();
+        inventoryItems[45] = new ItemBuilder(Material.BARRIER).name("&6Back").build();
 
         // Set the remove item
-        inventoryItems[49] = new ItemBuilder(Material.BARRIER).name("&cRemove Item").build();
+        inventoryItems[49] = new ItemBuilder(Material.TNT).name("&cRemove Item").build();
 
         // Get the chance of the item being dropped
         double itemChance = plugin.getGenerator().getChance(piglinItem);
