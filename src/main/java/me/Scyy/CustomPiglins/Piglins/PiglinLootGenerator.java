@@ -3,8 +3,10 @@ package me.Scyy.CustomPiglins.Piglins;
 import me.Scyy.CustomPiglins.Config.PiglinItemData;
 import me.Scyy.CustomPiglins.Plugin;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
@@ -69,6 +71,46 @@ public class PiglinLootGenerator {
             Damageable damageableItem = (Damageable) itemMeta;
             damageableItem.setDamage(random.nextInt(item.getType().getMaxDurability() + 1) + 1);
             item.setItemMeta(itemMeta);
+
+        }
+
+        if (piglinItem.hasRandomEnchantLevels()) {
+
+            ItemMeta itemMeta = item.getItemMeta();
+
+            // Enchant Item Checker
+            boolean hasAnyEnchants = itemMeta != null && itemMeta.hasEnchants();
+            boolean hasAnyStoredEnchants = itemMeta instanceof EnchantmentStorageMeta && ((EnchantmentStorageMeta) itemMeta).hasStoredEnchants();
+
+            if (hasAnyStoredEnchants) {
+
+                EnchantmentStorageMeta storageMeta = (EnchantmentStorageMeta) itemMeta;
+
+                for (Enchantment enchantment : storageMeta.getStoredEnchants().keySet()) {
+
+                    int levelBound = enchantment.getMaxLevel();
+                    int randomLevel = random.nextInt(levelBound) + 1;
+                    storageMeta.removeStoredEnchant(enchantment);
+                    storageMeta.addStoredEnchant(enchantment, randomLevel, false);
+
+                }
+
+                item.setItemMeta(storageMeta);
+
+            }
+
+            if (hasAnyEnchants) {
+
+                for (Enchantment enchantment : item.getEnchantments().keySet()) {
+
+                    int levelBound = enchantment.getMaxLevel();
+                    int randomLevel = random.nextInt(levelBound) + 1;
+                    item.removeEnchantment(enchantment);
+                    item.addEnchantment(enchantment, randomLevel);
+
+                }
+
+            }
 
         }
 
