@@ -8,6 +8,8 @@ import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
 // # # # # # # # # #
 // # # # # P # # # #
@@ -68,9 +70,38 @@ public class PiglinItemGUI extends InventoryGUI {
         // Let the user know the item does not support having random damage
         } else damageItemBuilder.lore("&r&cThis item does not have durability!");
 
-
         // Set the damage item
         inventoryItems[30] = damageItemBuilder.build();
+
+        // Initialise the random enchantment level builder
+        ItemBuilder enchantItemBuilder = new ItemBuilder(Material.BOOK).name("&6Random Enchant Levels");
+
+        ItemMeta itemMeta = piglinItem.getItem().getItemMeta();
+
+        // Enchant Item Checker
+        boolean hasAnyEnchants = itemMeta != null && itemMeta.hasEnchants();
+        boolean hasAnyStoredEnchants = itemMeta instanceof EnchantmentStorageMeta && ((EnchantmentStorageMeta) itemMeta).hasStoredEnchants();
+
+        // Check if the item has random enchantment levels
+        if (hasAnyEnchants || hasAnyStoredEnchants) {
+
+            // Toggle the random enchantment levels
+            if (piglinItem.hasRandomEnchantLevels()) {
+
+                enchantItemBuilder.lore("&r&7This item will have").lore("&r&7random enchantment levels!")
+                        .enchant();
+
+            }
+            else enchantItemBuilder.lore("&r&7This item will not have").lore("&r&7random enchantment levels!");
+
+            // Add toggle text
+            enchantItemBuilder.lore("&r&7Click to toggle!");
+
+            // Let the user know the item does not support having random enchantment levels
+        } else enchantItemBuilder.lore("&r&cThis item does not have any enchantments!");
+
+        // Set the random enchantment item
+        inventoryItems[31] = enchantItemBuilder.build();
 
         // Set the min amount item
         inventoryItems[32] = new ItemBuilder(Material.GOLD_NUGGET).name("&6Minimum Amount: " + piglinItem.getMinAmount())
@@ -147,6 +178,43 @@ public class PiglinItemGUI extends InventoryGUI {
             event.setCancelled(true);
 
             return new PiglinItemGUI(context, plugin);
+
+        }
+
+        // Check if the item clicked was the random enchantment level toggle
+        if (clickedSlot == 31 && inventoryItems[31] != null) {
+
+            ItemMeta itemMeta = context.getPiglinItem().getItem().getItemMeta();
+
+            boolean hasAnyEnchants = itemMeta != null && itemMeta.hasEnchants();
+
+            boolean hasAnyStoredEnchants = itemMeta instanceof EnchantmentStorageMeta && ((EnchantmentStorageMeta) itemMeta).hasStoredEnchants();
+
+            // Check if the item has normal enchants or has stored enchants
+            if (hasAnyEnchants || hasAnyStoredEnchants) {
+
+                boolean hasRandomEnchantmentLevels = context.getPiglinItem().hasRandomEnchantLevels();
+
+                context.getPiglinItem().setRandomEnchantLevels(!hasRandomEnchantmentLevels);
+
+                ItemBuilder relBuilder = new ItemBuilder(Material.BOOK).name("&6Random Enchant Levels");
+
+                if (hasRandomEnchantmentLevels) relBuilder.lore("&r&7This item will have")
+                        .lore("&r&7random enchant levels!").enchant();
+                else relBuilder.lore("&r&7This item will not have").lore("&r&7random enchantment levels!");
+
+                relBuilder.lore("&r&7Click to toggle!");
+
+                inventoryItems[31] = relBuilder.build();
+
+                plugin.getGenerator().updatePiglinItem(context.getPiglinItem(), false);
+
+                // Cancel the event
+                event.setCancelled(true);
+
+                return new PiglinItemGUI(context, plugin);
+
+            }
 
         }
 
