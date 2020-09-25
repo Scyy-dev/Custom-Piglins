@@ -82,6 +82,14 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
                         }
 
+                    case "converter":
+
+                        ItemStack converter = plugin.getConfigFileHandler().getDefaultConfig().getPiglinConverter();
+
+                        ((Player) sender).getInventory().addItem(converter);
+
+                        sender.sendMessage("You have been given a piglin converter!");
+
                 }
 
             } else {
