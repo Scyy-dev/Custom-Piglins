@@ -1,5 +1,6 @@
 package me.Scyy.CustomPiglins.Piglins;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -32,10 +33,19 @@ public class PiglinItemDropEvent implements Listener {
         // Check if the item generated was air
         if (replacement.getType() == Material.AIR) return;
 
+        // Find the exact centre of the block this item is dropped at
+        Location rawLocation = event.getEntity().getLocation();
+
+        // Calculate the new location of the drop
+        float newLocX = rawLocation.getBlockX() + 0.5f;
+        float newLocY = rawLocation.getBlockY() + 0.5f;
+        float newLocZ = rawLocation.getBlockZ() + 0.5f;
+
+        // Create the new location
+        Location newLocation = new Location(rawLocation.getWorld(), newLocX, newLocY, newLocZ);
+
         // Drop the item in the world
-        event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), replacement);
-
-
+        event.getEntity().getWorld().dropItem(newLocation, replacement);
 
     }
 }
