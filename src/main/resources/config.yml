@@ -1,6 +1,7 @@
 # For customising the item used to convert zombified piglins into regular piglins
 # These piglins will NOT zombify again, even in overworld
 piglinConverter:
+  convertedName: "&6Piglin"
   isConsumable: false
   material: BLAZE_POWDER
   name: "&6Piglin &8Converter"
