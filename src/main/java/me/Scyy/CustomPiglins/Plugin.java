@@ -4,6 +4,7 @@ import me.Scyy.CustomPiglins.Config.ConfigFileHandler;
 import me.Scyy.CustomPiglins.GUI.PiglinGUIListener;
 import me.Scyy.CustomPiglins.Piglins.PiglinLootGenerator;
 import me.Scyy.CustomPiglins.Piglins.PiglinItemDropEvent;
+import me.Scyy.CustomPiglins.Piglins.ZombifiedPiglinInteractEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -32,6 +33,9 @@ public class Plugin extends JavaPlugin {
 
         // Register the inventory listener
         Bukkit.getPluginManager().registerEvents(new PiglinGUIListener(this), this);
+
+        // Register the Piglin Converter listener
+        Bukkit.getPluginManager().registerEvents(new ZombifiedPiglinInteractEvent(this), this);
 
     }
 
