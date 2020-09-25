@@ -33,9 +33,6 @@ public class PiglinGUIListener implements Listener {
         // Check if the inventory clicked is an inventory defined by this plugin
         if (!(event.getClickedInventory().getHolder() instanceof InventoryGUI)) return;
 
-        // Cancel the event
-        event.setCancelled(true);
-
         // Get the contents of the inventory
         ItemStack[] contents = event.getInventory().getContents();
 

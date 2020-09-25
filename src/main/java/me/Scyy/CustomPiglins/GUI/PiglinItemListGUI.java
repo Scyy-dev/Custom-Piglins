@@ -118,6 +118,9 @@ public class PiglinItemListGUI extends InventoryGUI {
             // Create the GUI context
             GUIContext context = new GUIContext(piglinItem, this.context.getPlayer(), this.context.getPage());
 
+            // Cancel the event
+            event.setCancelled(true);
+
             // Return a new PiglinItem page
             return new PiglinItemGUI(context, plugin);
 
@@ -129,6 +132,9 @@ public class PiglinItemListGUI extends InventoryGUI {
             // decrement the page
             context.setPage(context.getPage() - 1);
 
+            // Cancel the event
+            event.setCancelled(true);
+
             return new PiglinItemListGUI(context, plugin);
 
         }
@@ -139,9 +145,15 @@ public class PiglinItemListGUI extends InventoryGUI {
             // increment the page
             context.setPage(context.getPage() + 1);
 
+            // Cancel the event
+            event.setCancelled(true);
+
             return new PiglinItemListGUI(context, plugin);
 
         }
+
+        // Cancel the event
+        event.setCancelled(true);
 
         // If no item had an affect, change nothing
         return this;

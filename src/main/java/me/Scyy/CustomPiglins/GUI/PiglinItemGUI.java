@@ -117,6 +117,9 @@ public class PiglinItemGUI extends InventoryGUI {
 
             plugin.getGenerator().updatePiglinItem(context.getPiglinItem(), true);
 
+            // Cancel the event
+            event.setCancelled(true);
+
             return new PiglinItemGUI(context, plugin);
 
         }
@@ -140,6 +143,9 @@ public class PiglinItemGUI extends InventoryGUI {
 
             plugin.getGenerator().updatePiglinItem(context.getPiglinItem(), false);
 
+            // Cancel the event
+            event.setCancelled(true);
+
             return new PiglinItemGUI(context, plugin);
 
         }
@@ -155,6 +161,9 @@ public class PiglinItemGUI extends InventoryGUI {
             else if (clickType.isLeftClick() && minAmount > 1) context.getPiglinItem().setMinAmount(minAmount - 1);
 
             plugin.getGenerator().updatePiglinItem(context.getPiglinItem(), false);
+
+            // Cancel the event
+            event.setCancelled(true);
 
             return new PiglinItemGUI(context, plugin);
 
@@ -172,6 +181,9 @@ public class PiglinItemGUI extends InventoryGUI {
 
             plugin.getGenerator().updatePiglinItem(context.getPiglinItem(), false);
 
+            // Cancel the event
+            event.setCancelled(true);
+
             return new PiglinItemGUI(context, plugin);
 
         }
@@ -180,6 +192,9 @@ public class PiglinItemGUI extends InventoryGUI {
         if (clickedSlot == 45 && inventoryItems[45] != null) {
 
             GUIContext listContext = new GUIContext(context.getPiglinItem(), context.getPlayer(), 0);
+
+            // Cancel the event
+            event.setCancelled(true);
 
             return new PiglinItemListGUI(listContext, plugin);
 
@@ -192,9 +207,15 @@ public class PiglinItemGUI extends InventoryGUI {
 
             GUIContext listContext = new GUIContext(context.getPiglinItem(), context.getPlayer(), 0);
 
+            // Cancel the event
+            event.setCancelled(true);
+
             return new PiglinItemListGUI(listContext, plugin);
 
         }
+
+        // Cancel the event
+        event.setCancelled(true);
 
         return this;
 
