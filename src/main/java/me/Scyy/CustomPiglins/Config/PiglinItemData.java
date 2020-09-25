@@ -48,13 +48,14 @@ public class PiglinItemData extends ConfigFile {
             int minAmount = config.getInt("items." + key + ".min", -1);
             int maxAmount = config.getInt("items." + key + ".max", -1);
             boolean hasRandomDamage = config.getBoolean("items." + key + ".hasRD", false);
+            boolean hasREL = config.getBoolean("items." + key + ".hasREL", false);
 
             if (weight == -1 || minAmount == -1 || maxAmount == -1) {
                 sendWarning = true;
                 break;
             }
 
-            piglinItemMap.put(itemID, new PiglinItem(item, itemID, weight, minAmount, maxAmount, hasRandomDamage));
+            piglinItemMap.put(itemID, new PiglinItem(item, itemID, weight, minAmount, maxAmount, hasRandomDamage, hasREL));
 
         }
 
@@ -78,6 +79,7 @@ public class PiglinItemData extends ConfigFile {
             int minAmount = piglinItem.getMinAmount();
             int maxAmount = piglinItem.getMaxAmount();
             boolean hasRD = piglinItem.hasRandomDamage();
+            boolean hasREL = piglinItem.hasRandomEnchantLevels();
 
             // Save the data
             config.set("items." + piglinItemID + ".item", item);
@@ -85,6 +87,7 @@ public class PiglinItemData extends ConfigFile {
             config.set("items." + piglinItemID + ".min", minAmount);
             config.set("items." + piglinItemID + ".max", maxAmount);
             config.set("items." + piglinItemID + ".hasRD", hasRD);
+            config.set("items." + piglinItemID + ".hasREL", hasREL);
 
         }
 
