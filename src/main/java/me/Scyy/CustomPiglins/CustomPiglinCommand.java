@@ -65,9 +65,11 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
                         ItemStack item = mainHand.clone();
                         item.setAmount(1);
 
-                        plugin.getGenerator().addPiglinItem(item, 1, 1, 1, false);
+                        plugin.getGenerator().addPiglinItem(item, 1, 1, 1, false, false);
 
                         player.sendMessage("Added " + item.getType().name().toLowerCase());
+
+                        return true;
 
                     case "reload":
 
@@ -82,6 +84,8 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
                         }
 
+                        return true;
+
                     case "converter":
 
                         ItemStack converter = plugin.getConfigFileHandler().getDefaultConfig().getPiglinConverter();
@@ -89,6 +93,8 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
                         ((Player) sender).getInventory().addItem(converter);
 
                         sender.sendMessage("You have been given a piglin converter!");
+
+                        return true;
 
                 }
 
@@ -112,7 +118,7 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] args) {
         if (commandSender.hasPermission("customPiglins.use")) {
 
-            return Arrays.asList("add", "reload");
+            return Arrays.asList("add", "reload", "converter");
 
         } else {
 
