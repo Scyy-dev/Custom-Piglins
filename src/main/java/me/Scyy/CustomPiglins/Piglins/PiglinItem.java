@@ -18,13 +18,16 @@ public class PiglinItem {
 
     private boolean randomDamage;
 
-    public PiglinItem(ItemStack item, int itemID, int weight, int minAmount, int maxAmount, boolean randomDamage) {
+    private boolean randomEnchantLevels;
+
+    public PiglinItem(ItemStack item, int itemID, int weight, int minAmount, int maxAmount, boolean randomDamage, boolean randomEnchantLevels) {
         this.item = item;
         this.itemID = itemID;
         this.weight = weight;
         this.minAmount = minAmount;
         this.maxAmount = maxAmount;
         this.randomDamage = randomDamage;
+        this.randomEnchantLevels = randomEnchantLevels;
     }
 
     public ItemStack getItem() {
@@ -75,6 +78,14 @@ public class PiglinItem {
         this.randomDamage = randomDamage;
     }
 
+    public boolean hasRandomEnchantLevels() {
+        return randomEnchantLevels;
+    }
+
+    public void setRandomEnchantLevels(boolean randomEnchantLevels) {
+        this.randomEnchantLevels = randomEnchantLevels;
+    }
+
     @Override
     public String toString() {
         return "PiglinItem{" +
@@ -84,6 +95,7 @@ public class PiglinItem {
                 ", minAmount=" + minAmount +
                 ", maxAmount=" + maxAmount +
                 ", hasRD=" + randomDamage +
+                ", hasREL=" + randomEnchantLevels +
                 '}';
     }
 
@@ -97,11 +109,12 @@ public class PiglinItem {
                 minAmount == that.minAmount &&
                 maxAmount == that.maxAmount &&
                 randomDamage == that.randomDamage &&
+                randomEnchantLevels == that.randomEnchantLevels &&
                 item.equals(that.item);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(item, itemID, weight, minAmount, maxAmount, randomDamage);
+        return Objects.hash(item, itemID, weight, minAmount, maxAmount, randomDamage, randomEnchantLevels);
     }
 }
