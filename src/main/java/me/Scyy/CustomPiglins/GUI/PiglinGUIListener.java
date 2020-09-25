@@ -62,14 +62,12 @@ public class PiglinGUIListener implements Listener {
             PiglinItemListGUI gui = new PiglinItemListGUI(context, plugin);
 
             // Handle the click in the old GUI and hence create the new GUI
-            InventoryGUI newGUI = gui.handleClick(event.getRawSlot(), event.getClick(), event.getCursor());
+            InventoryGUI newGUI = gui.handleClick(event);
 
-            // Schedule a runnable to update the contents
+            // Update the inventory
             Bukkit.getScheduler().runTask(plugin, () -> {
-
                 event.getClickedInventory().setContents(newGUI.getInventoryItems());
                 ((Player) event.getWhoClicked()).updateInventory();
-
             });
 
         // Handle clicks in the Piglin Item Inventory
@@ -98,16 +96,14 @@ public class PiglinGUIListener implements Listener {
             PiglinItemGUI gui = new PiglinItemGUI(context, plugin);
 
             // Handle the click in the old GUI and hence create the new GUI
-            InventoryGUI newGUI = gui.handleClick(event.getRawSlot(), event.getClick(), event.getCursor());
+            InventoryGUI newGUI = gui.handleClick(event);
 
-            // Schedule a runnable to update the contents
+            // Update the inventory
             Bukkit.getScheduler().runTask(plugin, () -> {
-
                 event.getClickedInventory().setContents(newGUI.getInventoryItems());
                 ((Player) event.getWhoClicked()).updateInventory();
-
             });
-
+            
         }
 
     }
