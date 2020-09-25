@@ -212,4 +212,10 @@ public class PiglinLootGenerator {
 
     }
 
+    @Override
+    public String toString() {
+        return "PiglinLootGenerator{" +
+                "piglinItems=" + piglinItems.toString() +
+                '}';
+    }
 }
