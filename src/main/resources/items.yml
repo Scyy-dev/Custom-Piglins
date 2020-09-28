@@ -1,3 +1,213 @@
 # This config file is for data saving across server restarts
 # You should NOT be editing this file. Use the in-game GUI or the commands provided
 items:
+  '0':
+    item:
+      v: 2580
+      type: ENCHANTED_BOOK
+      meta:
+        ==: ItemMeta
+        meta-type: ENCHANTED
+        stored-enchants:
+          SOUL_SPEED: 1
+    weight: 5
+    min: 1
+    max: 1
+    hasRD: false
+    hasREL: true
+  '1':
+    item:
+      v: 2580
+      type: IRON_BOOTS
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          SOUL_SPEED: 1
+    weight: 8
+    min: 1
+    max: 1
+    hasRD: false
+    hasREL: true
+  '2':
+    item:
+      v: 2580
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:fire_resistance
+    weight: 4
+    min: 1
+    max: 1
+    hasRD: false
+    hasREL: false
+  '3':
+    item:
+      v: 2580
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:long_fire_resistance
+    weight: 4
+    min: 1
+    max: 1
+    hasRD: false
+    hasREL: false
+  '4':
+    item:
+      v: 2580
+      type: POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:fire_resistance
+    weight: 4
+    min: 1
+    max: 1
+    hasRD: false
+    hasREL: false
+  '5':
+    item:
+      v: 2580
+      type: POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:long_fire_resistance
+    weight: 4
+    min: 1
+    max: 1
+    hasRD: false
+    hasREL: false
+  '6':
+    item:
+      v: 2580
+      type: POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:water
+    weight: 10
+    min: 1
+    max: 1
+    hasRD: false
+    hasREL: false
+  '7':
+    item:
+      v: 2580
+      type: IRON_NUGGET
+    weight: 10
+    min: 10
+    max: 36
+    hasRD: false
+    hasREL: false
+  '8':
+    item:
+      v: 2580
+      type: ENDER_PEARL
+    weight: 10
+    min: 2
+    max: 4
+    hasRD: false
+    hasREL: false
+  '9':
+    item:
+      v: 2580
+      type: STRING
+    weight: 20
+    min: 3
+    max: 9
+    hasRD: false
+    hasREL: false
+  '10':
+    item:
+      v: 2580
+      type: QUARTZ
+    weight: 20
+    min: 3
+    max: 9
+    hasRD: false
+    hasREL: false
+  '11':
+    item:
+      v: 2580
+      type: OBSIDIAN
+    weight: 40
+    min: 1
+    max: 1
+    hasRD: false
+    hasREL: false
+  '12':
+    item:
+      v: 2580
+      type: CRYING_OBSIDIAN
+    weight: 40
+    min: 1
+    max: 3
+    hasRD: false
+    hasREL: false
+  '13':
+    item:
+      v: 2580
+      type: FIRE_CHARGE
+    weight: 40
+    min: 1
+    max: 1
+    hasRD: false
+    hasREL: false
+  '14':
+    item:
+      v: 2580
+      type: LEATHER
+    weight: 40
+    min: 2
+    max: 4
+    hasRD: false
+    hasREL: false
+  '15':
+    item:
+      v: 2580
+      type: SOUL_SAND
+    weight: 40
+    min: 2
+    max: 8
+    hasRD: false
+    hasREL: false
+  '16':
+    item:
+      v: 2580
+      type: NETHER_BRICK
+    weight: 40
+    min: 2
+    max: 8
+    hasRD: false
+    hasREL: false
+  '17':
+    item:
+      v: 2580
+      type: SPECTRAL_ARROW
+    weight: 40
+    min: 6
+    max: 12
+    hasRD: false
+    hasREL: false
+  '18':
+    item:
+      v: 2580
+      type: GRAVEL
+    weight: 40
+    min: 8
+    max: 16
+    hasRD: false
+    hasREL: false
+  '19':
+    item:
+      v: 2580
+      type: BLACKSTONE
+    weight: 40
+    min: 8
+    max: 16
+    hasRD: false
+    hasREL: false
