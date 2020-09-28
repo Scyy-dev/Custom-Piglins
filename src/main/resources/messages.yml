@@ -23,8 +23,3 @@ errorMessages:
 reloadMessages:
   reload: "&aReloading needs work!"
 
-helpMessages:
-  introMessage: "&aCommands for &2FruitVentures"
-  invalidUsage: "&7/fad help"
-  reloadMessage: "&7/fad reload"
-
