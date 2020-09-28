@@ -1,11 +1,22 @@
 # For customising the item used to convert zombified piglins into regular piglins
 # These piglins will NOT zombify again, even in overworld
 piglinConverter:
-  convertedName: "&6Piglin"
-  isConsumable: false
-  material: BLAZE_POWDER
-  name: "&6Piglin &8Converter"
-  lore:
-    - "&r&7Use this on a Zombified Piglin to convert it to a Piglin!"
-    - "&r&7The piglin will be IMMUNE to converting back!"
-  isShiny: true
+  consumable:
+    convertedName: "&6Piglin"
+    material: BLAZE_POWDER
+    name: "&6Piglin &8Converter"
+    lore:
+      - "&r&7Use this on a Zombified Piglin to convert it to a Piglin!"
+      - "&r&7The piglin will be IMMUNE to converting back!"
+      - "&r&7Consumable"
+    isShiny: true
+  non-consumable:
+    convertedName: "&6Piglin"
+    material: BLAZE_ROD
+    name: "&6Piglin &8Converter"
+    lore:
+      - "&r&7Use this on a Zombified Piglin to convert it to a Piglin!"
+      - "&r&7The piglin will be IMMUNE to converting back!"
+      - "&r&7Not Consumable"
+    isShiny: true
+
