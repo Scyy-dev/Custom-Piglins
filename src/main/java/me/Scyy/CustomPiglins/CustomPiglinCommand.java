@@ -17,6 +17,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+// TODO - clean this shit up
+
 public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
     private final PiglinLootGenerator lootGenerator;
@@ -88,13 +90,33 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
                     case "converter":
 
-                        ItemStack converter = plugin.getConfigFileHandler().getDefaultConfig().getPiglinConverter();
+                        player = (Player) sender;
 
-                        ((Player) sender).getInventory().addItem(converter);
+                        if (args.length != 2) {
 
-                        sender.sendMessage("You have been given a piglin converter!");
+                            pm.msg(sender, "errorMessages.invalidCommandLength");
+                            return true;
 
-                        return true;
+                        }
+
+                        switch (args[1].toLowerCase()) {
+
+                            case "consumable":
+
+                                player.getInventory().addItem(plugin.getConfigFileHandler().getDefaultConfig().getConsumableConverter());
+                                return true;
+
+                            case "non-consumable":
+
+                                player.getInventory().addItem(plugin.getConfigFileHandler().getDefaultConfig().getNonConsumableConverter());
+                                return true;
+
+                            default:
+
+                                pm.msg(sender, "errorMessages.invalidCommand");
+                                return true;
+
+                        }
 
                 }
 
