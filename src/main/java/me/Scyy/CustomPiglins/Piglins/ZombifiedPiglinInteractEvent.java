@@ -2,6 +2,7 @@ package me.Scyy.CustomPiglins.Piglins;
 
 import me.Scyy.CustomPiglins.Config.DefaultConfig;
 import me.Scyy.CustomPiglins.Plugin;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.PigZombie;
@@ -13,17 +14,33 @@ import org.bukkit.inventory.ItemStack;
 
 public class ZombifiedPiglinInteractEvent implements Listener {
 
+    private final Plugin plugin;
+
     private final DefaultConfig config;
 
-    private final ItemStack piglinConverter;
+    private final ItemStack consumableConverter;
+
+    private final ItemStack nonComsumableConverter;
 
     public ZombifiedPiglinInteractEvent(Plugin plugin) {
 
+        // Get the data from the plugin
+        this.plugin = plugin;
         config = plugin.getConfigFileHandler().getDefaultConfig();
-        piglinConverter = config.getPiglinConverter();
-        if (piglinConverter.getItemMeta() == null || piglinConverter.getItemMeta().getLore() == null) {
+        consumableConverter = plugin.getConfigFileHandler().getDefaultConfig().getConsumableConverter();
+        nonComsumableConverter = plugin.getConfigFileHandler().getDefaultConfig().getNonConsumableConverter();
 
-            throw new IllegalArgumentException("piglinConverter must have lore");
+        // Check if the items loaded are valid
+        if (consumableConverter.getItemMeta() == null
+                || consumableConverter.getItemMeta().getLore() == null) {
+
+            throw new IllegalArgumentException("Consumable Piglin Converter must have lore");
+
+        }
+        if (nonComsumableConverter.getItemMeta() == null
+                || nonComsumableConverter.getItemMeta().getLore() == null) {
+
+            throw new IllegalArgumentException("Consumable Piglin Converter must have lore");
 
         }
 
@@ -32,19 +49,23 @@ public class ZombifiedPiglinInteractEvent implements Listener {
     @EventHandler
     public void onInteractEvent(PlayerInteractEntityEvent event) {
 
+        // Validate the entity clicked is a zombified piglin
         if (event.getRightClicked().getType() != EntityType.ZOMBIFIED_PIGLIN) return;
 
+        // Get data about the event
         PigZombie pigZombie = (PigZombie) event.getRightClicked();
-
         ItemStack mainHand = event.getPlayer().getInventory().getItemInMainHand();
 
-        if (mainHand.getType() != piglinConverter.getType()) return;
+        // Validate the item used
+        if (!(mainHand.equals(consumableConverter) || mainHand.equals(nonComsumableConverter))) return;
 
+        // Validate the data about the item used
         if (mainHand.getItemMeta() == null) return;
-
         if (mainHand.getItemMeta().getLore() == null) return;
 
-        if (!mainHand.getItemMeta().getLore().equals(piglinConverter.getItemMeta().getLore())) return;
+        // Determine if the converter is consumable or not
+        boolean isConsumable = false;
+        if (mainHand.getType() == consumableConverter.getType()) isConsumable = true;
 
         // Remove the zombified piglin
         event.getRightClicked().remove();
@@ -59,22 +80,38 @@ public class ZombifiedPiglinInteractEvent implements Listener {
         if (pigZombie.isAdult()) piglin.setAdult();
         else piglin.setBaby();
 
-        // Get the name of the new piglin from config
-        String piglinName = config.getConfig().getString("piglinConverter.convertedName");
-
-        // give it a custom name so it doesn't despawn
+        // Set the custom name
+        String piglinName;
+        if (isConsumable) {
+            piglinName = config.getConfig().getString("piglinConverter.consumable.convertedName");
+        } else {
+            piglinName = config.getConfig().getString("piglinConverter.non-consumable.convertedName");
+        }
         piglin.setCustomName(ChatColor.translateAlternateColorCodes('&', piglinName));
 
         // Cancel the event
         event.setCancelled(true);
 
         // Check if the item needs to be removed
-        if (config.getConfig().getBoolean("piglinConverter.isConsumable")) {
+        if (isConsumable) {
 
+            if (mainHand.getAmount() != 1) {
 
+                mainHand.setAmount(mainHand.getAmount() - 1);
+
+            } else {
+
+                event.getPlayer().getInventory().setItemInMainHand(null);
+
+            }
 
         }
+        else {
 
+            // Remove the item and add it back a tick later to prevent more than one mob spawning
+            event.getPlayer().getInventory().setItemInMainHand(null);
+            Bukkit.getScheduler().runTask(plugin, () -> event.getPlayer().getInventory().setItemInMainHand(mainHand));
+        }
 
     }
 }
