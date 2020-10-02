@@ -92,8 +92,13 @@ public class ZombifiedPiglinInteractEvent implements Listener {
         // Cancel the event
         event.setCancelled(true);
 
-        // Check if the item needs to be removed
-        if (isConsumable) {
+        if (!isConsumable && event.getPlayer().hasPermission("custompiglins.converter.nonconsumable")) {
+
+            // Remove the item and add it back a tick later to prevent more than one mob spawning
+            event.getPlayer().getInventory().setItemInMainHand(null);
+            Bukkit.getScheduler().runTask(plugin, () -> event.getPlayer().getInventory().setItemInMainHand(mainHand));
+
+        } else if (isConsumable) {
 
             if (mainHand.getAmount() != 1) {
 
@@ -106,12 +111,7 @@ public class ZombifiedPiglinInteractEvent implements Listener {
             }
 
         }
-        else {
-
-            // Remove the item and add it back a tick later to prevent more than one mob spawning
-            event.getPlayer().getInventory().setItemInMainHand(null);
-            Bukkit.getScheduler().runTask(plugin, () -> event.getPlayer().getInventory().setItemInMainHand(mainHand));
-        }
 
     }
+
 }
