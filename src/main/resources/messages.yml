@@ -18,7 +18,8 @@ errorMessages:
   invalidCommandLength: "&cInvalid Command Length"
   mustBePlayer: "&cYou must be a player to use that command"
   playerNotFound: "&cCould not find that player"
-  invalidCommand: "&cError: command not found"
+  invalidCommand: "&cThat command wasn't recognised"
+  cannotDropAir: "&cPiglins cannot drop air"
   internalError: "Something went wrong trying to execute that command"
 
 reloadMessages:
