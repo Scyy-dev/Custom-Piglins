@@ -5,6 +5,7 @@ import me.Scyy.CustomPiglins.GUI.GUIContext;
 import me.Scyy.CustomPiglins.GUI.InventoryGUI;
 import me.Scyy.CustomPiglins.GUI.PiglinItemListGUI;
 import me.Scyy.CustomPiglins.Piglins.PiglinLootGenerator;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,8 +17,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-// TODO - clean this shit up
 
 public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
@@ -36,103 +35,61 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
-        if (sender.hasPermission("customPiglins.use")) {
+        if (args.length == 0) {
 
-            if (sender instanceof Player) {
+            if (validate(sender.hasPermission("custompiglins.gui"), "errorMessages.noPermission", sender)) return true;
+            if (validate(sender instanceof Player, "errorMessages.mustBePlayer", sender)) return true;
 
-                if (args.length == 0) {
-
-                    Player player = (Player) sender;
-                    InventoryGUI inventoryGUI = new PiglinItemListGUI(new GUIContext(null, player, 0), plugin);
-                    player.openInventory(inventoryGUI.getInventory());
-                    return true;
-
-                }
-
-                switch (args[0].toLowerCase()) {
-
-                    case "add":
-
-                        Player player = (Player) sender;
-
-                        ItemStack mainHand = player.getInventory().getItemInMainHand();
-
-                        if (mainHand.getType() == Material.AIR) {
-
-                            player.sendMessage("Cannot add air!");
-                            return true;
-
-                        }
-
-                        ItemStack item = mainHand.clone();
-                        item.setAmount(1);
-
-                        plugin.getGenerator().addPiglinItem(item, 1, 1, 1, false, false);
-
-                        player.sendMessage("Added " + item.getType().name().toLowerCase());
-
-                        return true;
-
-                    case "reload":
-
-                        try {
-
-                            plugin.reloadConfigs();
-
-                        } catch (Exception e) {
-
-                            sender.sendMessage("Could not reload configs! Check Console for error!");
-                            e.printStackTrace();
-
-                        }
-
-                        return true;
-
-                    case "converter":
-
-                        player = (Player) sender;
-
-                        if (args.length != 2) {
-
-                            pm.msg(sender, "errorMessages.invalidCommandLength");
-                            return true;
-
-                        }
-
-                        switch (args[1].toLowerCase()) {
-
-                            case "consumable":
-
-                                player.getInventory().addItem(plugin.getConfigFileHandler().getDefaultConfig().getConsumableConverter());
-                                return true;
-
-                            case "non-consumable":
-
-                                player.getInventory().addItem(plugin.getConfigFileHandler().getDefaultConfig().getNonConsumableConverter());
-                                return true;
-
-                            default:
-
-                                pm.msg(sender, "errorMessages.invalidCommand");
-                                return true;
-
-                        }
-
-                }
-
-            } else {
-
-                pm.msg(sender, "errorMessages.mustBePlayer");
-
-            }
-
-        } else {
-
-            pm.msg(sender, "errorMessages.noPermission");
+            Player player = (Player) sender;
+            InventoryGUI inventoryGUI = new PiglinItemListGUI(new GUIContext(null, player, 0), plugin);
+            player.openInventory(inventoryGUI.getInventory());
+            return true;
 
         }
 
-        return true;
+        switch (args[0].toLowerCase()) {
+
+            // /custompiglins add
+            case "add":
+
+                if (validate(sender.hasPermission("custompiglins.add"), "errorMessages.noPermission", sender)) return true;
+                if (validate(sender instanceof Player, "errorMessages.mustBePlayer", sender)) return true;
+
+                addSubcommand((Player) sender, args);
+                return true;
+
+            // /custompiglins converter [consumable | non-consumable] [player]
+            case "converter":
+
+                if (validate(sender.hasPermission("custompiglins.converter.give"), "errorMessages.noPermission", sender)) return true;
+                if (validate(args.length == 3, "errorMessages.invalidCommandLength", sender)) return true;
+                if (validate(Bukkit.getPlayer(args[2]) != null, "errorMessages.playerNotFound", sender)) return true;
+
+                converterSubcommand(sender, args);
+                return true;
+
+            // /custompiglins reload
+            case "reload":
+
+                try {
+
+                    plugin.reloadConfigs();
+
+                } catch (Exception e) {
+
+                    sender.sendMessage("Could not reload configs! Check Console for error!");
+                    e.printStackTrace();
+
+                }
+
+                return true;
+
+            default:
+
+                pm.msg(sender, "errorMessages.invalidCommand");
+                return true;
+
+        }
 
     }
 
@@ -148,4 +105,79 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
         }
     }
+
+    private void addSubcommand(Player player, String[] args) {
+
+        if (!player.hasPermission("custompiglins.add")) {
+
+            pm.msg(player, "errorMessages.noPermission");
+            return;
+
+        }
+
+        // Get the item
+        ItemStack mainHand = player.getInventory().getItemInMainHand();
+
+        if (mainHand.getType() == Material.AIR) {
+
+            pm.msg(player, "errorMessages.cannotDropAir");
+            return;
+
+        }
+
+        ItemStack item = mainHand.clone();
+        item.setAmount(1);
+
+        plugin.getGenerator().addPiglinItem(item, 1, 1, 1, false, false);
+
+        player.sendMessage("Added " + item.getType().name().toLowerCase());
+
+    }
+
+    private void converterSubcommand(CommandSender sender, String[] args) {
+
+        Player target = Bukkit.getPlayer(args[2]);
+
+        if (target == null) {
+
+            pm.msg(sender, "errorMessages.playerNotFound");
+            return;
+
+        }
+
+        switch (args[1].toLowerCase()) {
+
+            case "consumable":
+
+                target.getInventory().addItem(plugin.getConfigFileHandler().getDefaultConfig().getConsumableConverter());
+                return;
+
+            case "non-consumable":
+
+                target.getInventory().addItem(plugin.getConfigFileHandler().getDefaultConfig().getNonConsumableConverter());
+                return;
+
+            default:
+
+                pm.msg(sender, "errorMessages.invalidCommand");
+
+        }
+
+    }
+
+    private boolean validate(boolean condition, String errorMessagePath, CommandSender sender) {
+
+        if (!condition) {
+
+            pm.msg(sender, errorMessagePath);
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+
+    }
+
 }
