@@ -14,8 +14,8 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
@@ -71,6 +71,8 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
             // /custompiglins reload
             case "reload":
 
+                if (validate(sender.hasPermission("custompiglins.reload"), "errorMessages.noPermission", sender)) return true;
+
                 try {
 
                     plugin.reloadConfigs();
@@ -95,15 +97,27 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] args) {
-        if (commandSender.hasPermission("customPiglins.use")) {
 
-            return Arrays.asList("add", "reload", "converter");
+        if (args.length == 1) {
 
-        } else {
+            List<String> list = new ArrayList<>();
 
-            return Collections.singletonList("");
+            if (commandSender.hasPermission("custompiglins.add")) list.add("add");
+            if (commandSender.hasPermission("custompiglins.converter.give")) list.add("converter");
+            if (commandSender.hasPermission("custompiglins.reload")) list.add("reload");
+
+            return list;
 
         }
+
+        if (args[0].equals("converter")) {
+            if (!commandSender.hasPermission("custompiglins.converter.give")) return null;
+
+            if (args.length == 2) return Arrays.asList("consumable", "non-consumable");
+            return null;
+        }
+        return null;
+
     }
 
     private void addSubcommand(Player player, String[] args) {
