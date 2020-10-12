@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -34,7 +35,7 @@ public class PiglinGUIListener implements Listener {
         if (!(event.getClickedInventory().getHolder() instanceof InventoryGUI)) return;
 
         // Get the contents of the inventory
-        ItemStack[] contents = event.getInventory().getContents();
+        ItemStack[] contents = event.getView().getTopInventory().getContents();
 
         // Handle clicks in the Piglin Item List inventory
         if (contents[43] != null && contents[43].getType() == Material.ARROW) {
@@ -61,11 +62,11 @@ public class PiglinGUIListener implements Listener {
             // Handle the click in the old GUI and hence create the new GUI
             InventoryGUI newGUI = gui.handleClick(event);
 
-            // Update the inventory
-            Bukkit.getScheduler().runTask(plugin, () -> {
-                event.getClickedInventory().setContents(newGUI.getInventoryItems());
-                ((Player) event.getWhoClicked()).updateInventory();
-            });
+            // Update the inventory contents
+            event.getClickedInventory().setContents(newGUI.getInventoryItems());
+
+            // Update the players inventory
+            Bukkit.getScheduler().runTask(plugin, () -> ((Player) event.getWhoClicked()).updateInventory());
 
         // Handle clicks in the Piglin Item Inventory
         } else if (contents[53] != null && contents[53].getType() == Material.NETHER_STAR) {
@@ -95,11 +96,11 @@ public class PiglinGUIListener implements Listener {
             // Handle the click in the old GUI and hence create the new GUI
             InventoryGUI newGUI = gui.handleClick(event);
 
+            // Update the inventory contents
+            event.getClickedInventory().setContents(newGUI.getInventoryItems());
+
             // Update the inventory
-            Bukkit.getScheduler().runTask(plugin, () -> {
-                event.getClickedInventory().setContents(newGUI.getInventoryItems());
-                ((Player) event.getWhoClicked()).updateInventory();
-            });
+            Bukkit.getScheduler().runTask(plugin, () -> ((Player) event.getWhoClicked()).updateInventory());
             
         }
 

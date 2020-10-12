@@ -6,6 +6,7 @@ import me.Scyy.CustomPiglins.Plugin;
 import me.Scyy.CustomPiglins.Util.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
@@ -112,6 +113,19 @@ public class PiglinItemListGUI extends InventoryGUI {
 
             // Return a new PiglinItem page
             return new PiglinItemGUI(context, plugin);
+
+        }
+
+        // Check if the user is trying to add an item to the inventory
+        if (inventoryItems[clickedSlot] == null && event.getCursor() != null &&  event.getCursor().getType() != Material.AIR) {
+
+            ItemStack newItem = event.getCursor().clone();
+
+            plugin.getGenerator().addPiglinItem(newItem, 1, 1, 1, false, false);
+
+            event.setCancelled(true);
+
+            return this;
 
         }
 
