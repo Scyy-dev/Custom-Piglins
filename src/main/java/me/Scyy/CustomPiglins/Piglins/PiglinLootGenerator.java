@@ -197,6 +197,9 @@ public class PiglinLootGenerator {
 
         }
 
+        // Set the amount of the item to 1
+        item.setAmount(1);
+
         piglinItems.put(highestID, new PiglinItem(item, highestID, weight, minAmount, maxAmount, hasRandomDamage, hasREL));
 
         generateWeightings();
