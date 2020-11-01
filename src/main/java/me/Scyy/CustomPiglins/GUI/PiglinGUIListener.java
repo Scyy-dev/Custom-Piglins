@@ -1,26 +1,19 @@
 package me.Scyy.CustomPiglins.GUI;
 
-import me.Scyy.CustomPiglins.Piglins.PiglinLootGenerator;
-import me.Scyy.CustomPiglins.Piglins.PiglinItem;
 import me.Scyy.CustomPiglins.Plugin;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
 
 public class PiglinGUIListener implements Listener {
 
     private final Plugin plugin;
 
-    private final PiglinLootGenerator generator;
-
     public PiglinGUIListener(Plugin plugin) {
 
         this.plugin = plugin;
-        this.generator = plugin.getGenerator();
 
     }
 

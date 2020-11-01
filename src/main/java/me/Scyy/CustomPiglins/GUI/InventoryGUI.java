@@ -67,6 +67,8 @@ public abstract class InventoryGUI implements InventoryHolder {
 
     public abstract InventoryGUI handleClick(InventoryClickEvent event);
 
+    public abstract InventoryGUI update(InventoryClickEvent event);
+
     // Getters and Setters
 
     public GUIContext getContext() {

@@ -5,6 +5,7 @@ import me.Scyy.CustomPiglins.Piglins.PiglinItem;
 import me.Scyy.CustomPiglins.Plugin;
 import me.Scyy.CustomPiglins.Util.ItemBuilder;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -80,6 +81,32 @@ public class PiglinItemListGUI extends InventoryGUI {
 
         // Add the next pagination arrow
         inventoryItems[43] = new ItemBuilder(Material.ARROW).name("&6Page " + nextPageNum).build();
+
+    }
+
+    @Override
+    public InventoryGUI update(InventoryClickEvent event) {
+
+        ItemStack[] contents = event.getView().getTopInventory().getContents();
+
+        if (event.getView().getTopInventory().getHolder() instanceof PiglinItemListGUI) {
+
+            this.inventoryItems = contents;
+
+            // Get the page reference from the GUI
+            int nextPage = Integer.parseInt(contents[43].getItemMeta().getDisplayName().split(" ")[1]);
+
+            // Create the context of the old GUI
+            this.context = new GUIContext(null, (Player) event.getWhoClicked(), nextPage - 2);
+
+        } else {
+
+            // Create a new GUIContext
+            this.context = new GUIContext(null, (Player) event.getWhoClicked(), context.getPage());
+
+        }
+
+        return this.handleClick(event);
 
     }
 

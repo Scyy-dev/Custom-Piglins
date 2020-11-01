@@ -1,10 +1,13 @@
 package me.Scyy.CustomPiglins.GUI;
 
 import me.Scyy.CustomPiglins.Piglins.PiglinItem;
+import me.Scyy.CustomPiglins.Piglins.PiglinLootGenerator;
 import me.Scyy.CustomPiglins.Plugin;
 import me.Scyy.CustomPiglins.Util.ItemBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.EnchantmentTarget;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -129,6 +132,32 @@ public class PiglinItemGUI extends InventoryGUI {
 
         // Add the item
         inventoryItems[53] = new ItemBuilder(Material.NETHER_STAR).name("&6Drop Chance: " + roundedChance).build();
+
+    }
+
+    @Override
+    public InventoryGUI update(InventoryClickEvent event) {
+
+        ItemStack[] contents = event.getView().getTopInventory().getContents();
+
+        this.inventoryItems = contents;
+
+        PiglinLootGenerator generator = plugin.getGenerator();
+
+        if (event.getView().getTopInventory().getHolder() instanceof PiglinItemGUI) {
+
+            // Get the ID of the piglin item from the UI
+            int piglinItemID = Integer.parseInt(contents[0].getItemMeta().getDisplayName());
+
+            // Get the piglin item from the generator
+            PiglinItem item = generator.getPiglinItem(piglinItemID);
+
+            // Create the context of the old GUI
+            this.context = new GUIContext(item, (Player) event.getWhoClicked(), 0);
+
+        }
+
+        return this.handleClick(event);
 
     }
 
