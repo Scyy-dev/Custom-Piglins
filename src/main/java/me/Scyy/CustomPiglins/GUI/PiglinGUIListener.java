@@ -23,7 +23,7 @@ public class PiglinGUIListener implements Listener {
 
         // Check if the click was a null click
         if (event.getView().getTopInventory().getHolder() == null) return;
-
+      
         // Check if the inventory clicked is an inventory defined by this plugin
         if (!(event.getView().getTopInventory().getHolder() instanceof InventoryGUI)) return;
 
