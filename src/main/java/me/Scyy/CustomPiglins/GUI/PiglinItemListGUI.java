@@ -84,9 +84,6 @@ public class PiglinItemListGUI extends InventoryGUI {
         // Add the next pagination arrow
         inventoryItems[43] = new ItemBuilder(Material.ARROW).name("&6Page " + nextPageNum).build();
 
-        // Add the piglin item adder button
-        inventoryItems[49] = new ItemBuilder(Material.EMERALD_BLOCK).name("&6Add Items").build();
-
     }
 
     @Override
