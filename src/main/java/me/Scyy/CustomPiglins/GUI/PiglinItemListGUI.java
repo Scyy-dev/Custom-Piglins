@@ -4,7 +4,9 @@ import me.Scyy.CustomPiglins.Piglins.PiglinLootGenerator;
 import me.Scyy.CustomPiglins.Piglins.PiglinItem;
 import me.Scyy.CustomPiglins.Plugin;
 import me.Scyy.CustomPiglins.Util.ItemBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,10 +17,10 @@ import java.util.ArrayList;
 // # 0 0 0 0 0 0 0 #
 // # 0 0 0 0 0 0 0 #
 // # P # # # # # N #
-// # # # # S # # # #
+// # # # # E # # # #
 // P = previous page
 // N = next page
-// S = settings
+// E = Piglin Item Adder
 
 public class PiglinItemListGUI extends InventoryGUI {
 
@@ -71,7 +73,6 @@ public class PiglinItemListGUI extends InventoryGUI {
         if (context.getPage() != 0) {
 
             inventoryItems[37] = new ItemBuilder(Material.ARROW).name("&6Page " + context.getPage()).build();
-            new ItemBuilder(inventoryItems[5]);
 
         }
 
@@ -152,19 +153,6 @@ public class PiglinItemListGUI extends InventoryGUI {
 
         }
 
-        // Check if the user is trying to add an item to the inventory
-        if (inventoryItems[clickedSlot] == null && event.getCursor() != null &&  event.getCursor().getType() != Material.AIR) {
-
-            ItemStack newItem = event.getCursor().clone();
-
-            plugin.getGenerator().addPiglinItem(newItem, 1, 1, 1, false, false);
-
-            event.setCancelled(true);
-
-            return new PiglinItemListGUI(context, plugin);
-
-        }
-
         // Check if the item clicked was a back page arrow
         if (clickedSlot == 37 && inventoryItems[clickedSlot].getType() == Material.ARROW) {
 
@@ -190,6 +178,18 @@ public class PiglinItemListGUI extends InventoryGUI {
             return new PiglinItemListGUI(context, plugin);
 
         }
+
+        // Check if the item clicked was the Piglin Item Adder
+        if (clickedSlot == 49 && inventoryItems[clickedSlot].getType() == Material.EMERALD_BLOCK) {
+
+            // Cancel the event
+            event.setCancelled(true);
+
+            // Open the Piglin Item Adder
+            return new PiglinItemAdderGUI(context, plugin);
+
+        }
+
 
         // Cancel the event
         event.setCancelled(true);
