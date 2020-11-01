@@ -24,7 +24,7 @@ public class Plugin extends JavaPlugin {
         generator = new PiglinLootGenerator(this);
 
         // Register the command
-        CustomPiglinCommand customPiglinCommand = new CustomPiglinCommand(generator, this);
+        CustomPiglinCommand customPiglinCommand = new CustomPiglinCommand(this);
         this.getCommand("custompiglins").setExecutor(customPiglinCommand);
         this.getCommand("custompiglins").setTabCompleter(customPiglinCommand);
 
