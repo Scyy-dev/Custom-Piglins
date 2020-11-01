@@ -4,7 +4,6 @@ import me.Scyy.CustomPiglins.Plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -66,6 +65,8 @@ public abstract class InventoryGUI implements InventoryHolder {
     }
 
     public abstract InventoryGUI handleClick(InventoryClickEvent event);
+
+    public abstract void update(InventoryClickEvent event);
 
     // Getters and Setters
 

@@ -81,6 +81,42 @@ public class PiglinItemListGUI extends InventoryGUI {
         // Add the next pagination arrow
         inventoryItems[43] = new ItemBuilder(Material.ARROW).name("&6Page " + nextPageNum).build();
 
+        // Add the piglin item adder button
+        inventoryItems[49] = new ItemBuilder(Material.EMERALD_BLOCK).name("&6Add Items").build();
+
+    }
+
+    @Override
+    public void update(InventoryClickEvent event) {
+
+        // Get the contents of the inventory
+        ItemStack[] contents = event.getView().getTopInventory().getContents();
+
+        // Check if the item has meta
+        if (contents[43].getItemMeta() == null) {
+            // Log an error
+            plugin.getLogger().warning("Error getting the piglin Item!");
+            return;
+        }
+
+        // Get the page reference from the GUI
+        int nextPage = Integer.parseInt(contents[43].getItemMeta().getDisplayName().split(" ")[1]);
+
+        // Create the context of the old GUI
+        GUIContext context = new GUIContext(null, (Player) event.getWhoClicked(), nextPage - 2);
+
+        // Update the context
+        this.setContext(context);
+
+        // Handle the click in the old GUI and hence create the new GUI
+        InventoryGUI newGUI = this.handleClick(event);
+
+        // Update the inventory contents
+        event.getView().getTopInventory().setContents(newGUI.getInventoryItems());
+
+        // Update the players inventory
+        Bukkit.getScheduler().runTask(plugin, () -> ((Player) event.getWhoClicked()).updateInventory());
+
     }
 
     @Override

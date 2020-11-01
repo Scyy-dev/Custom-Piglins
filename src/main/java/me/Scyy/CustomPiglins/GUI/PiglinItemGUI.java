@@ -1,10 +1,13 @@
 package me.Scyy.CustomPiglins.GUI;
 
 import me.Scyy.CustomPiglins.Piglins.PiglinItem;
+import me.Scyy.CustomPiglins.Piglins.PiglinLootGenerator;
 import me.Scyy.CustomPiglins.Plugin;
 import me.Scyy.CustomPiglins.Util.ItemBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.EnchantmentTarget;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -129,6 +132,48 @@ public class PiglinItemGUI extends InventoryGUI {
 
         // Add the item
         inventoryItems[53] = new ItemBuilder(Material.NETHER_STAR).name("&6Drop Chance: " + roundedChance).build();
+
+    }
+
+    @Override
+    public void update(InventoryClickEvent event) {
+
+        // Get the Item Generator
+        PiglinLootGenerator generator = plugin.getGenerator();
+
+        // Get the contents of the inventory
+        ItemStack[] contents = event.getView().getTopInventory().getContents();
+
+        // Check if the item has meta
+        if (contents[0].getItemMeta() == null) {
+
+            // Log an error
+            plugin.getLogger().warning("Error getting the piglin Item!");
+
+            return;
+
+        }
+
+        // Get the ID of the piglin item from the UI
+        int piglinItemID = Integer.parseInt(contents[0].getItemMeta().getDisplayName());
+
+        // Get the piglin item from the generator
+        PiglinItem item = generator.getPiglinItem(piglinItemID);
+
+        // Create the context of the old GUI
+        GUIContext context = new GUIContext(item, (Player) event.getWhoClicked(), 0);
+
+        // Update the context
+        this.setContext(context);
+
+        // Handle the click in the old GUI and hence create the new GUI
+        InventoryGUI newGUI = this.handleClick(event);
+
+        // Update the inventory contents
+        event.getView().getTopInventory().setContents(newGUI.getInventoryItems());
+
+        // Update the inventory
+        Bukkit.getScheduler().runTask(plugin, () -> ((Player) event.getWhoClicked()).updateInventory());
 
     }
 
