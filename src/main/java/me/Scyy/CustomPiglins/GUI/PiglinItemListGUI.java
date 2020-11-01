@@ -8,7 +8,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.util.ArrayList;
 
@@ -121,9 +123,39 @@ public class PiglinItemListGUI extends InventoryGUI {
     }
 
     @Override
+    public InventoryGUI update(InventoryClickEvent event) {
+
+        ItemStack[] contents = event.getView().getTopInventory().getContents();
+
+        if (event.getView().getTopInventory().getHolder() instanceof PiglinItemListGUI) {
+
+            this.inventoryItems = contents;
+
+            // Get the page reference from the GUI
+            int nextPage = Integer.parseInt(contents[43].getItemMeta().getDisplayName().split(" ")[1]);
+
+            // Create the context of the old GUI
+            this.context = new GUIContext(null, (Player) event.getWhoClicked(), nextPage - 2);
+
+        } else {
+
+            // Create a new GUIContext
+            this.context = new GUIContext(null, (Player) event.getWhoClicked(), context.getPage());
+
+        }
+
+        return this.handleClick(event);
+
+    }
+
+    @Override
     public InventoryGUI handleClick(InventoryClickEvent event) {
 
         int clickedSlot = event.getRawSlot();
+
+        Inventory targetInv = event.getClickedInventory();
+
+        boolean isListGUI = !(targetInv instanceof PlayerInventory);
 
         // slot of the item in the piglin item list
         int piglinItemSlot = -1;
@@ -134,7 +166,7 @@ public class PiglinItemListGUI extends InventoryGUI {
         else if (27 < clickedSlot && clickedSlot < 35) piglinItemSlot = clickedSlot - 14;
 
         // Check if the item clicked was a piglinItem
-        if (piglinItemSlot != -1 && inventoryItems[clickedSlot] != null) {
+        if (isListGUI && piglinItemSlot != -1 && inventoryItems[clickedSlot] != null) {
 
             // Calculate the index in the array from the generator
             int piglinArraySlot = piglinItemSlot + 21 * context.getPage();
@@ -148,13 +180,29 @@ public class PiglinItemListGUI extends InventoryGUI {
             // Cancel the event
             event.setCancelled(true);
 
+            // Mark this inventory to be reopened
+            this.reopen = true;
+
             // Return a new PiglinItem page
             return new PiglinItemGUI(context, plugin);
 
         }
 
+        // Check if the user is trying to add an item to the inventory
+        if (!isListGUI && event.getCurrentItem() != null && event.getCurrentItem().getType() != Material.AIR) {
+
+            ItemStack newItem = event.getCurrentItem().clone();
+
+            plugin.getGenerator().addPiglinItem(newItem, 1, 1, 1, false, false);
+
+            event.setCancelled(true);
+
+            return new PiglinItemListGUI(context, plugin);
+
+        }
+
         // Check if the item clicked was a back page arrow
-        if (clickedSlot == 37 && inventoryItems[clickedSlot].getType() == Material.ARROW) {
+        if (isListGUI && clickedSlot == 37 && inventoryItems[clickedSlot].getType() == Material.ARROW) {
 
             // decrement the page
             context.setPage(context.getPage() - 1);
@@ -167,7 +215,7 @@ public class PiglinItemListGUI extends InventoryGUI {
         }
 
         // Check the item clicked was a forward page arrow
-        if (clickedSlot == 43 && inventoryItems[clickedSlot].getType() == Material.ARROW) {
+        if (isListGUI && clickedSlot == 43 && inventoryItems[clickedSlot].getType() == Material.ARROW) {
 
             // increment the page
             context.setPage(context.getPage() + 1);
@@ -195,6 +243,11 @@ public class PiglinItemListGUI extends InventoryGUI {
         event.setCancelled(true);
 
         // If no item had an affect, change nothing
-        return this;
+        return new PiglinItemListGUI(context, plugin);
+    }
+
+    @Override
+    public boolean allowPlayerInventoryEdits() {
+        return true;
     }
 }

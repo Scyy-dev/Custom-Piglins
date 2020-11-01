@@ -136,44 +136,28 @@ public class PiglinItemGUI extends InventoryGUI {
     }
 
     @Override
-    public void update(InventoryClickEvent event) {
+    public InventoryGUI update(InventoryClickEvent event) {
 
-        // Get the Item Generator
-        PiglinLootGenerator generator = plugin.getGenerator();
-
-        // Get the contents of the inventory
         ItemStack[] contents = event.getView().getTopInventory().getContents();
 
-        // Check if the item has meta
-        if (contents[0].getItemMeta() == null) {
+        this.inventoryItems = contents;
 
-            // Log an error
-            plugin.getLogger().warning("Error getting the piglin Item!");
+        PiglinLootGenerator generator = plugin.getGenerator();
 
-            return;
+        if (event.getView().getTopInventory().getHolder() instanceof PiglinItemGUI) {
+
+            // Get the ID of the piglin item from the UI
+            int piglinItemID = Integer.parseInt(contents[0].getItemMeta().getDisplayName());
+
+            // Get the piglin item from the generator
+            PiglinItem item = generator.getPiglinItem(piglinItemID);
+
+            // Create the context of the old GUI
+            this.context = new GUIContext(item, (Player) event.getWhoClicked(), 0);
 
         }
 
-        // Get the ID of the piglin item from the UI
-        int piglinItemID = Integer.parseInt(contents[0].getItemMeta().getDisplayName());
-
-        // Get the piglin item from the generator
-        PiglinItem item = generator.getPiglinItem(piglinItemID);
-
-        // Create the context of the old GUI
-        GUIContext context = new GUIContext(item, (Player) event.getWhoClicked(), 0);
-
-        // Update the context
-        this.setContext(context);
-
-        // Handle the click in the old GUI and hence create the new GUI
-        InventoryGUI newGUI = this.handleClick(event);
-
-        // Update the inventory contents
-        event.getView().getTopInventory().setContents(newGUI.getInventoryItems());
-
-        // Update the inventory
-        Bukkit.getScheduler().runTask(plugin, () -> ((Player) event.getWhoClicked()).updateInventory());
+        return this.handleClick(event);
 
     }
 
@@ -309,6 +293,9 @@ public class PiglinItemGUI extends InventoryGUI {
             // Cancel the event
             event.setCancelled(true);
 
+            // Mark the inventory to be reopened
+            this.reopen = true;
+
             return new PiglinItemListGUI(listContext, plugin);
 
         }
@@ -323,6 +310,9 @@ public class PiglinItemGUI extends InventoryGUI {
             // Cancel the event
             event.setCancelled(true);
 
+            // Mark the inventory to be reopened
+            this.reopen = true;
+
             return new PiglinItemListGUI(listContext, plugin);
 
         }
@@ -330,8 +320,13 @@ public class PiglinItemGUI extends InventoryGUI {
         // Cancel the event
         event.setCancelled(true);
 
-        return this;
+        return new PiglinItemGUI(context, plugin);
 
+    }
+
+    @Override
+    public boolean allowPlayerInventoryEdits() {
+        return false;
     }
 
     private boolean itemCanBeDamaged(ItemStack itemStack) {

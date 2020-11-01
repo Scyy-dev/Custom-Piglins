@@ -1,22 +1,20 @@
 package me.Scyy.CustomPiglins.GUI;
 
-import me.Scyy.CustomPiglins.Piglins.PiglinLootGenerator;
 import me.Scyy.CustomPiglins.Plugin;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.PlayerInventory;
 
 public class PiglinGUIListener implements Listener {
 
     private final Plugin plugin;
 
-    private final PiglinLootGenerator generator;
-
     public PiglinGUIListener(Plugin plugin) {
 
         this.plugin = plugin;
-        this.generator = plugin.getGenerator();
 
     }
 
@@ -24,17 +22,34 @@ public class PiglinGUIListener implements Listener {
     public void onInventoryClickEvent(InventoryClickEvent event) {
 
         // Check if the click was a null click
-        if (event.getClickedInventory() == null) return;
-
-        InventoryHolder invHolder = event.getView().getTopInventory().getHolder();
-
+        if (event.getView().getTopInventory().getHolder() == null) return;
+      
         // Check if the inventory clicked is an inventory defined by this plugin
-        if (!(invHolder instanceof InventoryGUI)) return;
+        if (!(event.getView().getTopInventory().getHolder() instanceof InventoryGUI)) return;
 
-        InventoryGUI inventoryGUI = (InventoryGUI) invHolder;
+        InventoryGUI oldGUI = (InventoryGUI) event.getView().getTopInventory().getHolder();
 
-        // Update the inventory based upon the event
-        inventoryGUI.update(event);
+        if (!oldGUI.allowPlayerInventoryEdits() && event.getClickedInventory() instanceof PlayerInventory) {
+            event.setCancelled(true);
+            return;
+        }
+
+        InventoryGUI updatedGUI = oldGUI.update(event);
+
+        if (oldGUI.shouldReopen()) {
+
+            // Reopen the new inventory
+            Bukkit.getScheduler().runTask(plugin, () -> event.getWhoClicked().openInventory(updatedGUI.getInventory()));
+
+        } else {
+
+            // Update the inventory contents
+            event.getView().getTopInventory().setContents(updatedGUI.getInventoryItems());
+
+            // Update the players inventory
+            Bukkit.getScheduler().runTask(plugin, () -> ((Player) event.getWhoClicked()).updateInventory());
+
+        }
 
     }
 

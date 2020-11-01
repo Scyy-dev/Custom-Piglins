@@ -27,12 +27,22 @@ public abstract class InventoryGUI implements InventoryHolder {
     /**
      * The array of items in the inventory
      */
-    protected final ItemStack[] inventoryItems;
+    protected ItemStack[] inventoryItems;
 
     /**
      * The inventory to be displayed to the user
      */
     protected final Inventory inventory;
+
+    /**
+     * Flag for if the new inventory needs to be reopened
+     */
+    protected boolean reopen = false;
+
+    /**
+     * Flag for if players can manipulate their own inventory while this inventory is open
+     */
+    protected boolean playerInventoryEdits = true;
 
     public InventoryGUI(GUIContext context, Plugin plugin) {
 
@@ -66,7 +76,7 @@ public abstract class InventoryGUI implements InventoryHolder {
 
     public abstract InventoryGUI handleClick(InventoryClickEvent event);
 
-    public abstract void update(InventoryClickEvent event);
+    public abstract InventoryGUI update(InventoryClickEvent event);
 
     // Getters and Setters
 
@@ -93,5 +103,21 @@ public abstract class InventoryGUI implements InventoryHolder {
 
         // Return the inventory
         return inventory;
+    }
+
+    public boolean shouldReopen() {
+        return reopen;
+    }
+
+    public void setReopen(boolean reopen) {
+        this.reopen = reopen;
+    }
+
+    public boolean allowPlayerInventoryEdits() {
+        return playerInventoryEdits;
+    }
+
+    public void setPlayerInventoryEdits(boolean playerInventoryEdits) {
+        this.playerInventoryEdits = playerInventoryEdits;
     }
 }
