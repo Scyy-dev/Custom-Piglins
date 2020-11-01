@@ -125,7 +125,7 @@ public class PiglinItemListGUI extends InventoryGUI {
 
             event.setCancelled(true);
 
-            return this;
+            return new PiglinItemListGUI(context, plugin);
 
         }
 
