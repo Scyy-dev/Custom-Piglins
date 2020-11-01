@@ -34,7 +34,7 @@ public class PlayerMessenger extends ConfigFile {
         String rawMessage = config.getString(path);
 
         if (rawMessage != null) return ChatColor.translateAlternateColorCodes('&', rawMessage);
-        else return "Message not found from " + path;
+        else return "Message not found at: " + path;
 
     }
 
@@ -86,7 +86,7 @@ public class PlayerMessenger extends ConfigFile {
 
             for (String key : replacements.keySet()) {
 
-                rawMessage.replaceAll(key, replacements.get(key));
+                rawMessage = rawMessage.replaceAll(key, replacements.get(key));
 
             }
 

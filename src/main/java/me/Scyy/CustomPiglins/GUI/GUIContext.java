@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 public class GUIContext {
 
-    private PiglinItem piglinItem = null;
+    private PiglinItem piglinItem;
 
     private Player player;
 

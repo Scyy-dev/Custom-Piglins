@@ -17,20 +17,36 @@ public class DefaultConfig extends ConfigFile {
     public DefaultConfig(Plugin plugin) {
         super(plugin, "config.yml");
 
-        // Get the materials from config
-        Material cPCMaterial = Material.getMaterial(config.getString("piglinConverter.consumable.material"));
-        Material ncPCMaterial = Material.getMaterial(config.getString("piglinConverter.non-consumable.material"));
+        // Get the Materials from config
+        String rawCPCMaterial = config.getString("piglinConverter.consumable.material");
+        String rawNCPCMaterial = config.getString("piglinConverter.non-consumable.material");
+        Material cPCMaterial;
+        Material ncPCMaterial;
 
-        // Check if the materials are the same
-        if (cPCMaterial == ncPCMaterial) {
+        // Validate the material
+        if (rawCPCMaterial == null || rawNCPCMaterial == null) {
 
-            throw new IllegalArgumentException("Piglin Converter items must be different materials!");
+            plugin.getLogger().warning("Could not find materials for piglins converters in config!");
+            cPCMaterial = Material.ACACIA_BOAT;
+            ncPCMaterial = Material.ACACIA_BOAT;
+
+        } else {
+
+            cPCMaterial = Material.getMaterial(rawCPCMaterial);
+            ncPCMaterial = Material.getMaterial(rawNCPCMaterial);
 
         }
 
         // Get the raw names from config
         String cPCRawName = config.getString("piglinConverter.consumable.name", "NAME_NOT_FOUND");
         String ncPCRawName = config.getString("piglinConverter.non-consumable.name", "NAME_NOT_FOUND");
+        if (cPCRawName == null || ncPCRawName == null) {
+
+            plugin.getLogger().warning("Could not find materials for piglins converters in config!");
+            cPCRawName = "NAME_NOT_FOUND";
+            ncPCRawName = "NAME_NOT_FOUND";
+
+        }
 
         // Get the lore from config
         List<String> cPCRawLore = config.getStringList("piglinConverter.consumable.lore");

@@ -88,7 +88,6 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
             List<String> list = new ArrayList<>();
 
-            if (commandSender.hasPermission("custompiglins.add")) list.add("add");
             if (commandSender.hasPermission("custompiglins.converter.give")) list.add("converter");
             if (commandSender.hasPermission("custompiglins.reload")) list.add("reload");
 

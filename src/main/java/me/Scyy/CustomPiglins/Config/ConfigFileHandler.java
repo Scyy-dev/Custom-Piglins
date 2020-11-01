@@ -4,8 +4,6 @@ import me.Scyy.CustomPiglins.Plugin;
 
 public class ConfigFileHandler {
 
-    private final Plugin plugin;
-
     private final PiglinItemData piglinItemData;
 
     private final PlayerMessenger playerMessenger;
@@ -13,8 +11,6 @@ public class ConfigFileHandler {
     private final DefaultConfig defaultConfig;
 
     public ConfigFileHandler(Plugin plugin) {
-
-        this.plugin = plugin;
 
         this.piglinItemData = new PiglinItemData(plugin);
 
