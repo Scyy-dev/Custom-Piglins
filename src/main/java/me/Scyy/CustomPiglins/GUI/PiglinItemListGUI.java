@@ -90,39 +90,6 @@ public class PiglinItemListGUI extends InventoryGUI {
     }
 
     @Override
-    public void update(InventoryClickEvent event) {
-
-        // Get the contents of the inventory
-        ItemStack[] contents = event.getView().getTopInventory().getContents();
-
-        // Check if the item has meta
-        if (contents[43].getItemMeta() == null) {
-            // Log an error
-            plugin.getLogger().warning("Error getting the piglin Item!");
-            return;
-        }
-
-        // Get the page reference from the GUI
-        int nextPage = Integer.parseInt(contents[43].getItemMeta().getDisplayName().split(" ")[1]);
-
-        // Create the context of the old GUI
-        GUIContext context = new GUIContext(null, (Player) event.getWhoClicked(), nextPage - 2);
-
-        // Update the context
-        this.setContext(context);
-
-        // Handle the click in the old GUI and hence create the new GUI
-        InventoryGUI newGUI = this.handleClick(event);
-
-        // Update the inventory contents
-        event.getView().getTopInventory().setContents(newGUI.getInventoryItems());
-
-        // Update the players inventory
-        Bukkit.getScheduler().runTask(plugin, () -> ((Player) event.getWhoClicked()).updateInventory());
-
-    }
-
-    @Override
     public InventoryGUI update(InventoryClickEvent event) {
 
         ItemStack[] contents = event.getView().getTopInventory().getContents();
@@ -224,17 +191,6 @@ public class PiglinItemListGUI extends InventoryGUI {
             event.setCancelled(true);
 
             return new PiglinItemListGUI(context, plugin);
-
-        }
-
-        // Check if the item clicked was the Piglin Item Adder
-        if (clickedSlot == 49 && inventoryItems[clickedSlot].getType() == Material.EMERALD_BLOCK) {
-
-            // Cancel the event
-            event.setCancelled(true);
-
-            // Open the Piglin Item Adder
-            return new PiglinItemAdderGUI(context, plugin);
 
         }
 
