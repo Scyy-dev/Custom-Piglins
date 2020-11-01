@@ -138,13 +138,16 @@ public class PiglinItemListGUI extends InventoryGUI {
             // Cancel the event
             event.setCancelled(true);
 
+            // Mark this inventory to be reopened
+            this.reopen = true;
+
             // Return a new PiglinItem page
             return new PiglinItemGUI(context, plugin);
 
         }
 
         // Check if the user is trying to add an item to the inventory
-        if (inventoryItems[clickedSlot] == null && event.getCursor() != null &&  event.getCursor().getType() != Material.AIR) {
+        if (inventoryItems[clickedSlot] == null && event.getCursor() != null && event.getCursor().getType() != Material.AIR) {
 
             ItemStack newItem = event.getCursor().clone();
 
@@ -186,6 +189,6 @@ public class PiglinItemListGUI extends InventoryGUI {
         event.setCancelled(true);
 
         // If no item had an affect, change nothing
-        return this;
+        return new PiglinItemListGUI(context, plugin);
     }
 }

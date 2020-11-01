@@ -28,12 +28,17 @@ public abstract class InventoryGUI implements InventoryHolder {
     /**
      * The array of items in the inventory
      */
-    protected final ItemStack[] inventoryItems;
+    protected ItemStack[] inventoryItems;
 
     /**
      * The inventory to be displayed to the user
      */
     protected final Inventory inventory;
+
+    /**
+     * Whether the inventory needs to be reopened
+     */
+    protected boolean reopen = false;
 
     public InventoryGUI(GUIContext context, Plugin plugin) {
 
@@ -94,5 +99,13 @@ public abstract class InventoryGUI implements InventoryHolder {
 
         // Return the inventory
         return inventory;
+    }
+
+    public boolean shouldReopen() {
+        return reopen;
+    }
+
+    public void setReopen(boolean reopen) {
+        this.reopen = reopen;
     }
 }

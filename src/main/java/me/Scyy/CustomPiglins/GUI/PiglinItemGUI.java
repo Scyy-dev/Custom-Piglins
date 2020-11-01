@@ -293,6 +293,9 @@ public class PiglinItemGUI extends InventoryGUI {
             // Cancel the event
             event.setCancelled(true);
 
+            // Mark the inventory to be reopened
+            this.reopen = true;
+
             return new PiglinItemListGUI(listContext, plugin);
 
         }
@@ -307,6 +310,9 @@ public class PiglinItemGUI extends InventoryGUI {
             // Cancel the event
             event.setCancelled(true);
 
+            // Mark the inventory to be reopened
+            this.reopen = true;
+
             return new PiglinItemListGUI(listContext, plugin);
 
         }
@@ -314,9 +320,11 @@ public class PiglinItemGUI extends InventoryGUI {
         // Cancel the event
         event.setCancelled(true);
 
-        return this;
+        return new PiglinItemGUI(context, plugin);
 
     }
+
+
 
     private boolean itemCanBeDamaged(ItemStack itemStack) {
 
