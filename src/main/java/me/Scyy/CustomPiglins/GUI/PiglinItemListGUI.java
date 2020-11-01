@@ -191,4 +191,9 @@ public class PiglinItemListGUI extends InventoryGUI {
         // If no item had an affect, change nothing
         return new PiglinItemListGUI(context, plugin);
     }
+
+    @Override
+    public boolean allowPlayerInventoryEdits() {
+        return false;
+    }
 }

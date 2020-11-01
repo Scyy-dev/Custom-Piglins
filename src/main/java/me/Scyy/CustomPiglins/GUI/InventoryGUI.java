@@ -4,7 +4,6 @@ import me.Scyy.CustomPiglins.Plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -36,9 +35,14 @@ public abstract class InventoryGUI implements InventoryHolder {
     protected final Inventory inventory;
 
     /**
-     * Whether the inventory needs to be reopened
+     * Flag for if the new inventory needs to be reopened
      */
     protected boolean reopen = false;
+
+    /**
+     * Flag for if players can manipulate their own inventory while this inventory is open
+     */
+    protected boolean playerInventoryEdits = true;
 
     public InventoryGUI(GUIContext context, Plugin plugin) {
 
@@ -107,5 +111,13 @@ public abstract class InventoryGUI implements InventoryHolder {
 
     public void setReopen(boolean reopen) {
         this.reopen = reopen;
+    }
+
+    public boolean allowPlayerInventoryEdits() {
+        return playerInventoryEdits;
+    }
+
+    public void setPlayerInventoryEdits(boolean playerInventoryEdits) {
+        this.playerInventoryEdits = playerInventoryEdits;
     }
 }

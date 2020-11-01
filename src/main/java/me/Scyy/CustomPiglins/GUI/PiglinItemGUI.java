@@ -324,7 +324,10 @@ public class PiglinItemGUI extends InventoryGUI {
 
     }
 
-
+    @Override
+    public boolean allowPlayerInventoryEdits() {
+        return false;
+    }
 
     private boolean itemCanBeDamaged(ItemStack itemStack) {
 

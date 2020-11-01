@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.PlayerInventory;
 
 public class PiglinGUIListener implements Listener {
 
@@ -21,12 +22,17 @@ public class PiglinGUIListener implements Listener {
     public void onInventoryClickEvent(InventoryClickEvent event) {
 
         // Check if the click was a null click
-        if (event.getClickedInventory() == null) return;
+        if (event.getView().getTopInventory().getHolder() == null) return;
 
         // Check if the inventory clicked is an inventory defined by this plugin
-        if (!(event.getClickedInventory().getHolder() instanceof InventoryGUI)) return;
+        if (!(event.getView().getTopInventory().getHolder() instanceof InventoryGUI)) return;
 
-        InventoryGUI oldGUI = (InventoryGUI) event.getClickedInventory().getHolder();
+        InventoryGUI oldGUI = (InventoryGUI) event.getView().getTopInventory().getHolder();
+
+        if (!oldGUI.allowPlayerInventoryEdits() && event.getClickedInventory() instanceof PlayerInventory) {
+            event.setCancelled(true);
+            return;
+        }
 
         InventoryGUI updatedGUI = oldGUI.update(event);
 
