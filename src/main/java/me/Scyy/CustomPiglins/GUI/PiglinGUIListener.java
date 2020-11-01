@@ -26,74 +26,23 @@ public class PiglinGUIListener implements Listener {
         // Check if the inventory clicked is an inventory defined by this plugin
         if (!(event.getClickedInventory().getHolder() instanceof InventoryGUI)) return;
 
-        // Get the contents of the inventory
-        ItemStack[] contents = event.getView().getTopInventory().getContents();
+        InventoryGUI oldGUI = (InventoryGUI) event.getClickedInventory().getHolder();
 
-        // Handle clicks in the Piglin Item List inventory
-        if (contents[43] != null && contents[43].getType() == Material.ARROW) {
+        InventoryGUI updatedGUI = oldGUI.update(event);
 
-            // Check if the item has meta
-            if (contents[43].getItemMeta() == null) {
+        if (oldGUI.shouldReopen()) {
 
-                // Log an error
-                plugin.getLogger().warning("Error getting the piglin Item!");
+            // Reopen the new inventory
+            Bukkit.getScheduler().runTask(plugin, () -> event.getWhoClicked().openInventory(updatedGUI.getInventory()));
 
-                return;
-
-            }
-
-            // Get the page reference from the GUI
-            int nextPage = Integer.parseInt(contents[43].getItemMeta().getDisplayName().split(" ")[1]);
-
-            // Create the context of the old GUI
-            GUIContext context = new GUIContext(null, (Player) event.getWhoClicked(), nextPage - 2);
-
-            // Create an instance of the old GUI
-            PiglinItemListGUI gui = new PiglinItemListGUI(context, plugin);
-
-            // Handle the click in the old GUI and hence create the new GUI
-            InventoryGUI newGUI = gui.handleClick(event);
+        } else {
 
             // Update the inventory contents
-            event.getClickedInventory().setContents(newGUI.getInventoryItems());
+            event.getView().getTopInventory().setContents(updatedGUI.getInventoryItems());
 
             // Update the players inventory
             Bukkit.getScheduler().runTask(plugin, () -> ((Player) event.getWhoClicked()).updateInventory());
 
-        // Handle clicks in the Piglin Item Inventory
-        } else if (contents[53] != null && contents[53].getType() == Material.NETHER_STAR) {
-
-            // Check if the item has meta
-            if (contents[0].getItemMeta() == null) {
-
-                // Log an error
-                plugin.getLogger().warning("Error getting the piglin Item!");
-
-                return;
-
-            }
-
-            // Get the ID of the piglin item from the UI
-            int piglinItemID = Integer.parseInt(contents[0].getItemMeta().getDisplayName());
-
-            // Get the piglin item from the generator
-            PiglinItem item = generator.getPiglinItem(piglinItemID);
-
-            // Create the context of the old GUI
-            GUIContext context = new GUIContext(item, (Player) event.getWhoClicked(), 0);
-
-            // Create an instance of the old GUI
-            PiglinItemGUI gui = new PiglinItemGUI(context, plugin);
-
-            // Handle the click in the old GUI and hence create the new GUI
-            InventoryGUI newGUI = gui.handleClick(event);
-
-            // Update the inventory contents
-            event.getClickedInventory().setContents(newGUI.getInventoryItems());
-
-            // Update the inventory
-            Bukkit.getScheduler().runTask(plugin, () -> ((Player) event.getWhoClicked()).updateInventory());
-            
         }
 
     }
