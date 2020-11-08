@@ -4,6 +4,7 @@ import me.Scyy.CustomPiglins.Plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -15,9 +16,14 @@ public abstract class InventoryGUI implements InventoryHolder {
     public static final String INVENTORY_NAME = ChatColor.translateAlternateColorCodes('&', "&6&lCustom&8&lPiglins");
 
     /**
-     * Context for the inventory being constructed
+     * A reference to the GUI before this one. Null if the GUI system was just opened
      */
-    protected GUIContext context;
+    protected InventoryGUI lastGUI;
+
+    /**
+     * Reference to the player associated with this GUI
+     */
+    protected Player player;
 
     /**
      * Main plugin reference
@@ -44,9 +50,9 @@ public abstract class InventoryGUI implements InventoryHolder {
      */
     protected boolean playerInventoryEdits = true;
 
-    public InventoryGUI(GUIContext context, Plugin plugin) {
+    public InventoryGUI(InventoryGUI lastGUI, Plugin plugin) {
 
-        this.context = context;
+        this.lastGUI = lastGUI;
         this.plugin = plugin;
         this.inventoryItems = initaliseDefaultPage();
         this.inventory = Bukkit.createInventory(this, 54, INVENTORY_NAME);
@@ -79,13 +85,20 @@ public abstract class InventoryGUI implements InventoryHolder {
     public abstract InventoryGUI update(InventoryClickEvent event);
 
     // Getters and Setters
-
-    public GUIContext getContext() {
-        return context;
+    public InventoryGUI getLastGUI() {
+        return lastGUI;
     }
 
-    public void setContext(GUIContext context) {
-        this.context = context;
+    public void setLastGUI(InventoryGUI lastGUI) {
+        this.lastGUI = lastGUI;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public Plugin getPlugin() {

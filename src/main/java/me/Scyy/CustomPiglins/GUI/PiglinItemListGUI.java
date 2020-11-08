@@ -1,11 +1,11 @@
 package me.Scyy.CustomPiglins.GUI;
 
+import me.Scyy.CustomPiglins.GUI.Suppliers.PiglinItemSupplier;
 import me.Scyy.CustomPiglins.Piglins.PiglinLootGenerator;
 import me.Scyy.CustomPiglins.Piglins.PiglinItem;
 import me.Scyy.CustomPiglins.Plugin;
 import me.Scyy.CustomPiglins.Util.ItemBuilder;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -22,10 +22,17 @@ import java.util.ArrayList;
 // P = previous page
 // N = next page
 
-public class PiglinItemListGUI extends InventoryGUI {
+public class PiglinItemListGUI extends InventoryGUI implements PiglinItemSupplier {
 
-    public PiglinItemListGUI(GUIContext context, Plugin plugin) {
-        super(context, plugin);
+    private int page;
+
+    private PiglinItem clickedPiglinItem;
+
+    public PiglinItemListGUI(InventoryGUI lastGUI, Plugin plugin) {
+        super(lastGUI, plugin);
+
+        if (lastGUI instanceof PiglinItemListGUI) page = ((PiglinItemListGUI) lastGUI).page;
+        else page = 0;
 
         // Get the generator from the UI
         PiglinLootGenerator generator = plugin.getGenerator();
@@ -34,10 +41,10 @@ public class PiglinItemListGUI extends InventoryGUI {
         ArrayList<PiglinItem> piglinItems = new ArrayList<>(generator.getPiglinItems());
 
         // Calculate the starting index for the items from the piglinItems array
-        int piglinItemStartIndex = 21 * context.getPage();
+        int piglinItemStartIndex = 21 * page;
 
         // Calculate the ending index
-        int piglinItemEndIndex = 21 * (context.getPage() + 1);
+        int piglinItemEndIndex = 21 * (page + 1);
 
         // inventory index tracks the inventory slot of each item, is irrelevant to the index for in piglinItems
         int inventoryIndex = 10;
@@ -70,14 +77,14 @@ public class PiglinItemListGUI extends InventoryGUI {
         }
 
         // Check if the page is not 0 and if so add the previous pagination arrow
-        if (context.getPage() != 0) {
+        if (page != 0) {
 
-            inventoryItems[37] = new ItemBuilder(Material.ARROW).name("&6Page " + context.getPage()).build();
+            inventoryItems[37] = new ItemBuilder(Material.ARROW).name("&6Page " + page).build();
 
         }
 
         // determine the page number
-        int nextPageNum = context.getPage() + 2;
+        int nextPageNum = page + 2;
 
         // Add the next pagination arrow
         inventoryItems[43] = new ItemBuilder(Material.ARROW).name("&6Page " + nextPageNum).build();
@@ -91,18 +98,11 @@ public class PiglinItemListGUI extends InventoryGUI {
 
         if (event.getView().getTopInventory().getHolder() instanceof PiglinItemListGUI) {
 
+            // Update the inventory contents
             this.inventoryItems = contents;
 
-            // Get the page reference from the GUI
-            int nextPage = Integer.parseInt(contents[43].getItemMeta().getDisplayName().split(" ")[1]);
-
-            // Create the context of the old GUI
-            this.context = new GUIContext(null, (Player) event.getWhoClicked(), nextPage - 2);
-
-        } else {
-
-            // Create a new GUIContext
-            this.context = new GUIContext(null, (Player) event.getWhoClicked(), context.getPage());
+            // Update the page for this GUI
+            this.page = Integer.parseInt(contents[43].getItemMeta().getDisplayName().split(" ")[1]) - 2;
 
         }
 
@@ -131,13 +131,10 @@ public class PiglinItemListGUI extends InventoryGUI {
         if (isListGUI && piglinItemSlot != -1 && inventoryItems[clickedSlot] != null) {
 
             // Calculate the index in the array from the generator
-            int piglinArraySlot = piglinItemSlot + 21 * context.getPage();
+            int piglinArraySlot = piglinItemSlot + 21 * page;
 
             // Get the item from the generator
-            PiglinItem piglinItem = new ArrayList<>(plugin.getGenerator().getPiglinItems()).get(piglinArraySlot);
-
-            // Create the GUI context
-            GUIContext context = new GUIContext(piglinItem, this.context.getPlayer(), this.context.getPage());
+            this.clickedPiglinItem = new ArrayList<>(plugin.getGenerator().getPiglinItems()).get(piglinArraySlot);
 
             // Cancel the event
             event.setCancelled(true);
@@ -146,7 +143,7 @@ public class PiglinItemListGUI extends InventoryGUI {
             this.reopen = true;
 
             // Return a new PiglinItem page
-            return new PiglinItemGUI(context, plugin);
+            return new PiglinItemGUI(this, plugin);
 
         }
 
@@ -159,7 +156,7 @@ public class PiglinItemListGUI extends InventoryGUI {
 
             event.setCancelled(true);
 
-            return new PiglinItemListGUI(context, plugin);
+            return new PiglinItemListGUI(this, plugin);
 
         }
 
@@ -167,12 +164,12 @@ public class PiglinItemListGUI extends InventoryGUI {
         if (isListGUI && clickedSlot == 37 && inventoryItems[clickedSlot].getType() == Material.ARROW) {
 
             // decrement the page
-            context.setPage(context.getPage() - 1);
+            this.page--;
 
             // Cancel the event
             event.setCancelled(true);
 
-            return new PiglinItemListGUI(context, plugin);
+            return new PiglinItemListGUI(this, plugin);
 
         }
 
@@ -180,12 +177,12 @@ public class PiglinItemListGUI extends InventoryGUI {
         if (isListGUI && clickedSlot == 43 && inventoryItems[clickedSlot].getType() == Material.ARROW) {
 
             // increment the page
-            context.setPage(context.getPage() + 1);
+            this.page++;
 
             // Cancel the event
             event.setCancelled(true);
 
-            return new PiglinItemListGUI(context, plugin);
+            return new PiglinItemListGUI(this, plugin);
 
         }
 
@@ -194,11 +191,16 @@ public class PiglinItemListGUI extends InventoryGUI {
         event.setCancelled(true);
 
         // If no item had an affect, change nothing
-        return new PiglinItemListGUI(context, plugin);
+        return new PiglinItemListGUI(this, plugin);
     }
 
     @Override
     public boolean allowPlayerInventoryEdits() {
         return true;
+    }
+
+    @Override
+    public PiglinItem supplyPiglinItem() {
+        return clickedPiglinItem;
     }
 }

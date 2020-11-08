@@ -1,13 +1,12 @@
 package me.Scyy.CustomPiglins.GUI;
 
+import me.Scyy.CustomPiglins.GUI.Suppliers.PiglinItemSupplier;
 import me.Scyy.CustomPiglins.Piglins.PiglinItem;
 import me.Scyy.CustomPiglins.Piglins.PiglinLootGenerator;
 import me.Scyy.CustomPiglins.Plugin;
 import me.Scyy.CustomPiglins.Util.ItemBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.EnchantmentTarget;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -29,19 +28,23 @@ import org.bukkit.inventory.meta.ItemMeta;
 // R = Remove Item
 // C = Drop Chance
 
-public class PiglinItemGUI extends InventoryGUI {
+public class PiglinItemGUI extends InventoryGUI implements PiglinItemSupplier {
 
-    public PiglinItemGUI(GUIContext context, Plugin plugin) {
-        super(context, plugin);
+    private PiglinItem piglinItem;
+
+    public PiglinItemGUI(InventoryGUI lastGUI, Plugin plugin) {
+        super(lastGUI, plugin);
 
         // Get the piglinItem
-        PiglinItem piglinItem = context.getPiglinItem();
+        if (lastGUI instanceof PiglinItemSupplier) {
 
-        // Check if there is a usable context
-        if (context.getPiglinItem() == null) throw new IllegalArgumentException("Cannot use null PiglinItem");
+            this.piglinItem = ((PiglinItemSupplier) lastGUI).supplyPiglinItem();
 
-        // Set the ID so the the listener can get the PiglinItem
-        inventoryItems[0] = new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).name("" + piglinItem.getItemID()).build();
+        } else {
+
+            plugin.getLogger().warning("last GUI could not supply a PiglinItem!");
+
+        }
 
         // Set the item to be displayed
         inventoryItems[13] = piglinItem.getItem();
@@ -138,22 +141,14 @@ public class PiglinItemGUI extends InventoryGUI {
     @Override
     public InventoryGUI update(InventoryClickEvent event) {
 
-        ItemStack[] contents = event.getView().getTopInventory().getContents();
-
-        this.inventoryItems = contents;
+        this.inventoryItems = event.getView().getTopInventory().getContents();
 
         PiglinLootGenerator generator = plugin.getGenerator();
 
         if (event.getView().getTopInventory().getHolder() instanceof PiglinItemGUI) {
 
-            // Get the ID of the piglin item from the UI
-            int piglinItemID = Integer.parseInt(contents[0].getItemMeta().getDisplayName());
-
             // Get the piglin item from the generator
-            PiglinItem item = generator.getPiglinItem(piglinItemID);
-
-            // Create the context of the old GUI
-            this.context = new GUIContext(item, (Player) event.getWhoClicked(), 0);
+            this.piglinItem = generator.getPiglinItem(piglinItem.getItemID());
 
         }
 
@@ -170,27 +165,27 @@ public class PiglinItemGUI extends InventoryGUI {
         // Check if the item clicked was the weight counter
         if (clickedSlot == 29 && inventoryItems[29] != null) {
 
-            int weight = context.getPiglinItem().getWeight();
+            int weight = piglinItem.getWeight();
 
-            if (clickType.isRightClick()) context.getPiglinItem().setWeight(weight + 1);
-            else if (clickType.isLeftClick() && weight > 1) context.getPiglinItem().setWeight(weight - 1);
+            if (clickType.isRightClick()) piglinItem.setWeight(weight + 1);
+            else if (clickType.isLeftClick() && weight > 1) piglinItem.setWeight(weight - 1);
 
-            plugin.getGenerator().updatePiglinItem(context.getPiglinItem(), true);
+            plugin.getGenerator().updatePiglinItem(piglinItem, true);
 
             // Cancel the event
             event.setCancelled(true);
 
-            return new PiglinItemGUI(context, plugin);
+            return new PiglinItemGUI(this, plugin);
 
         }
 
         // Check if the item clicked was the random damage toggle
         if (clickedSlot == 30 && inventoryItems[30] != null
-                && itemCanBeDamaged(context.getPiglinItem().getItem())) {
+                && itemCanBeDamaged(piglinItem.getItem())) {
 
-            boolean hasRandomDamage = context.getPiglinItem().hasRandomDamage();
+            boolean hasRandomDamage = piglinItem.hasRandomDamage();
 
-            context.getPiglinItem().setRandomDamage(!hasRandomDamage);
+            piglinItem.setRandomDamage(!hasRandomDamage);
 
             ItemBuilder rdBuilder = new ItemBuilder(Material.NETHERITE_SHOVEL).name("&6Random Durability");
 
@@ -201,19 +196,19 @@ public class PiglinItemGUI extends InventoryGUI {
 
             inventoryItems[30] = rdBuilder.build();
 
-            plugin.getGenerator().updatePiglinItem(context.getPiglinItem(), false);
+            plugin.getGenerator().updatePiglinItem(piglinItem, false);
 
             // Cancel the event
             event.setCancelled(true);
 
-            return new PiglinItemGUI(context, plugin);
+            return new PiglinItemGUI(this, plugin);
 
         }
 
         // Check if the item clicked was the random enchantment level toggle
         if (clickedSlot == 31 && inventoryItems[31] != null) {
 
-            ItemMeta itemMeta = context.getPiglinItem().getItem().getItemMeta();
+            ItemMeta itemMeta = piglinItem.getItem().getItemMeta();
 
             boolean hasAnyEnchants = itemMeta != null && itemMeta.hasEnchants();
 
@@ -222,9 +217,9 @@ public class PiglinItemGUI extends InventoryGUI {
             // Check if the item has normal enchants or has stored enchants
             if (hasAnyEnchants || hasAnyStoredEnchants) {
 
-                boolean hasRandomEnchantmentLevels = context.getPiglinItem().hasRandomEnchantLevels();
+                boolean hasRandomEnchantmentLevels = piglinItem.hasRandomEnchantLevels();
 
-                context.getPiglinItem().setRandomEnchantLevels(!hasRandomEnchantmentLevels);
+                piglinItem.setRandomEnchantLevels(!hasRandomEnchantmentLevels);
 
                 ItemBuilder relBuilder = new ItemBuilder(Material.BOOK).name("&6Random Enchant Levels");
 
@@ -236,12 +231,12 @@ public class PiglinItemGUI extends InventoryGUI {
 
                 inventoryItems[31] = relBuilder.build();
 
-                plugin.getGenerator().updatePiglinItem(context.getPiglinItem(), false);
+                plugin.getGenerator().updatePiglinItem(piglinItem, false);
 
                 // Cancel the event
                 event.setCancelled(true);
 
-                return new PiglinItemGUI(context, plugin);
+                return new PiglinItemGUI(this, plugin);
 
             }
 
@@ -250,62 +245,62 @@ public class PiglinItemGUI extends InventoryGUI {
         // Check if the item clicked was the minimum amount counter
         if (clickedSlot == 32 && inventoryItems[32] != null) {
 
-            int minAmount = context.getPiglinItem().getMinAmount();
+            int minAmount = piglinItem.getMinAmount();
 
-            if (clickType.isRightClick() && minAmount < context.getPiglinItem().getMaxAmount() && minAmount < 64) {
-                context.getPiglinItem().setMinAmount(minAmount + 1);
+            int providedItemMaxAmount = piglinItem.getItem().getMaxStackSize();
+
+            if (clickType.isRightClick() && minAmount < piglinItem.getMaxAmount() && minAmount < providedItemMaxAmount) {
+                piglinItem.setMinAmount(minAmount + 1);
             }
-            else if (clickType.isLeftClick() && minAmount > 1) context.getPiglinItem().setMinAmount(minAmount - 1);
+            else if (clickType.isLeftClick() && minAmount > 1) piglinItem.setMinAmount(minAmount - 1);
 
-            plugin.getGenerator().updatePiglinItem(context.getPiglinItem(), false);
+            plugin.getGenerator().updatePiglinItem(piglinItem, false);
 
             // Cancel the event
             event.setCancelled(true);
 
-            return new PiglinItemGUI(context, plugin);
+            return new PiglinItemGUI(this, plugin);
 
         }
 
         // Check if the item clicked was the maximum amount counter
         if (clickedSlot == 33 && inventoryItems[33] != null) {
 
-            int maxAmount = context.getPiglinItem().getMaxAmount();
+            int maxAmount = piglinItem.getMaxAmount();
 
-            if (clickType.isRightClick() && maxAmount < 64) context.getPiglinItem().setMaxAmount(maxAmount + 1);
-            else if (clickType.isLeftClick() && maxAmount > context.getPiglinItem().getMinAmount()) {
-                context.getPiglinItem().setMaxAmount(maxAmount - 1);
+            int providedItemMaxAmount = piglinItem.getItem().getMaxStackSize();
+
+            if (clickType.isRightClick() && maxAmount < providedItemMaxAmount) piglinItem.setMaxAmount(maxAmount + 1);
+            else if (clickType.isLeftClick() && maxAmount > piglinItem.getMinAmount()) {
+                piglinItem.setMaxAmount(maxAmount - 1);
             }
 
-            plugin.getGenerator().updatePiglinItem(context.getPiglinItem(), false);
+            plugin.getGenerator().updatePiglinItem(piglinItem, false);
 
             // Cancel the event
             event.setCancelled(true);
 
-            return new PiglinItemGUI(context, plugin);
+            return new PiglinItemGUI(this, plugin);
 
         }
 
         // Check if the item clicked was the back arrow
         if (clickedSlot == 45 && inventoryItems[45] != null) {
 
-            GUIContext listContext = new GUIContext(context.getPiglinItem(), context.getPlayer(), 0);
-
             // Cancel the event
             event.setCancelled(true);
 
             // Mark the inventory to be reopened
             this.reopen = true;
 
-            return new PiglinItemListGUI(listContext, plugin);
+            return new PiglinItemListGUI(this, plugin);
 
         }
 
         // Check if the item clicked was the remove button
         if (clickedSlot == 49 && inventoryItems[49] != null) {
 
-            plugin.getGenerator().removePiglinItem(context.getPiglinItem().getItemID());
-
-            GUIContext listContext = new GUIContext(context.getPiglinItem(), context.getPlayer(), 0);
+            plugin.getGenerator().removePiglinItem(piglinItem.getItemID());
 
             // Cancel the event
             event.setCancelled(true);
@@ -313,14 +308,14 @@ public class PiglinItemGUI extends InventoryGUI {
             // Mark the inventory to be reopened
             this.reopen = true;
 
-            return new PiglinItemListGUI(listContext, plugin);
+            return new PiglinItemListGUI(this, plugin);
 
         }
 
         // Cancel the event
         event.setCancelled(true);
 
-        return new PiglinItemGUI(context, plugin);
+        return new PiglinItemGUI(this, plugin);
 
     }
 
@@ -335,4 +330,8 @@ public class PiglinItemGUI extends InventoryGUI {
 
     }
 
+    @Override
+    public PiglinItem supplyPiglinItem() {
+        return piglinItem;
+    }
 }
