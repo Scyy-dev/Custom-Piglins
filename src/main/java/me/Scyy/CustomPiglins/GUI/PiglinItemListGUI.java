@@ -4,7 +4,6 @@ import me.Scyy.CustomPiglins.Piglins.PiglinLootGenerator;
 import me.Scyy.CustomPiglins.Piglins.PiglinItem;
 import me.Scyy.CustomPiglins.Plugin;
 import me.Scyy.CustomPiglins.Util.ItemBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -19,10 +18,9 @@ import java.util.ArrayList;
 // # 0 0 0 0 0 0 0 #
 // # 0 0 0 0 0 0 0 #
 // # P # # # # # N #
-// # # # # E # # # #
+// # # # # # # # # #
 // P = previous page
 // N = next page
-// E = Piglin Item Adder
 
 public class PiglinItemListGUI extends InventoryGUI {
 
