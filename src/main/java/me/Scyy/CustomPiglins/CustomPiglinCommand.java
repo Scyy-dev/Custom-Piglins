@@ -1,7 +1,6 @@
 package me.Scyy.CustomPiglins;
 
 import me.Scyy.CustomPiglins.Config.PlayerMessenger;
-import me.Scyy.CustomPiglins.GUI.GUIContext;
 import me.Scyy.CustomPiglins.GUI.InventoryGUI;
 import me.Scyy.CustomPiglins.GUI.PiglinItemListGUI;
 import org.bukkit.Bukkit;
@@ -36,7 +35,7 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
             if (validate(sender instanceof Player, "errorMessages.mustBePlayer", sender)) return true;
 
             Player player = (Player) sender;
-            InventoryGUI inventoryGUI = new PiglinItemListGUI(new GUIContext(null, player, 0), plugin);
+            InventoryGUI inventoryGUI = new PiglinItemListGUI(null, plugin);
             player.openInventory(inventoryGUI.getInventory());
             return true;
 
