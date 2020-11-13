@@ -54,7 +54,7 @@ public abstract class InventoryGUI implements InventoryHolder {
 
         this.lastGUI = lastGUI;
         this.plugin = plugin;
-        this.inventoryItems = initaliseDefaultPage();
+        this.inventoryItems = initialiseDefaultPage();
         this.inventory = Bukkit.createInventory(this, 54, INVENTORY_NAME);
 
     }
@@ -63,7 +63,7 @@ public abstract class InventoryGUI implements InventoryHolder {
      * Creates a double chest full of nameless black stained glass panes
      * @return the itemstack array with the glass panes
      */
-    private ItemStack[] initaliseDefaultPage() {
+    private ItemStack[] initialiseDefaultPage() {
 
         ItemStack[] defaultInv = new ItemStack[54];
         for (int i = 0; i < 54; i++) {
