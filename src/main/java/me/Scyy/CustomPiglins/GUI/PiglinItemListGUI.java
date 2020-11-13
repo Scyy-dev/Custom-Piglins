@@ -161,7 +161,7 @@ public class PiglinItemListGUI extends InventoryGUI implements PiglinItemSupplie
         }
 
         // Check if the item clicked was a back page arrow
-        if (isListGUI && clickedSlot == 37 && inventoryItems[clickedSlot].getType() == Material.ARROW) {
+        if (isListGUI && clickedSlot == 37) {
 
             // decrement the page
             this.page--;
@@ -174,7 +174,7 @@ public class PiglinItemListGUI extends InventoryGUI implements PiglinItemSupplie
         }
 
         // Check the item clicked was a forward page arrow
-        if (isListGUI && clickedSlot == 43 && inventoryItems[clickedSlot].getType() == Material.ARROW) {
+        if (isListGUI && clickedSlot == 43) {
 
             // increment the page
             this.page++;
