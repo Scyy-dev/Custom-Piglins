@@ -1,11 +1,13 @@
 package me.Scyy.CustomPiglins.GUI;
 
 import me.Scyy.CustomPiglins.Plugin;
+import me.Scyy.CustomPiglins.Util.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -45,17 +47,22 @@ public abstract class InventoryGUI implements InventoryHolder {
      */
     protected boolean reopen = false;
 
-    /**
-     * Flag for if players can manipulate their own inventory while this inventory is open
-     */
-    protected boolean playerInventoryEdits = true;
-
-    public InventoryGUI(InventoryGUI lastGUI, Plugin plugin) {
+    public InventoryGUI(InventoryGUI lastGUI, Plugin plugin, InventoryType type) {
 
         this.lastGUI = lastGUI;
         this.plugin = plugin;
-        this.inventoryItems = initialiseDefaultPage();
-        this.inventory = Bukkit.createInventory(this, 54, INVENTORY_NAME);
+        this.inventoryItems = new ItemStack[type.getDefaultSize()];
+        this.inventory = Bukkit.createInventory(this, InventoryType.ANVIL, INVENTORY_NAME);
+
+    }
+
+    public InventoryGUI(InventoryGUI lastGUI, Plugin plugin, int size) {
+
+        this.lastGUI = lastGUI;
+        this.plugin = plugin;
+        this.inventoryItems = initialiseDefaultPage(size);
+        this.inventory = Bukkit.createInventory(this, size, INVENTORY_NAME);
+
 
     }
 
@@ -63,17 +70,11 @@ public abstract class InventoryGUI implements InventoryHolder {
      * Creates a double chest full of nameless black stained glass panes
      * @return the itemstack array with the glass panes
      */
-    private ItemStack[] initialiseDefaultPage() {
+    private ItemStack[] initialiseDefaultPage(int size) {
 
-        ItemStack[] defaultInv = new ItemStack[54];
-        for (int i = 0; i < 54; i++) {
-
-            ItemStack blackGlass = new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1);
-            ItemMeta glassMeta = blackGlass.getItemMeta();
-            glassMeta.setDisplayName("");
-            blackGlass.setItemMeta(glassMeta);
-            defaultInv[i] = blackGlass;
-
+        ItemStack[] defaultInv = new ItemStack[size];
+        for (int i = 0; i < size; i++) {
+            defaultInv[i] = new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).name("").build();
         }
 
         return defaultInv;
@@ -126,11 +127,6 @@ public abstract class InventoryGUI implements InventoryHolder {
         this.reopen = reopen;
     }
 
-    public boolean allowPlayerInventoryEdits() {
-        return playerInventoryEdits;
-    }
+    public abstract boolean allowPlayerInventoryEdits();
 
-    public void setPlayerInventoryEdits(boolean playerInventoryEdits) {
-        this.playerInventoryEdits = playerInventoryEdits;
-    }
 }
