@@ -15,7 +15,6 @@
 *.iml
 
 # Maven files
-pom.xml
 target/*
 
 # Package Files #
