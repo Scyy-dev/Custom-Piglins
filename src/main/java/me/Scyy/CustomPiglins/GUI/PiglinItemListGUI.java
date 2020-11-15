@@ -29,7 +29,7 @@ public class PiglinItemListGUI extends InventoryGUI implements PiglinItemSupplie
     private PiglinItem clickedPiglinItem;
 
     public PiglinItemListGUI(InventoryGUI lastGUI, Plugin plugin) {
-        super(lastGUI, plugin);
+        super(lastGUI, plugin, 54);
 
         if (lastGUI instanceof PiglinItemListGUI) page = ((PiglinItemListGUI) lastGUI).page;
         else page = 0;

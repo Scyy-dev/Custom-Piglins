@@ -33,7 +33,7 @@ public class PiglinItemGUI extends InventoryGUI implements PiglinItemSupplier {
     private PiglinItem piglinItem;
 
     public PiglinItemGUI(InventoryGUI lastGUI, Plugin plugin) {
-        super(lastGUI, plugin);
+        super(lastGUI, plugin, 54);
 
         // Get the piglinItem
         if (lastGUI instanceof PiglinItemSupplier) {
