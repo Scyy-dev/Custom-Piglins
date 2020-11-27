@@ -4,13 +4,13 @@ import me.Scyy.CustomPiglins.Config.DefaultConfig;
 import me.Scyy.CustomPiglins.Plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.PigZombie;
-import org.bukkit.entity.Piglin;
+import org.bukkit.Material;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 
 public class ZombifiedPiglinInteractEvent implements Listener {
@@ -70,32 +70,25 @@ public class ZombifiedPiglinInteractEvent implements Listener {
         boolean isConsumable = false;
         if (mainHand.isSimilar(consumableConverter)) isConsumable = true;
 
-        // EntityEquipment pigZombieInv = pigZombie.getEquipment();
+        EntityEquipment pigZombieInv = pigZombie.getEquipment();
 
         // Remove the zombified piglin
         event.getRightClicked().remove();
 
-        /*
-        AbstractPiglin piglin;
+
+        PiglinAbstract piglin;
         if (pigZombieInv != null && pigZombieInv.getItemInMainHand().getType() == Material.GOLDEN_AXE) {
             piglin = event.getRightClicked().getWorld().spawn(event.getRightClicked().getLocation(), PiglinBrute.class);
         } else {
             piglin = event.getRightClicked().getWorld().spawn(event.getRightClicked().getLocation(), Piglin.class);
         }
-         */
-
-
-        // Spawn a new piglin
-        Piglin piglin = event.getRightClicked().getWorld().spawn(event.getRightClicked().getLocation(), Piglin.class);
 
         // Set the piglin to not zombify
         piglin.setImmuneToZombification(true);
 
         // Check if it is an adult or baby
-        if (pigZombie.isAdult()) piglin.setAdult();
-        else piglin.setBaby();
-
-
+        if (!pigZombie.isAdult() && !(piglin instanceof PiglinBrute)) piglin.setBaby();
+        else if (!(piglin instanceof PiglinBrute)) piglin.setAdult();
 
         // Set the custom name
         if (pigZombie.getCustomName() != null) {
