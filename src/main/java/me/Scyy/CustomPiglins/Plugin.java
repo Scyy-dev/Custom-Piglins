@@ -6,6 +6,7 @@ import me.Scyy.CustomPiglins.Piglins.PiglinLootGenerator;
 import me.Scyy.CustomPiglins.Piglins.PiglinItemDropEvent;
 import me.Scyy.CustomPiglins.Piglins.ZombifiedPiglinInteractEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Plugin extends JavaPlugin {
@@ -49,9 +50,22 @@ public class Plugin extends JavaPlugin {
 
     }
 
-    public void reloadConfigs() {
-
-        configFileHandler.reloadConfigs();
+    /**
+     * Saves all generator data to config and load
+     */
+    public void reload(CommandSender sender) {
+        try {
+            sender.sendMessage("Saving custom piglin item data...");
+            configFileHandler.getPiglinItemDataConfig().saveGeneratorData();
+            sender.sendMessage("Custom piglin item data saved!");
+            sender.sendMessage("reloading configs...");
+            configFileHandler.reloadConfigs();
+            generator.setPiglinItems(configFileHandler.getPiglinItemDataConfig().loadPiglinItems());
+            sender.sendMessage("Successfully reloaded!");
+        } catch (Exception e) {
+            sender.sendMessage("Error reloading! See console for error!");
+            e.printStackTrace();
+        }
 
     }
 
