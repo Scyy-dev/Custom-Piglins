@@ -2,7 +2,6 @@
 # These piglins will NOT zombify again, even in overworld
 piglinConverter:
   consumable:
-    convertedName: "&6Piglin"
     material: BLAZE_POWDER
     name: "&6Piglin &8Converter"
     lore:
@@ -11,7 +10,6 @@ piglinConverter:
       - "&r&7Consumable"
     isShiny: true
   non-consumable:
-    convertedName: "&6Piglin"
     material: BLAZE_ROD
     name: "&6Piglin &8Converter"
     lore:
