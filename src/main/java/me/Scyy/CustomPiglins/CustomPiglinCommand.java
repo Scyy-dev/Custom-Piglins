@@ -31,8 +31,14 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
         if (args.length == 0) {
 
-            if (validate(sender.hasPermission("custompiglins.gui"), "errorMessages.noPermission", sender)) return true;
-            if (validate(sender instanceof Player, "errorMessages.mustBePlayer", sender)) return true;
+            if (!sender.hasPermission("custompiglins.gui")) {
+                pm.msg(sender, "errorMessages.noPermission", false);
+                return true;
+            }
+            if (!(sender instanceof Player)) {
+                pm.msg(sender, "errorMessages.mustBePlayer", true);
+                return true;
+            }
 
             Player player = (Player) sender;
             InventoryGUI inventoryGUI = new PiglinItemListGUI(null, plugin);
@@ -45,30 +51,17 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
             // /custompiglins converter [consumable | non-consumable] [player]
             case "converter":
-
-                if (validate(sender.hasPermission("custompiglins.converter.give"), "errorMessages.noPermission", sender)) return true;
-                if (validate(args.length == 3, "errorMessages.invalidCommandLength", sender)) return true;
-                if (validate(Bukkit.getPlayer(args[2]) != null, "errorMessages.playerNotFound", sender)) return true;
-
                 converterSubcommand(sender, args);
                 return true;
 
             // /custompiglins reload
             case "reload":
 
-                if (validate(sender.hasPermission("custompiglins.reload"), "errorMessages.noPermission", sender)) return true;
-
-                try {
-
-                    plugin.reloadConfigs();
-
-                } catch (Exception e) {
-
-                    sender.sendMessage("Could not reload configs! Check Console for error!");
-                    e.printStackTrace();
-
+                if (!sender.hasPermission("custompiglins.reload")) {
+                    pm.msg(sender, "errorMessages.noPermission", false);
+                    return true;
                 }
-
+                plugin.reload(sender);
                 return true;
 
             default:
@@ -96,7 +89,6 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
         if (args[0].equals("converter")) {
             if (!commandSender.hasPermission("custompiglins.converter.give")) return null;
-
             if (args.length == 2) return Arrays.asList("consumable", "non-consumable");
             return null;
         }
@@ -120,11 +112,13 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
             case "consumable":
 
                 target.getInventory().addItem(plugin.getConfigFileHandler().getDefaultConfig().getConsumableConverter());
+                pm.msg(target, "converterMessages.receivedConsumable");
                 return;
 
             case "non-consumable":
 
                 target.getInventory().addItem(plugin.getConfigFileHandler().getDefaultConfig().getNonConsumableConverter());
+                pm.msg(target, "converterMessages.receivedNonConsumable");
                 return;
 
             default:
