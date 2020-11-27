@@ -3,14 +3,8 @@
 # -================================-
 # All messages use the '&' symbol for colouring/styling
 
-# Some messages will support having item names
-
-# Use %item% when applicable
-
-# Leave a message blank ("") to send no message
-
 # Prefix for all messages
-prefix: "&r&7[&6Custom&7Piglins&r&7]&f "
+prefix: "&r&7[&6Custom&7Piglins&r&7]&f"
 
 # Global error messages that apply to all commands
 errorMessages:
@@ -22,6 +16,9 @@ errorMessages:
   cannotDropAir: "&cPiglins cannot drop air"
   internalError: "Something went wrong trying to execute that command"
 
-reloadMessages:
-  reload: "&aReloading needs work!"
+converterMessages:
+  receivedConsumable: "&7You have received a &6Piglin Converter!"
+  receivedNonConsumable: "&7You have received a &6Piglin Converter!"
+
+
 

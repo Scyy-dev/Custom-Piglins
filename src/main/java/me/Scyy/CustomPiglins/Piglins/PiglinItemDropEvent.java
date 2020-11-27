@@ -33,7 +33,7 @@ public class PiglinItemDropEvent implements Listener {
         // Check if the item generated was air
         if (replacement.getType() == Material.AIR) return;
 
-        // Find the exact centre of the block this item is dropped at
+        // Find the corner of the block this item is dropped at
         Location rawLocation = event.getEntity().getLocation();
 
         // Calculate the new location of the drop
