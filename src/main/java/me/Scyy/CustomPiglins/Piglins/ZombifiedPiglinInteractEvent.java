@@ -21,7 +21,7 @@ public class ZombifiedPiglinInteractEvent implements Listener {
 
     private final ItemStack consumableConverter;
 
-    private final ItemStack nonComsumableConverter;
+    private final ItemStack nonConsumableConverter;
 
     public ZombifiedPiglinInteractEvent(Plugin plugin) {
 
@@ -29,7 +29,7 @@ public class ZombifiedPiglinInteractEvent implements Listener {
         this.plugin = plugin;
         config = plugin.getConfigFileHandler().getDefaultConfig();
         consumableConverter = plugin.getConfigFileHandler().getDefaultConfig().getConsumableConverter();
-        nonComsumableConverter = plugin.getConfigFileHandler().getDefaultConfig().getNonConsumableConverter();
+        nonConsumableConverter = plugin.getConfigFileHandler().getDefaultConfig().getNonConsumableConverter();
 
         // Check if the items loaded are valid
         if (consumableConverter.getItemMeta() == null
@@ -38,8 +38,8 @@ public class ZombifiedPiglinInteractEvent implements Listener {
             throw new IllegalArgumentException("Consumable Piglin Converter must have lore");
 
         }
-        if (nonComsumableConverter.getItemMeta() == null
-                || nonComsumableConverter.getItemMeta().getLore() == null) {
+        if (nonConsumableConverter.getItemMeta() == null
+                || nonConsumableConverter.getItemMeta().getLore() == null) {
 
             throw new IllegalArgumentException("Consumable Piglin Converter must have lore");
 
@@ -60,7 +60,7 @@ public class ZombifiedPiglinInteractEvent implements Listener {
         ItemStack mainHand = event.getPlayer().getInventory().getItemInMainHand();
 
         // Validate the item used
-        if (!(mainHand.isSimilar(consumableConverter) || mainHand.isSimilar(nonComsumableConverter))) return;
+        if (!(mainHand.isSimilar(consumableConverter) || mainHand.isSimilar(nonConsumableConverter))) return;
 
         // Validate the data about the item used
         if (mainHand.getItemMeta() == null) return;
@@ -68,7 +68,7 @@ public class ZombifiedPiglinInteractEvent implements Listener {
 
         // Determine if the converter is consumable or not
         boolean isConsumable = false;
-        if (mainHand.getType() == consumableConverter.getType()) isConsumable = true;
+        if (mainHand.isSimilar(consumableConverter)) isConsumable = true;
 
         // EntityEquipment pigZombieInv = pigZombie.getEquipment();
 
@@ -95,17 +95,13 @@ public class ZombifiedPiglinInteractEvent implements Listener {
         if (pigZombie.isAdult()) piglin.setAdult();
         else piglin.setBaby();
 
-        // Set the custom name
-        String piglinName = event.getRightClicked().getCustomName();
-        if (piglinName != null && isConsumable) {
-            piglinName = config.getConfig().getString("piglinConverter.consumable.convertedName");
-        } else if (piglinName != null) {
-            piglinName = config.getConfig().getString("piglinConverter.non-consumable.convertedName");
-        }
-        piglin.setCustomName(ChatColor.translateAlternateColorCodes('&', piglinName));
 
-        // Cancel the event
-        event.setCancelled(true);
+
+        // Set the custom name
+        if (pigZombie.getCustomName() != null) {
+            piglin.setCustomName(pigZombie.getCustomName());
+        }
+
 
         if (!isConsumable && event.getPlayer().hasPermission("custompiglins.converter.nonconsumable")) {
 
