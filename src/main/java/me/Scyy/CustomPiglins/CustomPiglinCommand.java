@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
@@ -51,6 +52,10 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
             // /custompiglins converter [consumable | non-consumable] [player]
             case "converter":
+                if (!sender.hasPermission("custompiglins.converter.command")) {
+                    pm.msg(sender, "errorMessages.noPermission", false);
+                    return true;
+                }
                 converterSubcommand(sender, args);
                 return true;
 
@@ -82,17 +87,16 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
 
             if (commandSender.hasPermission("custompiglins.converter.give")) list.add("converter");
             if (commandSender.hasPermission("custompiglins.reload")) list.add("reload");
-
             return list;
 
         }
 
         if (args[0].equals("converter")) {
-            if (!commandSender.hasPermission("custompiglins.converter.give")) return null;
+            if (!commandSender.hasPermission("custompiglins.converter.give")) return Collections.emptyList();
             if (args.length == 2) return Arrays.asList("consumable", "non-consumable");
-            return null;
+            return Collections.emptyList();
         }
-        return null;
+        return Collections.emptyList();
 
     }
 
@@ -124,17 +128,6 @@ public class CustomPiglinCommand implements CommandExecutor, TabCompleter {
             default:
 
                 pm.msg(sender, "errorMessages.invalidCommand");
-
-        }
-
-    }
-
-    private boolean validate(boolean condition, String errorMessagePath, CommandSender sender) {
-        if (!condition) {
-            pm.msg(sender, errorMessagePath);
-            return true;
-        } else {
-            return false;
 
         }
 
