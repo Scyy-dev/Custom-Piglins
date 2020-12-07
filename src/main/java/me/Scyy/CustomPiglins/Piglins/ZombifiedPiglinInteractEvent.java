@@ -102,7 +102,7 @@ public class ZombifiedPiglinInteractEvent implements Listener {
             event.getPlayer().getInventory().setItemInMainHand(null);
             Bukkit.getScheduler().runTask(plugin, () -> event.getPlayer().getInventory().setItemInMainHand(mainHand));
 
-        } else if (isConsumable) {
+        } else if (isConsumable && event.getPlayer().hasPermission("custompiglins.converter.consumable")) {
 
             event.getPlayer().getInventory().setItemInMainHand(null);
             if (mainHand.getAmount() > 1) {
